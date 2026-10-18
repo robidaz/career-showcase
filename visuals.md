@@ -25,7 +25,6 @@
 
 ## Tab 4: About me
 
-- testimonials: blurbs from colleagues, managers, and leadership about work style, strengths, and impact (accordions: a punchy pull quote, the full quote on expand)
 - recognition and awards
 - work style and personality types
 - hobbies, interests, and personal background information that gives a more holistic view of the candidate beyond just their professional experience

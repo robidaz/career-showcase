@@ -98,7 +98,7 @@ The AI MUST structure output according to:
 
 # Tab 3: Side Ventures
 
-# Tab 4: About Me (includes testimonials)
+# Tab 4: About Me
 
 No exceptions.
 
@@ -227,7 +227,7 @@ Include, per venture:
 
 ### 🔹 Tab 4: About Me — Testimonials
 
-Testimonials live at the top of the About Me tab, as accordions: a punchy pull quote in the header, the full quote on expand. Awards and recognition sit beside them, stated plainly (not as quotes).
+Testimonials are kept in career-data.md but are not currently shown on the site (removed at Zach's request). If they return, use accordions: a punchy pull quote in the header, the full quote on expand. Awards and recognition sit beside them, stated plainly (not as quotes).
 
 Source: EOY reviews
 

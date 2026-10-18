@@ -89,7 +89,7 @@ Structure all output according to these four tabs. No exceptions.
 - Tab 1: Profile (includes the exportable résumé)
 - Tab 2: Work Experience & Projects
 - Tab 3: Side Ventures
-- Tab 4: About Me (includes testimonials)
+- Tab 4: About Me
 
 ---
 
@@ -188,7 +188,7 @@ Rules:
 
 ### Tab 4: About Me — Testimonials
 
-Testimonials live at the top of the About Me tab, as accordions: a punchy pull quote in the header, the full quote on expand.
+Testimonials are kept in `career-data.md` but are not currently shown on the site (removed at Zach's request). If they return, use accordions: a punchy pull quote in the header, the full quote on expand.
 
 Source: EOY reviews
 
