@@ -19,10 +19,8 @@ app.use(compression());
 app.get("/syncfusion-license.js", (req, res) => {
   const key = (process.env.SYNCFUSION_LICENSE_KEY || "").trim();
   res.set("Cache-Control", "no-store");
-  if (!key) {
-    res.status(404).type("text/plain").send("Not found");
-    return;
-  }
+  // No key: an empty value (not a 404, which logs a console error) tells the
+  // viewer to skip Syncfusion and show the preview image instead.
   res.set("Content-Type", "application/javascript; charset=utf-8");
   res.set("X-Content-Type-Options", "nosniff");
   res.send(`window.SYNCFUSION_LICENSE_KEY = ${JSON.stringify(key)};\n`);

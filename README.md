@@ -35,7 +35,7 @@ This repo is public, so the key stays out of git:
 - **Local:** put `SYNCFUSION_LICENSE_KEY=<ui key>;<pdf viewer key>` in `.env` (gitignored). `server.js` reads it. Several keys can be joined with `;`.
 - **Production:** set the same value as an environment variable on the host, for example `heroku config:set SYNCFUSION_LICENSE_KEY=...`. Leave it unset until you have the PDF Viewer SDK key. Otherwise every open downloads about 2 MB of Syncfusion before falling back.
 
-`server.js` hands the key to the page at `/syncfusion-license.js`. Without a key, or on a static host with no server, the viewer falls back to the browser's built-in PDF viewer, or to the preview image and a download link on phones. Keys are tied to a major version, so stay on a 34.x CDN version unless you generate new keys.
+`server.js` hands the key to the page at `/syncfusion-license.js`. Without a key, or on a static host with no server, the viewer falls back to a preview image of the page plus a download link. Keys are tied to a major version, so stay on a 34.x CDN version unless you generate new keys.
 
 When licensed, the first open downloads about 3.8 MB from Syncfusion's CDN (scripts, CSS, and the PDF engine). After that the browser caches it.
 

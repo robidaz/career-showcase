@@ -141,11 +141,27 @@
       background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px, 100% 100%;
       background-position: -1px -1px;
       padding: 40px 0 28px;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
     }
+    /* With JS, a drifting particle field replaces the grid (assets/js/masthead-particles.js) */
+    .js .masthead {
+      background-image:
+        radial-gradient(70% 140% at 12% 0%, rgba(40, 194, 242, 0.22), transparent 60%),
+        radial-gradient(55% 120% at 92% 0%, rgba(45, 108, 240, 0.32), transparent 65%),
+        linear-gradient(180deg, var(--blueprint) 0%, var(--blueprint-deep) 100%);
+      background-size: auto;
+    }
+    .masthead__particles { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
+    .masthead > .wrap { position: relative; }
 
     .masthead :focus-visible, .sheet-tabs :focus-visible { outline-color: #fff; }
 
     .titleblock {
+      background: rgba(9, 34, 86, 0.32);
+      -webkit-backdrop-filter: blur(1.5px);
+      backdrop-filter: blur(1.5px);
       display: grid;
       grid-template-columns: 136px minmax(0, 1fr) minmax(260px, 330px);
       grid-template-rows: 1fr auto;
@@ -451,60 +467,54 @@
     .venture--hourglass .venture__cta:hover { background: #f0d060; color: #050604; }
 
     /* ── Tab 4: About Me ─────────────────────────────────────── */
-    .about-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 48px; align-items: start; }
-    .about-grid + .about-grid { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule); }
-    .about-grid > div > .block + .block { margin-top: 40px; }
+    .lead-quote { margin: 0 0 28px; padding: 4px 0 4px 22px; border-left: 4px solid var(--cobalt); max-width: 62ch; }
+    .lead-quote blockquote { margin: 0; font-size: 1.55rem; line-height: 1.3; font-weight: 600; font-stretch: 92%; color: var(--ink); }
+    .lead-quote figcaption { margin-top: 10px; color: var(--ink-3); font-size: 0.92rem; }
+    .lead-quote figcaption strong, .quote__by strong { color: var(--ink-2); font-weight: 650; }
 
-    .group-label { font-size: 1.02rem; font-weight: 650; font-stretch: 88%; color: var(--ink-2); margin: 22px 0 8px; }
-    .group-label:first-of-type { margin-top: 0; }
+    .about-quotes__grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 40px; align-items: start; }
 
     .quotes { border-top: 1px solid var(--rule); }
     .quote { border-bottom: 1px solid var(--rule); }
     .quote > summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; align-items: start; padding: 15px 2px; }
-    .quote__highlight { font-size: 1.14rem; line-height: 1.4; font-weight: 560; color: var(--ink); }
-    .quote__by { grid-column: 1; color: var(--ink-3); font-size: 0.9rem; }
+    .quote__highlight { font-size: 1.1rem; line-height: 1.4; font-weight: 560; color: var(--ink); }
+    .quote__by { grid-column: 1; color: var(--ink-3); font-size: 0.88rem; }
     .quote > summary .chev { grid-column: 2; grid-row: 1 / span 2; margin-top: 2px; }
     .quote > summary:hover .quote__highlight { color: var(--cobalt-ink); }
-    .quote__full { margin: 0 0 16px; padding: 2px 0 2px 16px; border-left: 3px solid var(--cobalt); color: var(--ink-2); }
+    .quote__full { margin: 0 0 18px; padding: 2px 0 2px 16px; border-left: 3px solid var(--cobalt); color: var(--ink-2); }
     .quote__full p { margin-bottom: 6px; }
-    .quote__src { font-size: 0.86rem; color: var(--ink-3); }
-    .quote--static { margin: 0; padding: 15px 2px; }
-    .quote--static blockquote { margin: 0; font-size: 1.14rem; line-height: 1.4; font-weight: 560; }
-    .quote--static figcaption { color: var(--ink-3); font-size: 0.9rem; margin-top: 4px; }
 
-    .awards { list-style: none; display: grid; gap: 12px; }
-    .award { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 2px 12px; padding: 14px 16px; }
-    .award__icon { grid-row: span 2; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--cobalt-wash); color: var(--cobalt-ink); }
-    .award__icon svg { width: 18px; height: 18px; }
+    .awards { list-style: none; border-top: 1px solid var(--rule); }
+    .award { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 2px 12px; padding: 14px 2px; border-bottom: 1px solid var(--rule); }
+    .award__icon { grid-row: span 2; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--cobalt-wash); color: var(--cobalt-ink); }
+    .award__icon svg { width: 17px; height: 17px; }
     .award__title { font-weight: 700; line-height: 1.3; }
-    .award__detail { color: var(--ink-2); font-size: 0.93rem; }
+    .award__detail { color: var(--ink-2); font-size: 0.92rem; }
 
-    .traits { margin: 0; display: grid; gap: 16px; }
+    .types { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 30px; }
+    .type { padding: 16px 18px 18px; background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius-sheet); }
+    .type__result { font-size: 1.45rem; }
+    .type__system { margin: 2px 0 8px; color: var(--cobalt-ink); font-size: 0.86rem; font-weight: 650; font-stretch: 92%; }
+    .type__body { color: var(--ink-2); font-size: 0.93rem; line-height: 1.55; }
+
+    .traits { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 40px; }
     .traits dt { font-weight: 700; }
-    .traits dd { margin: 2px 0 0; color: var(--ink-2); }
+    .traits dd { margin: 4px 0 0; color: var(--ink-2); max-width: 60ch; }
 
-    .types { display: grid; gap: 10px; }
-    .type { padding: 0 16px; }
-    .type > summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 14px; padding: 13px 0; }
-    .type__result { font-size: 1.35rem; }
-    .type__system { grid-column: 1; color: var(--ink-3); font-size: 0.88rem; }
-    .type > summary .chev { grid-column: 2; grid-row: 1 / span 2; }
-    .type__body { padding: 0 0 16px; color: var(--ink-2); font-size: 0.95rem; }
-
-    .hobbies { list-style: none; display: grid; gap: 16px; }
+    .about-life { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 48px; align-items: start; }
+    .hobbies { list-style: none; display: grid; gap: 18px; }
     .hobby__name { font-weight: 700; }
-    .hobby__items { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .hobby__items { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
     .hobby__items li { padding: 3px 10px; border: 1px solid var(--rule-strong); border-radius: 999px; font-size: 0.85rem; color: var(--ink-2); background: var(--sheet); }
-    .family { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--rule); }
-    .family p { margin-top: 4px; color: var(--ink-2); }
+    .hobby__text { margin-top: 4px; color: var(--ink-2); }
 
-    .books { list-style: none; display: grid; gap: 14px; }
+    .books { list-style: none; display: grid; gap: 16px; }
     .book__title { font-weight: 700; line-height: 1.3; }
     .book__author { color: var(--ink-3); font-size: 0.88rem; }
     .book__insight { color: var(--ink-2); font-size: 0.95rem; margin-top: 3px; }
-    .books-more { margin-top: 14px; }
+    .books-more { margin-top: 16px; }
     .books-more > summary { display: inline-flex; align-items: center; gap: 10px; color: var(--cobalt); font-weight: 650; font-stretch: 92%; }
-    .books-more[open] > summary { margin-bottom: 14px; }
+    .books-more[open] > summary { margin-bottom: 16px; }
     .books-more .when-open, .books-more[open] .when-closed { display: none; }
     .books-more[open] .when-open { display: inline; }
 
@@ -543,8 +553,7 @@
       .profile-grid { grid-template-columns: minmax(0, 1fr) 300px; gap: 36px; }
       .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .ventures { grid-template-columns: 1fr; max-width: 720px; }
-      .about-grid { grid-template-columns: 1fr; gap: 0; }
-      .about-grid > div + div { margin-top: 40px; }
+      .about-quotes__grid { grid-template-columns: 1fr; gap: 32px; }
     }
 
     @media (max-width: 860px) {
@@ -557,6 +566,8 @@
       .profile-grid { grid-template-columns: 1fr; }
       .profile-aside { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
       .feature { grid-template-columns: 1fr; }
+      .traits, .about-life { grid-template-columns: 1fr; }
+      .about-life { gap: 36px; }
       .feature__aside { padding: 20px 0 0; border-left: 0; border-top: 1px solid var(--rule); }
     }
 
@@ -597,6 +608,8 @@
       .spec { grid-template-columns: 1fr; gap: 2px; }
       .spec dd + dt { margin-top: 12px; }
       .skills { grid-template-columns: 1fr; }
+      .types { grid-template-columns: 1fr; gap: 10px; }
+      .lead-quote blockquote { font-size: 1.3rem; }
       .venture__brand { padding: 20px; gap: 14px; }
       .venture__logo { width: 60px; height: 60px; }
       .venture__name { font-size: 1.6rem; }
@@ -609,7 +622,7 @@
     }
 
     @media print {
-      .sheet-tabs, .skip-link, .titleblock__actions, .resume-card, .resume-dialog, .letter__more > summary, .books-more > summary { display: none !important; }
+      .sheet-tabs, .skip-link, .masthead__particles, .titleblock__actions, .resume-card, .resume-dialog, .letter__more > summary, .books-more > summary { display: none !important; }
       .js .panel:not(.is-active), .js .role:not(.is-active) { display: block; }
       details > *:not(summary) { display: block; }
       .masthead { background: none; color: var(--ink); padding: 0 0 16px; }
@@ -625,6 +638,7 @@
 
   <!-- ══ Masthead: title block ═══════════════════════════════════ -->
   <header class="masthead">
+    <canvas class="masthead__particles" aria-hidden="true"></canvas>
     <div class="wrap">
       <div class="titleblock">
         <div class="titleblock__portrait">
@@ -694,7 +708,7 @@
         <aside class="profile-aside">
           <section class="resume-card sheet" aria-labelledby="resume-card-title">
             <h2 class="resume-card__title display" id="resume-card-title">Résumé</h2>
-            <p class="resume-card__meta">One page, PDF. Updated October 17, 2026.</p>
+            <p class="resume-card__meta">One page, PDF. Updated October 18, 2026.</p>
             <button type="button" class="resume-card__preview" data-resume-open aria-label="Open the résumé viewer">
               <img src="assets/resume/resume-preview.png?v=9972f39a" alt="Page 1 of Zach Robida's résumé" width="1200" height="1553" loading="lazy" />
             </button>
@@ -1125,146 +1139,118 @@
 
     <!-- ══ Tab 4 — About Me ════════════════════════════════════ -->
     <section class="panel" id="panel-about" role="tabpanel" aria-labelledby="tab-about">
-      <div class="about-grid">
-        <div>
-          <section class="block" aria-labelledby="quotes-title">
-            <div class="block__head">
-              <h2 class="block__title display" id="quotes-title">What colleagues say</h2>
-              <p class="block__note">From year-end reviews. Open a quote to read it in full.</p>
-            </div>
-            <h3 class="group-label">Leadership</h3>
-            <div class="quotes">
-              <figure class="quote quote--static">
-                <blockquote>“He has exhibited a talent I have only seen in two or three new consultants over my time with MA.”</blockquote>
-                <figcaption>Matt Perry, Senior Engagement Director (quoted in 2018 Review)</figcaption>
-              </figure>
-            </div>
-            <h3 class="group-label">Managers</h3>
-            <div class="quotes">
-              <details class="quote" name="quotes">
-                <summary>
-                  <span class="quote__highlight">“Zach will be critical in designing FEMA&#39;s MASC solution and driving the project to a successful 2027 go-live.”</span>
-                  <span class="quote__by">Thomas Adams, 2025</span>
-                  <span class="chev" aria-hidden="true"></span>
-                </summary>
-                <blockquote class="quote__full">
-<p>Zach ramped up on the MATM solution, helped translate FEMA&#39;s SCPP solution into MATM, and established key contacts throughout the company to enhance his skills and progress his projects forward. In the coming year, Zach will be critical in designing FEMA&#39;s MASC solution and driving the project to a successful 2027 go-live.</p>                </blockquote>
-                <p class="quote__src">Thomas Adams, Manager, 2025 Year-End Review</p>
-              </details>
-              <details class="quote" name="quotes">
-                <summary>
-                  <span class="quote__highlight">“Not just leading design phases, but spearheading internal initiatives to help us deliver higher-quality solutions more quickly.”</span>
-                  <span class="quote__by">Thomas Adams, 2024</span>
-                  <span class="chev" aria-hidden="true"></span>
-                </summary>
-                <blockquote class="quote__full">
-<p>Zach has had a great first year as a Design Lead — not just leading design phases, but spearheading internal initiatives to help us deliver higher-quality solutions more quickly and efficiently. These efforts were impactful from both a design and development perspective.</p>                </blockquote>
-                <p class="quote__src">Thomas Adams, Manager, 2024 Year-End Review</p>
-              </details>
-              <details class="quote" name="quotes">
-                <summary>
-                  <span class="quote__highlight">“Performing well beyond the role of a Senior Consultant.”</span>
-                  <span class="quote__by">Thomas Adams, 2023</span>
-                  <span class="chev" aria-hidden="true"></span>
-                </summary>
-                <blockquote class="quote__full">
-<p>Zach had another great year and is performing well-beyond the role of a Senior Consultant. His FEMA solution knowledge, technical and design skills, and ability to work well within our team makes him an invaluable resource to our department and Manhattan as a whole.</p>                </blockquote>
-                <p class="quote__src">Thomas Adams, Manager, 2023 Year-End Review</p>
-              </details>
-              <details class="quote" name="quotes">
-                <summary>
-                  <span class="quote__highlight">“Zach played a critical role in our COVID response for FEMA.”</span>
-                  <span class="quote__by">Thomas Adams, 2020</span>
-                  <span class="chev" aria-hidden="true"></span>
-                </summary>
-                <blockquote class="quote__full">
-<p>Zach played a critical role in our COVID response for FEMA. He worked long hours and solved difficult functional problems. His input will be invaluable as we move into 2021 with many new projects and initiatives on the horizon.</p>                </blockquote>
-                <p class="quote__src">Thomas Adams, Manager, 2020 Year-End Review</p>
-              </details>
-              <details class="quote" name="quotes">
-                <summary>
-                  <span class="quote__highlight">“Some of the best initiative I&#39;ve seen at Manhattan.”</span>
-                  <span class="quote__by">Michaela McGinty, 2019</span>
-                  <span class="chev" aria-hidden="true"></span>
-                </summary>
-                <blockquote class="quote__full">
-<p>Zach has continued to grow in many areas of his professional and technical development. He has proven that he can work on some of the most challenging tasks and master them as quickly as anyone. He has continued to show some of the best initiative I&#39;ve seen at Manhattan.</p>                </blockquote>
-                <p class="quote__src">Michaela McGinty, Manager, 2019 Year-End Review</p>
-              </details>
-              <details class="quote" name="quotes">
-                <summary>
-                  <span class="quote__highlight">“A very quick learner, a hard worker, and able to understand complex systems.”</span>
-                  <span class="quote__by">Ellie Kelly, 2018</span>
-                  <span class="chev" aria-hidden="true"></span>
-                </summary>
-                <blockquote class="quote__full">
-<p>Zach is off to an outstanding start in his career at MA. He has made contributions beyond what is expected of a new consultant — a very quick learner, a hard worker, and able to understand complex systems.</p>                </blockquote>
-                <p class="quote__src">Ellie Kelly, Manager, 2018 Year-End Review</p>
-              </details>
-            </div>
-          </section>
-
-          <section class="block" aria-labelledby="recognition-title">
-            <h2 class="subhead display" id="recognition-title">Recognition</h2>
+      <section class="block" aria-labelledby="quotes-title">
+        <div class="block__head">
+          <h2 class="block__title display" id="quotes-title">What colleagues say</h2>
+          <p class="block__note">From year-end reviews. Open a quote to read it in full.</p>
+        </div>
+        <figure class="lead-quote">
+          <blockquote>“He has exhibited a talent I have only seen in two or three new consultants over my time with MA.”</blockquote>
+          <figcaption><strong>Matt Perry</strong>, Senior Engagement Director (quoted in 2018 Review)</figcaption>
+        </figure>
+        <div class="about-quotes__grid">
+          <div class="quotes">
+            <details class="quote" name="quotes">
+              <summary>
+                <span class="quote__highlight">“Zach will be critical in designing FEMA&#39;s MASC solution and driving the project to a successful 2027 go-live.”</span>
+                <span class="quote__by"><strong>Thomas Adams</strong>, Manager, 2025 Year-End Review</span>
+                <span class="chev" aria-hidden="true"></span>
+              </summary>
+              <blockquote class="quote__full">
+<p>Zach ramped up on the MATM solution, helped translate FEMA&#39;s SCPP solution into MATM, and established key contacts throughout the company to enhance his skills and progress his projects forward. In the coming year, Zach will be critical in designing FEMA&#39;s MASC solution and driving the project to a successful 2027 go-live.</p>              </blockquote>
+            </details>
+            <details class="quote" name="quotes">
+              <summary>
+                <span class="quote__highlight">“Not just leading design phases, but spearheading internal initiatives to help us deliver higher-quality solutions more quickly.”</span>
+                <span class="quote__by"><strong>Thomas Adams</strong>, Manager, 2024 Year-End Review</span>
+                <span class="chev" aria-hidden="true"></span>
+              </summary>
+              <blockquote class="quote__full">
+<p>Zach has had a great first year as a Design Lead — not just leading design phases, but spearheading internal initiatives to help us deliver higher-quality solutions more quickly and efficiently. These efforts were impactful from both a design and development perspective.</p>              </blockquote>
+            </details>
+            <details class="quote" name="quotes">
+              <summary>
+                <span class="quote__highlight">“Performing well beyond the role of a Senior Consultant.”</span>
+                <span class="quote__by"><strong>Thomas Adams</strong>, Manager, 2023 Year-End Review</span>
+                <span class="chev" aria-hidden="true"></span>
+              </summary>
+              <blockquote class="quote__full">
+<p>Zach had another great year and is performing well-beyond the role of a Senior Consultant. His FEMA solution knowledge, technical and design skills, and ability to work well within our team makes him an invaluable resource to our department and Manhattan as a whole.</p>              </blockquote>
+            </details>
+            <details class="quote" name="quotes">
+              <summary>
+                <span class="quote__highlight">“Zach played a critical role in our COVID response for FEMA.”</span>
+                <span class="quote__by"><strong>Thomas Adams</strong>, Manager, 2020 Year-End Review</span>
+                <span class="chev" aria-hidden="true"></span>
+              </summary>
+              <blockquote class="quote__full">
+<p>Zach played a critical role in our COVID response for FEMA. He worked long hours and solved difficult functional problems. His input will be invaluable as we move into 2021 with many new projects and initiatives on the horizon.</p>              </blockquote>
+            </details>
+            <details class="quote" name="quotes">
+              <summary>
+                <span class="quote__highlight">“Some of the best initiative I&#39;ve seen at Manhattan.”</span>
+                <span class="quote__by"><strong>Michaela McGinty</strong>, Manager, 2019 Year-End Review</span>
+                <span class="chev" aria-hidden="true"></span>
+              </summary>
+              <blockquote class="quote__full">
+<p>Zach has continued to grow in many areas of his professional and technical development. He has proven that he can work on some of the most challenging tasks and master them as quickly as anyone. He has continued to show some of the best initiative I&#39;ve seen at Manhattan.</p>              </blockquote>
+            </details>
+            <details class="quote" name="quotes">
+              <summary>
+                <span class="quote__highlight">“A very quick learner, a hard worker, and able to understand complex systems.”</span>
+                <span class="quote__by"><strong>Ellie Kelly</strong>, Manager, 2018 Year-End Review</span>
+                <span class="chev" aria-hidden="true"></span>
+              </summary>
+              <blockquote class="quote__full">
+<p>Zach is off to an outstanding start in his career at MA. He has made contributions beyond what is expected of a new consultant — a very quick learner, a hard worker, and able to understand complex systems.</p>              </blockquote>
+            </details>
+          </div>
+          <aside aria-labelledby="recognition-title">
+            <h3 class="subhead display" id="recognition-title">Recognition</h3>
             <ul class="awards">
-              <li class="award sheet">
+              <li class="award">
                 <span class="award__icon" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="10" cy="8" r="5"/><path d="m7 12.2-1.5 5.3L10 15.4l4.5 2.1-1.5-5.3"/></svg></span>
                 <span class="award__title">Master Mentor, Q4 2025 Spirit Award</span>
                 <span class="award__detail">Recognized for building durable design instincts across the consulting team through structured coaching, delegated ownership, and an open-door approach to knowledge transfer. (Manhattan Associates)</span>
               </li>
-              <li class="award sheet">
+              <li class="award">
                 <span class="award__icon" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="10" cy="8" r="5"/><path d="m7 12.2-1.5 5.3L10 15.4l4.5 2.1-1.5-5.3"/></svg></span>
                 <span class="award__title">Top 5 Campus Recruiter, Fall 2025</span>
                 <span class="award__detail">Completed 18 campus recruiting interviews in Fall 2025, ranking in the top 5 interviewers company-wide. (Manhattan Associates)</span>
               </li>
             </ul>
-          </section>
+          </aside>
         </div>
+      </section>
 
-        <div>
-          <section class="block" aria-labelledby="style-title">
-            <h2 class="subhead display" id="style-title">How Zach works</h2>
-            <dl class="traits">
-              <div><dt>Problem Approach</dt><dd>Identifies inefficiencies before being asked, then builds systematic solutions rather than one-off fixes. Driven by a belief that the best way to keep doing interesting work is to make the current work better.</dd></div>
-              <div><dt>Learning Style</dt><dd>Learns by doing and by mapping knowledge gaps to the people who have already solved the problem. Comfortable going deep on technical topics outside his formal background — mechanical engineering to Python to AI workflows.</dd></div>
-              <div><dt>Leadership</dt><dd>Leads through enablement rather than authority. Prefers to delegate, review, and develop rather than do it himself — because a team of skilled people scales infinitely better than one person who does everything.</dd></div>
-              <div><dt>Work Style</dt><dd>Automation-first. Deeply invested in AI as a practical accelerant. Brings structured thinking to ambiguous problems and communicates with a bias toward clarity and brevity.</dd></div>
-            </dl>
-          </section>
+      <section class="block" aria-labelledby="style-title">
+        <div class="block__head"><h2 class="block__title display" id="style-title">How Zach works</h2></div>
+        <ul class="types" aria-label="Personality assessments">
+          <li class="type">
+            <div class="type__result display">ENTJ</div>
+            <div class="type__system">Myers-Briggs</div>
+            <p class="type__body">Natural leader and strategic thinker. ENTJs excel at organizing people and resources toward long-term goals, communicating with clarity and confidence, and turning ambitious visions into executable plans.</p>
+          </li>
+          <li class="type">
+            <div class="type__result display">Red</div>
+            <div class="type__system">Color Personality</div>
+            <p class="type__body">Driven, results-oriented, and decisive. Reds thrive in fast-paced environments, take ownership instinctively, and bring energy and directness to every challenge they tackle.</p>
+          </li>
+          <li class="type">
+            <div class="type__result display">Type 8: The Challenger</div>
+            <div class="type__system">Enneagram</div>
+            <p class="type__body">Confident, resourceful, and deeply invested in making a positive impact. Type 8s are natural protectors of their team — they advocate fiercely for the people around them and take on difficult problems others avoid.</p>
+          </li>
+        </ul>
+        <dl class="traits">
+          <div><dt>Problem Approach</dt><dd>Identifies inefficiencies before being asked, then builds systematic solutions rather than one-off fixes. Driven by a belief that the best way to keep doing interesting work is to make the current work better.</dd></div>
+          <div><dt>Learning Style</dt><dd>Learns by doing and by mapping knowledge gaps to the people who have already solved the problem. Comfortable going deep on technical topics outside his formal background — mechanical engineering to Python to AI workflows.</dd></div>
+          <div><dt>Leadership</dt><dd>Leads through enablement rather than authority. Prefers to delegate, review, and develop rather than do it himself — because a team of skilled people scales infinitely better than one person who does everything.</dd></div>
+          <div><dt>Work Style</dt><dd>Automation-first. Deeply invested in AI as a practical accelerant. Brings structured thinking to ambiguous problems and communicates with a bias toward clarity and brevity.</dd></div>
+        </dl>
+      </section>
 
-          <section class="block" aria-labelledby="types-title">
-            <h2 class="subhead display" id="types-title">Personality</h2>
-            <div class="types">
-              <details class="type sheet" name="types">
-                <summary>
-                  <span class="type__result display">ENTJ</span>
-                  <span class="type__system">Myers-Briggs</span>
-                  <span class="chev" aria-hidden="true"></span>
-                </summary>
-                <p class="type__body">Natural leader and strategic thinker. ENTJs excel at organizing people and resources toward long-term goals, communicating with clarity and confidence, and turning ambitious visions into executable plans.</p>
-              </details>
-              <details class="type sheet" name="types">
-                <summary>
-                  <span class="type__result display">Red</span>
-                  <span class="type__system">Color Personality</span>
-                  <span class="chev" aria-hidden="true"></span>
-                </summary>
-                <p class="type__body">Driven, results-oriented, and decisive. Reds thrive in fast-paced environments, take ownership instinctively, and bring energy and directness to every challenge they tackle.</p>
-              </details>
-              <details class="type sheet" name="types">
-                <summary>
-                  <span class="type__result display">Type 8: The Challenger</span>
-                  <span class="type__system">Enneagram</span>
-                  <span class="chev" aria-hidden="true"></span>
-                </summary>
-                <p class="type__body">Confident, resourceful, and deeply invested in making a positive impact. Type 8s are natural protectors of their team — they advocate fiercely for the people around them and take on difficult problems others avoid.</p>
-              </details>
-            </div>
-          </section>
-        </div>
-      </div>
-
-      <div class="about-grid">
+      <div class="block about-life">
         <section aria-labelledby="interests-title">
           <h2 class="subhead display" id="interests-title">Outside work</h2>
           <ul class="hobbies">
@@ -1277,17 +1263,14 @@
               <ul class="hobby__items"><li>Carpentry</li><li>Bathroom renovations</li><li>Painting</li><li>Tiling</li><li>Electrical work</li></ul>
             </li>
             <li>
-              <div class="hobby__name">Reading</div>
+              <div class="hobby__name">Family</div>
+              <p class="hobby__text">Married to Molly McCullough Robida. Two Cavalier King Charles Spaniels: Nova (6) and Bentley (3).</p>
             </li>
           </ul>
-          <div class="family">
-            <div class="hobby__name">Family</div>
-            <p>Married to Molly McCullough Robida. Two Cavalier King Charles Spaniels: Nova (6) and Bentley (3).</p>
-          </div>
         </section>
 
         <section aria-labelledby="books-title">
-          <h2 class="subhead display" id="books-title">Books that shaped my thinking</h2>
+          <h2 class="subhead display" id="books-title">Reading that shaped my thinking</h2>
           <ul class="books">
 <li>
             <div class="book__title">The Singularity Is Near / The Singularity Is Nearer</div>
@@ -1301,14 +1284,14 @@
           </li><li>
             <div class="book__title">The Master Algorithm</div>
 <div class="book__author">Pedro Domingos</div>            <div class="book__insight">ML is not magic — it is a search for a unifying learning framework. Demystifying the mechanism makes you a better practitioner.</div>
-          </li><li>
-            <div class="book__title">Scary Smart</div>
-<div class="book__author">Mo Gawdat</div>            <div class="book__insight">The question is not whether AI becomes capable, but what values we embed in it along the way. Agency matters now, not later.</div>
           </li>          </ul>
           <details class="books-more">
-            <summary><span class="when-closed">Show 5 more</span><span class="when-open">Show fewer</span><span class="chev" aria-hidden="true"></span></summary>
+            <summary><span class="when-closed">Show 6 more</span><span class="when-open">Show fewer</span><span class="chev" aria-hidden="true"></span></summary>
             <ul class="books">
 <li>
+            <div class="book__title">Scary Smart</div>
+<div class="book__author">Mo Gawdat</div>            <div class="book__insight">The question is not whether AI becomes capable, but what values we embed in it along the way. Agency matters now, not later.</div>
+          </li><li>
             <div class="book__title">Smart Brevity</div>
 <div class="book__author">VandeHei, Allen &amp; Schwartz</div>            <div class="book__insight">Saying more with less is a skill, not a shortcut. Respecting the reader&#39;s time is the foundation of effective communication.</div>
           </li><li>
@@ -1332,13 +1315,13 @@
 
   <footer class="colophon wrap">
     <p>This website&#39;s content was generated in a local VS Code environment using GitHub Copilot and Claude Code, powered by Anthropic&#39;s Claude models. It draws from materials provided by Zach Robida, including his resume, cover letter, past performance reviews, and other supporting documents. Despite the AI-generated nature of this content, all information on this site has been independently verified for accuracy.</p>
-    <p class="colophon__stamp">Last compiled October 17, 2026</p>
+    <p class="colophon__stamp">Last compiled October 18, 2026</p>
   </footer>
 
   <dialog id="resume-dialog" class="resume-dialog" aria-labelledby="resume-dialog-title"
           data-pdf-url="assets/resume/Zach-Robida-Resume.pdf?v=f3266958"
           data-preview-url="assets/resume/resume-preview.png?v=9972f39a"
-          data-css-url="assets/css/resume-viewer.css?v=43c3f642"
+          data-css-url="assets/css/resume-viewer.css?v=586e5ad8"
           data-license-url="syncfusion-license.js">
     <div class="resume-dialog__bar">
       <h2 id="resume-dialog-title">Résumé</h2>
@@ -1347,7 +1330,8 @@
     </div>
     <div id="resume-viewer" class="resume-dialog__viewer"></div>
   </dialog>
-  <script src="assets/js/resume-viewer.js?v=094b6651" defer></script>
+  <script src="assets/js/resume-viewer.js?v=2cf4fd31" defer></script>
+  <script src="assets/js/masthead-particles.js?v=9bab9a5c" defer></script>
 
   <script>
     // Tabs: a roving-tabindex tablist with deep links (#work, #ventures, #about)

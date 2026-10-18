@@ -141,11 +141,27 @@
       background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px, 100% 100%;
       background-position: -1px -1px;
       padding: 40px 0 28px;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
     }
+    /* With JS, a drifting particle field replaces the grid (assets/js/masthead-particles.js) */
+    .js .masthead {
+      background-image:
+        radial-gradient(70% 140% at 12% 0%, rgba(40, 194, 242, 0.22), transparent 60%),
+        radial-gradient(55% 120% at 92% 0%, rgba(45, 108, 240, 0.32), transparent 65%),
+        linear-gradient(180deg, var(--blueprint) 0%, var(--blueprint-deep) 100%);
+      background-size: auto;
+    }
+    .masthead__particles { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
+    .masthead > .wrap { position: relative; }
 
     .masthead :focus-visible, .sheet-tabs :focus-visible { outline-color: #fff; }
 
     .titleblock {
+      background: rgba(9, 34, 86, 0.32);
+      -webkit-backdrop-filter: blur(1.5px);
+      backdrop-filter: blur(1.5px);
       display: grid;
       grid-template-columns: 136px minmax(0, 1fr) minmax(260px, 330px);
       grid-template-rows: 1fr auto;
@@ -451,60 +467,54 @@
     .venture--hourglass .venture__cta:hover { background: #f0d060; color: #050604; }
 
     /* ── Tab 4: About Me ─────────────────────────────────────── */
-    .about-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 48px; align-items: start; }
-    .about-grid + .about-grid { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule); }
-    .about-grid > div > .block + .block { margin-top: 40px; }
+    .lead-quote { margin: 0 0 28px; padding: 4px 0 4px 22px; border-left: 4px solid var(--cobalt); max-width: 62ch; }
+    .lead-quote blockquote { margin: 0; font-size: 1.55rem; line-height: 1.3; font-weight: 600; font-stretch: 92%; color: var(--ink); }
+    .lead-quote figcaption { margin-top: 10px; color: var(--ink-3); font-size: 0.92rem; }
+    .lead-quote figcaption strong, .quote__by strong { color: var(--ink-2); font-weight: 650; }
 
-    .group-label { font-size: 1.02rem; font-weight: 650; font-stretch: 88%; color: var(--ink-2); margin: 22px 0 8px; }
-    .group-label:first-of-type { margin-top: 0; }
+    .about-quotes__grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 40px; align-items: start; }
 
     .quotes { border-top: 1px solid var(--rule); }
     .quote { border-bottom: 1px solid var(--rule); }
     .quote > summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; align-items: start; padding: 15px 2px; }
-    .quote__highlight { font-size: 1.14rem; line-height: 1.4; font-weight: 560; color: var(--ink); }
-    .quote__by { grid-column: 1; color: var(--ink-3); font-size: 0.9rem; }
+    .quote__highlight { font-size: 1.1rem; line-height: 1.4; font-weight: 560; color: var(--ink); }
+    .quote__by { grid-column: 1; color: var(--ink-3); font-size: 0.88rem; }
     .quote > summary .chev { grid-column: 2; grid-row: 1 / span 2; margin-top: 2px; }
     .quote > summary:hover .quote__highlight { color: var(--cobalt-ink); }
-    .quote__full { margin: 0 0 16px; padding: 2px 0 2px 16px; border-left: 3px solid var(--cobalt); color: var(--ink-2); }
+    .quote__full { margin: 0 0 18px; padding: 2px 0 2px 16px; border-left: 3px solid var(--cobalt); color: var(--ink-2); }
     .quote__full p { margin-bottom: 6px; }
-    .quote__src { font-size: 0.86rem; color: var(--ink-3); }
-    .quote--static { margin: 0; padding: 15px 2px; }
-    .quote--static blockquote { margin: 0; font-size: 1.14rem; line-height: 1.4; font-weight: 560; }
-    .quote--static figcaption { color: var(--ink-3); font-size: 0.9rem; margin-top: 4px; }
 
-    .awards { list-style: none; display: grid; gap: 12px; }
-    .award { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 2px 12px; padding: 14px 16px; }
-    .award__icon { grid-row: span 2; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--cobalt-wash); color: var(--cobalt-ink); }
-    .award__icon svg { width: 18px; height: 18px; }
+    .awards { list-style: none; border-top: 1px solid var(--rule); }
+    .award { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 2px 12px; padding: 14px 2px; border-bottom: 1px solid var(--rule); }
+    .award__icon { grid-row: span 2; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--cobalt-wash); color: var(--cobalt-ink); }
+    .award__icon svg { width: 17px; height: 17px; }
     .award__title { font-weight: 700; line-height: 1.3; }
-    .award__detail { color: var(--ink-2); font-size: 0.93rem; }
+    .award__detail { color: var(--ink-2); font-size: 0.92rem; }
 
-    .traits { margin: 0; display: grid; gap: 16px; }
+    .types { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 30px; }
+    .type { padding: 16px 18px 18px; background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius-sheet); }
+    .type__result { font-size: 1.45rem; }
+    .type__system { margin: 2px 0 8px; color: var(--cobalt-ink); font-size: 0.86rem; font-weight: 650; font-stretch: 92%; }
+    .type__body { color: var(--ink-2); font-size: 0.93rem; line-height: 1.55; }
+
+    .traits { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 40px; }
     .traits dt { font-weight: 700; }
-    .traits dd { margin: 2px 0 0; color: var(--ink-2); }
+    .traits dd { margin: 4px 0 0; color: var(--ink-2); max-width: 60ch; }
 
-    .types { display: grid; gap: 10px; }
-    .type { padding: 0 16px; }
-    .type > summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 14px; padding: 13px 0; }
-    .type__result { font-size: 1.35rem; }
-    .type__system { grid-column: 1; color: var(--ink-3); font-size: 0.88rem; }
-    .type > summary .chev { grid-column: 2; grid-row: 1 / span 2; }
-    .type__body { padding: 0 0 16px; color: var(--ink-2); font-size: 0.95rem; }
-
-    .hobbies { list-style: none; display: grid; gap: 16px; }
+    .about-life { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 48px; align-items: start; }
+    .hobbies { list-style: none; display: grid; gap: 18px; }
     .hobby__name { font-weight: 700; }
-    .hobby__items { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .hobby__items { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
     .hobby__items li { padding: 3px 10px; border: 1px solid var(--rule-strong); border-radius: 999px; font-size: 0.85rem; color: var(--ink-2); background: var(--sheet); }
-    .family { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--rule); }
-    .family p { margin-top: 4px; color: var(--ink-2); }
+    .hobby__text { margin-top: 4px; color: var(--ink-2); }
 
-    .books { list-style: none; display: grid; gap: 14px; }
+    .books { list-style: none; display: grid; gap: 16px; }
     .book__title { font-weight: 700; line-height: 1.3; }
     .book__author { color: var(--ink-3); font-size: 0.88rem; }
     .book__insight { color: var(--ink-2); font-size: 0.95rem; margin-top: 3px; }
-    .books-more { margin-top: 14px; }
+    .books-more { margin-top: 16px; }
     .books-more > summary { display: inline-flex; align-items: center; gap: 10px; color: var(--cobalt); font-weight: 650; font-stretch: 92%; }
-    .books-more[open] > summary { margin-bottom: 14px; }
+    .books-more[open] > summary { margin-bottom: 16px; }
     .books-more .when-open, .books-more[open] .when-closed { display: none; }
     .books-more[open] .when-open { display: inline; }
 
@@ -543,8 +553,7 @@
       .profile-grid { grid-template-columns: minmax(0, 1fr) 300px; gap: 36px; }
       .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .ventures { grid-template-columns: 1fr; max-width: 720px; }
-      .about-grid { grid-template-columns: 1fr; gap: 0; }
-      .about-grid > div + div { margin-top: 40px; }
+      .about-quotes__grid { grid-template-columns: 1fr; gap: 32px; }
     }
 
     @media (max-width: 860px) {
@@ -557,6 +566,8 @@
       .profile-grid { grid-template-columns: 1fr; }
       .profile-aside { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
       .feature { grid-template-columns: 1fr; }
+      .traits, .about-life { grid-template-columns: 1fr; }
+      .about-life { gap: 36px; }
       .feature__aside { padding: 20px 0 0; border-left: 0; border-top: 1px solid var(--rule); }
     }
 
@@ -597,6 +608,8 @@
       .spec { grid-template-columns: 1fr; gap: 2px; }
       .spec dd + dt { margin-top: 12px; }
       .skills { grid-template-columns: 1fr; }
+      .types { grid-template-columns: 1fr; gap: 10px; }
+      .lead-quote blockquote { font-size: 1.3rem; }
       .venture__brand { padding: 20px; gap: 14px; }
       .venture__logo { width: 60px; height: 60px; }
       .venture__name { font-size: 1.6rem; }
@@ -609,7 +622,7 @@
     }
 
     @media print {
-      .sheet-tabs, .skip-link, .titleblock__actions, .resume-card, .resume-dialog, .letter__more > summary, .books-more > summary { display: none !important; }
+      .sheet-tabs, .skip-link, .masthead__particles, .titleblock__actions, .resume-card, .resume-dialog, .letter__more > summary, .books-more > summary { display: none !important; }
       .js .panel:not(.is-active), .js .role:not(.is-active) { display: block; }
       details > *:not(summary) { display: block; }
       .masthead { background: none; color: var(--ink); padding: 0 0 16px; }
@@ -631,6 +644,7 @@
 
   <!-- ══ Masthead: title block ═══════════════════════════════════ -->
   <header class="masthead">
+    <canvas class="masthead__particles" aria-hidden="true"></canvas>
     <div class="wrap">
       <div class="titleblock">
         <div class="titleblock__portrait">
@@ -889,89 +903,73 @@
 
     <!-- ══ Tab 4 — About Me ════════════════════════════════════ -->
     <section class="panel" id="panel-about" role="tabpanel" aria-labelledby="tab-about">
-      <div class="about-grid">
-        <div>
-          <section class="block" aria-labelledby="quotes-title">
-            <div class="block__head">
-              <h2 class="block__title display" id="quotes-title">What colleagues say</h2>
-              <p class="block__note">From year-end reviews. Open a quote to read it in full.</p>
-            </div>
-            {% for group in testimonials %}
-            <h3 class="group-label">{{ group.group }}</h3>
-            <div class="quotes">
-              {% for q in group.quotes %}
-              {% if q.highlight %}
-              <details class="quote" name="quotes">
-                <summary>
-                  <span class="quote__highlight">“{{ q.highlight }}”</span>
-                  <span class="quote__by">{{ q.name }}{% if q.year %}, {{ q.year }}{% endif %}</span>
-                  <span class="chev" aria-hidden="true"></span>
-                </summary>
-                <blockquote class="quote__full">
-                  {% for para in q.quote.split('\n\n') %}<p>{{ para }}</p>{% endfor %}
-                </blockquote>
-                <p class="quote__src">{{ q.name }}, {{ q.role }}</p>
-              </details>
-              {% else %}
-              <figure class="quote quote--static">
-                <blockquote>“{{ q.quote }}”</blockquote>
-                <figcaption>{{ q.name }}, {{ q.role }}</figcaption>
-              </figure>
-              {% endif %}
-              {% endfor %}
-            </div>
+      {% set all_quotes = testimonials | map(attribute='quotes') | sum(start=[]) %}
+      <section class="block" aria-labelledby="quotes-title">
+        <div class="block__head">
+          <h2 class="block__title display" id="quotes-title">What colleagues say</h2>
+          <p class="block__note">From year-end reviews. Open a quote to read it in full.</p>
+        </div>
+        {% for q in all_quotes if not q.highlight %}
+        <figure class="lead-quote">
+          <blockquote>“{{ q.quote }}”</blockquote>
+          <figcaption><strong>{{ q.name }}</strong>, {{ q.role }}</figcaption>
+        </figure>
+        {% endfor %}
+        <div class="about-quotes__grid">
+          <div class="quotes">
+            {% for q in all_quotes if q.highlight %}
+            <details class="quote" name="quotes">
+              <summary>
+                <span class="quote__highlight">“{{ q.highlight }}”</span>
+                <span class="quote__by"><strong>{{ q.name }}</strong>, {{ q.role }}</span>
+                <span class="chev" aria-hidden="true"></span>
+              </summary>
+              <blockquote class="quote__full">
+                {% for para in q.quote.split('\n\n') %}<p>{{ para }}</p>{% endfor %}
+              </blockquote>
+            </details>
             {% endfor %}
-          </section>
-
+          </div>
           {% if recognition %}
-          <section class="block" aria-labelledby="recognition-title">
-            <h2 class="subhead display" id="recognition-title">Recognition</h2>
+          <aside aria-labelledby="recognition-title">
+            <h3 class="subhead display" id="recognition-title">Recognition</h3>
             <ul class="awards">
               {% for a in recognition %}
-              <li class="award sheet">
+              <li class="award">
                 <span class="award__icon" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="10" cy="8" r="5"/><path d="m7 12.2-1.5 5.3L10 15.4l4.5 2.1-1.5-5.3"/></svg></span>
                 <span class="award__title">{{ a.title }}</span>
                 <span class="award__detail">{{ a.detail }}{% if a.issuer %} ({{ a.issuer }}){% endif %}</span>
               </li>
               {% endfor %}
             </ul>
-          </section>
+          </aside>
           {% endif %}
         </div>
+      </section>
 
-        <div>
-          <section class="block" aria-labelledby="style-title">
-            <h2 class="subhead display" id="style-title">How Zach works</h2>
-            <dl class="traits">
-              {% for trait in about.personality if trait.group == 'style' %}
-              <div><dt>{{ trait.label }}</dt><dd>{{ trait.value }}</dd></div>
-              {% endfor %}
-            </dl>
-          </section>
+      <section class="block" aria-labelledby="style-title">
+        <div class="block__head"><h2 class="block__title display" id="style-title">How Zach works</h2></div>
+        <ul class="types" aria-label="Personality assessments">
+          {% for trait in about.personality if trait.group == 'test' %}
+          <li class="type">
+            <div class="type__result display">{{ trait.result }}</div>
+            <div class="type__system">{{ trait.system }}</div>
+            <p class="type__body">{{ trait.value }}</p>
+          </li>
+          {% endfor %}
+        </ul>
+        <dl class="traits">
+          {% for trait in about.personality if trait.group == 'style' %}
+          <div><dt>{{ trait.label }}</dt><dd>{{ trait.value }}</dd></div>
+          {% endfor %}
+        </dl>
+      </section>
 
-          <section class="block" aria-labelledby="types-title">
-            <h2 class="subhead display" id="types-title">Personality</h2>
-            <div class="types">
-              {% for trait in about.personality if trait.group == 'test' %}
-              <details class="type sheet" name="types">
-                <summary>
-                  <span class="type__result display">{{ trait.result }}</span>
-                  <span class="type__system">{{ trait.system }}</span>
-                  <span class="chev" aria-hidden="true"></span>
-                </summary>
-                <p class="type__body">{{ trait.value }}</p>
-              </details>
-              {% endfor %}
-            </div>
-          </section>
-        </div>
-      </div>
-
-      <div class="about-grid">
+      <div class="block about-life">
         <section aria-labelledby="interests-title">
           <h2 class="subhead display" id="interests-title">Outside work</h2>
           <ul class="hobbies">
-            {% for hobby in about.hobbies %}
+            {% for hobby in about.hobbies if hobby['items'] or not about.books %}
             <li>
               <div class="hobby__name">{{ hobby.name }}</div>
               {% if hobby['items'] %}
@@ -979,17 +977,18 @@
               {% endif %}
             </li>
             {% endfor %}
+            {% for trait in about.personality if trait.group == 'family' %}
+            <li>
+              <div class="hobby__name">{{ trait.label }}</div>
+              <p class="hobby__text">{% for item in trait.sub_items %}{{ item.value }}{% if not loop.last %} {% endif %}{% endfor %}</p>
+            </li>
+            {% endfor %}
           </ul>
-          {% for trait in about.personality if trait.group == 'family' %}
-          <div class="family">
-            <div class="hobby__name">{{ trait.label }}</div>
-            <p>{% for item in trait.sub_items %}{{ item.value }}{% if not loop.last %} {% endif %}{% endfor %}</p>
-          </div>
-          {% endfor %}
         </section>
 
+        {% if about.books %}
         <section aria-labelledby="books-title">
-          <h2 class="subhead display" id="books-title">Books that shaped my thinking</h2>
+          <h2 class="subhead display" id="books-title">Reading that shaped my thinking</h2>
           {% macro book_item(book) -%}
           <li>
             <div class="book__title">{{ book.title }}</div>
@@ -998,17 +997,18 @@
           </li>
           {%- endmacro %}
           <ul class="books">
-            {% for book in about.books[:5] %}{{ book_item(book) }}{% endfor %}
+            {% for book in about.books[:4] %}{{ book_item(book) }}{% endfor %}
           </ul>
-          {% if about.books|length > 5 %}
+          {% if about.books|length > 4 %}
           <details class="books-more">
-            <summary><span class="when-closed">Show {{ about.books|length - 5 }} more</span><span class="when-open">Show fewer</span><span class="chev" aria-hidden="true"></span></summary>
+            <summary><span class="when-closed">Show {{ about.books|length - 4 }} more</span><span class="when-open">Show fewer</span><span class="chev" aria-hidden="true"></span></summary>
             <ul class="books">
-              {% for book in about.books[5:] %}{{ book_item(book) }}{% endfor %}
+              {% for book in about.books[4:] %}{{ book_item(book) }}{% endfor %}
             </ul>
           </details>
           {% endif %}
         </section>
+        {% endif %}
       </div>
     </section>
   </main>
@@ -1033,6 +1033,7 @@
   </dialog>
   <script src="{{ assets.viewer_js }}" defer></script>
   {% endif %}
+  <script src="{{ assets.particles_js }}" defer></script>
 
   <script>
     // Tabs: a roving-tabindex tablist with deep links (#work, #ventures, #about)

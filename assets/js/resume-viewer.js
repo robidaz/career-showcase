@@ -13,8 +13,7 @@
  *
  * Nothing Syncfusion-related loads until the dialog is opened for the first time.
  * With no license key (or a CDN failure, timeout, missing WebAssembly, or a document
- * that fails to load) it falls back to the browser's PDF viewer in an <iframe>, or to
- * the preview image plus a download link.
+ * that fails to load) it falls back to the page-one preview image plus a download link.
  *
  * Classic script, no build step. The only global it adds is window.ResumeViewer.
  */
@@ -670,18 +669,8 @@
     statusEl = null;
     host.removeAttribute("aria-busy");
 
-    if (pdfUrl && navigator.pdfViewerEnabled === true) {
-      var frame = document.createElement("iframe");
-      frame.className = "resume-viewer__frame";
-      frame.title = "Résumé PDF";
-      // navpanes=0 hides Chrome's thumbnail sidebar so FitH really fits the width.
-      frame.src = pdfUrl + "#view=FitH&navpanes=0";
-      frame.style.cssText = "display:block;width:100%;height:100%;border:0;";
-      root.appendChild(frame);
-      return;
-    }
-
-    // Phones (no built-in PDF viewer): page-one preview plus a prominent download link.
+    // Page-one preview plus a download link. No <iframe> of the PDF: in-app browsers
+    // (LinkedIn, Electron webviews) report navigator.pdfViewerEnabled yet render a blank frame.
     var wrap = document.createElement("div");
     wrap.className = "resume-viewer__fallback";
 
