@@ -22,17 +22,20 @@
   // Holigram palette, back to front: brand cyan, bright cyan, ice white
   var COLORS = ["40,194,242", "95,216,255", "232,246,255"];
   var ALPHA_STEPS = 12;
-  var AREA_PER_POINT = 55;      // px² of masthead per point
-  var MIN_POINTS = 2200;
-  var MAX_POINTS = 8000;
-  var SPIN = 0.11;              // rad/s around the vertical axis
-  var SCAN_SECONDS = 6.5;       // one scan pass, bottom to top
-  var RISE = 6;                 // px/s upward drift
+  var AREA_PER_POINT = 30;      // px² of masthead per point
+  var MIN_POINTS = 4000;
+  var MAX_POINTS = 14000;
+  var SPIN = 0.045;             // rad/s around the vertical axis
+  var SCAN_SECONDS = 12;        // one scan pass, bottom to top
+  var RISE = 2.5;               // px/s upward drift
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   var dots = COLORS.map(makeDot);
-  var buckets = [];               // buckets[color * ALPHA_STEPS + alpha] = flat [x, y, size, ...]
-  for (var b = 0; b < COLORS.length * ALPHA_STEPS; b++) buckets.push([]);
+  var fills = COLORS.map(function (rgb) { return "rgb(" + rgb + ")"; });
+  var SPRITE_MIN = 2.6;           // sprite boxes smaller than this draw as a plain square (far points)
+  // buckets[color * ALPHA_STEPS + alpha] = flat [x, y, size, ...]; tiny = far points as squares
+  var buckets = [], tiny = [];
+  for (var b = 0; b < COLORS.length * ALPHA_STEPS; b++) { buckets.push([]); tiny.push([]); }
 
   var points = [];
   var width = 0, height = 0, dpr = 1;
@@ -90,7 +93,7 @@
     var scanY = 1.15 - ((t / SCAN_SECONDS) % 1) * 1.3;   // sweeps bottom → top, off both ends
     var cosT = Math.cos(tilt), sinT = Math.sin(tilt);
 
-    for (var b = 0; b < buckets.length; b++) buckets[b].length = 0;
+    for (var b = 0; b < buckets.length; b++) { buckets[b].length = 0; tiny[b].length = 0; }
 
     for (var i = 0; i < points.length; i++) {
       var p = points[i];
@@ -110,16 +113,20 @@
       if (sx < -4 || sx > width + 4 || sy < -4 || sy > height + 4) continue;
 
       var depth = (zr / R + 1) * 0.5;                    // 0 back, 1 front
-      var twinkle = 0.75 + 0.25 * Math.sin(t * (1.6 + p.seed * 2.4) + p.seed * 40);
+      var twinkle = 0.75 + 0.25 * Math.sin(t * (0.7 + p.seed * 1.1) + p.seed * 40);
       var d = (yN - scanY) / 0.06;
       var scan = Math.exp(-d * d);                        // white band of the construction sweep
-      var alpha = (0.12 + 0.95 * depth * depth) * twinkle + scan;
-      var color = scan > 0.35 || (p.hot && depth > 0.55) ? 2 : depth > 0.62 ? 1 : 0;
-      var size = (1.5 + 3 * depth) * s * (1 + scan * 0.8);   // sprite box; the visible core is about half
+      var alpha = (0.12 + 0.95 * depth * depth) * twinkle + scan * 0.45;
+      var color = (scan > 0.6 && depth > 0.3) || (p.hot && depth > 0.55) ? 2 : depth > 0.62 ? 1 : 0;
+      var size = (1.5 + 3 * depth) * s * (1 + scan * 0.35);   // sprite box; the visible core is about half
 
       var level = Math.min(ALPHA_STEPS - 1, Math.max(0, Math.round(alpha * (ALPHA_STEPS - 1))));
-      var bucket = buckets[color * ALPHA_STEPS + level];
-      bucket.push(sx - size / 2, sy - size / 2, size);
+      if (size < SPRITE_MIN) {
+        var core = size * 0.45;                        // matches the sprite's visible core
+        tiny[color * ALPHA_STEPS + level].push(sx - core / 2, sy - core / 2, core);
+      } else {
+        buckets[color * ALPHA_STEPS + level].push(sx - size / 2, sy - size / 2, size);
+      }
     }
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -127,9 +134,14 @@
     ctx.globalCompositeOperation = "lighter";
     for (var c = 0; c < COLORS.length; c++) {
       for (var l = 0; l < ALPHA_STEPS; l++) {
-        var list = buckets[c * ALPHA_STEPS + l];
-        if (!list.length) continue;
+        var idx = c * ALPHA_STEPS + l;
+        var list = buckets[idx], small = tiny[idx];
+        if (!list.length && !small.length) continue;
         ctx.globalAlpha = (l + 1) / ALPHA_STEPS;
+        if (small.length) {
+          ctx.fillStyle = fills[c];
+          for (var j = 0; j < small.length; j += 3) ctx.fillRect(small[j], small[j + 1], small[j + 2], small[j + 2]);
+        }
         for (var k = 0; k < list.length; k += 3) ctx.drawImage(dots[c], list[k], list[k + 1], list[k + 2], list[k + 2]);
       }
     }
@@ -142,7 +154,7 @@
     var dt = lastTime ? Math.min((now - lastTime) / 1000, 0.05) : 0;
     lastTime = now;
     elapsed += dt;
-    tilt += (tiltTarget - tilt) * Math.min(1, dt * 2.5);
+    tilt += (tiltTarget - tilt) * Math.min(1, dt * 1.2);
     draw();
     schedule();
   }
