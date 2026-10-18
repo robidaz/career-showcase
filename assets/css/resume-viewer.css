@@ -1,0 +1,250 @@
+/*
+ * resume-viewer.css
+ * Loaded by assets/js/resume-viewer.js the first time the résumé dialog opens.
+ * Styles only what lives inside #resume-viewer; the dialog chrome is the page's job.
+ * Uses the page's design tokens when present (--paper, --ink, --cobalt, --rule, --hivis,
+ * --radius-control), with matching fallbacks.
+ */
+
+/* Syncfusion Material 3 tokens. They must be RGB triplets, so they mirror the page palette
+   by value: cobalt #1f4fd1, cobalt-wash #e4ecff, paper #eef2f8, ink #0a1a33, ink-2 #3d4d6a,
+   rule #d3dbe7, rule-strong #9fb0c9. Only Syncfusion components read these variables. */
+:root {
+  --color-sf-primary: 31, 79, 209;
+  --color-sf-primary-container: 228, 236, 255;
+  --color-sf-on-primary: 255, 255, 255;
+  --color-sf-on-primary-container: 10, 26, 51;
+  --color-sf-secondary: 61, 77, 106;
+  --color-sf-secondary-container: 228, 236, 255;
+  --color-sf-on-secondary: 255, 255, 255;
+  --color-sf-on-secondary-container: 10, 26, 51;
+  --color-sf-surface: 255, 255, 255;
+  --color-sf-surface-variant: 238, 242, 248;
+  --color-sf-background: 255, 255, 255;
+  --color-sf-on-surface: 10, 26, 51;
+  --color-sf-on-surface-variant: 61, 77, 106;
+  --color-sf-on-background: 10, 26, 51;
+  --color-sf-outline: 159, 176, 201;
+  --color-sf-outline-variant: 211, 219, 231;
+  --color-sf-surface-tint-color: 31, 79, 209;
+  --color-sf-inverse-surface: 10, 26, 51;
+  --color-sf-inverse-on-surface: 255, 255, 255;
+  --color-sf-inverse-primary: 176, 196, 255;
+}
+
+/* Root created by the script inside #resume-viewer. */
+.resume-viewer {
+  --resume-viewer-canvas: var(--paper, #eef2f8);
+  --resume-viewer-ink: var(--ink, #0a1a33);
+  --resume-viewer-accent: var(--cobalt, #1f4fd1);
+  --resume-viewer-rule: var(--rule, #d3dbe7);
+  --resume-viewer-shadow: 0 1px 2px rgba(10, 26, 51, 0.08), 0 4px 16px rgba(10, 26, 51, 0.08);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  background: var(--resume-viewer-canvas);
+  color: var(--resume-viewer-ink);
+}
+
+.resume-viewer__pdf {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+}
+
+/* Loading state ----------------------------------------------------------- */
+
+/* The preview sits roughly where the first page lands under the 48px toolbar. */
+.resume-viewer__status {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  padding: 58px 10px 10px;
+  background: var(--resume-viewer-canvas);
+}
+
+.resume-viewer__status-preview {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #fff;
+  box-shadow: var(--resume-viewer-shadow);
+  opacity: 0.55;
+}
+
+.resume-viewer__status-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  margin: 0;
+  padding: 0.65em 1.1em;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--resume-viewer-ink);
+  box-shadow: 0 4px 16px rgba(10, 26, 51, 0.14);
+  font: inherit;
+  font-size: 0.9375rem;
+  white-space: nowrap;
+}
+
+.resume-viewer__spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid rgba(31, 79, 209, 0.25);
+  border-top-color: var(--resume-viewer-accent);
+  border-radius: 50%;
+  animation: resume-viewer-spin 0.8s linear infinite;
+}
+
+@keyframes resume-viewer-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Fallbacks --------------------------------------------------------------- */
+
+.resume-viewer__frame {
+  display: block;
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+}
+
+.resume-viewer__fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.resume-viewer__fallback-page {
+  flex: 1 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 848px;
+  padding: 16px;
+}
+
+.resume-viewer__fallback-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #fff;
+  box-shadow: var(--resume-viewer-shadow);
+}
+
+/* Same treatment as the dialog bar's Download button. It sits after the page
+   rather than floating over it: the dialog bar keeps a Download link in view. */
+.resume-viewer__fallback-download {
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin: 0 16px 16px;
+  padding: 0 1.75em;
+  border-radius: var(--radius-control, 999px);
+  background: var(--hivis, #1f4fd1);
+  color: var(--hivis-ink, #fff);
+  font: inherit;
+  font-weight: 650;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(10, 26, 51, 0.25);
+}
+
+.resume-viewer__fallback-download:hover {
+  filter: brightness(1.08);
+}
+
+.resume-viewer__fallback-download:focus-visible {
+  outline: 3px solid var(--resume-viewer-accent);
+  outline-offset: 3px;
+}
+
+/* No preview image: centred message with the download button right under it. */
+.resume-viewer__fallback.is-empty {
+  justify-content: center;
+}
+
+.resume-viewer__fallback.is-empty .resume-viewer__fallback-page {
+  flex: 0 0 auto;
+  max-width: 32rem;
+  text-align: center;
+}
+
+/* Syncfusion viewer polish ------------------------------------------------ */
+
+.resume-viewer .e-pdfviewer {
+  border: 0;
+}
+
+/* Material 3 tints toolbars and the canvas with the primary colour; keep them neutral. */
+.resume-viewer .e-pv-toolbar.e-toolbar,
+.resume-viewer .e-pv-toolbar.e-toolbar .e-toolbar-items {
+  background: #fff;
+}
+
+.resume-viewer .e-pv-toolbar.e-toolbar {
+  border-width: 0 0 1px;
+  border-color: var(--resume-viewer-rule);
+}
+
+.resume-viewer .e-pv-viewer-main-container,
+.resume-viewer .e-pv-viewer-container,
+.resume-viewer .e-pv-page-container {
+  background: var(--resume-viewer-canvas);
+}
+
+.resume-viewer .e-pv-viewer-container {
+  border: 0;
+  scrollbar-color: rgba(10, 26, 51, 0.3) transparent;
+}
+
+.resume-viewer .e-pv-page-div {
+  border-color: rgba(10, 26, 51, 0.1);
+  box-shadow: var(--resume-viewer-shadow);
+}
+
+/* Disabled toolbar buttons: no grey tile, just dimmed icons. */
+.resume-viewer .e-pv-toolbar .e-toolbar-item.e-overlay,
+.resume-viewer .e-pv-toolbar .e-toolbar-item.e-overlay .e-tbar-btn {
+  background: transparent;
+}
+
+/* Phone toolbar: drop the separator left behind by the hidden "open" button, and the
+   "Bookmarks" menu entry (always disabled: bookmarks are turned off). */
+.resume-viewer .e-pv-mobile-toolbar .e-toolbar-item.e-separator,
+.resume-viewer [id$="_menu_bookmarks"] {
+  display: none;
+}
+
+/* Reduced motion ---------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .resume-viewer *,
+  .resume-viewer *::before,
+  .resume-viewer *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}

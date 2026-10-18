@@ -3,1047 +3,1089 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{{ person.name }} — Career Showcase</title>
+  <title>{{ person.name }} — {{ person.role }}</title>
+  <meta name="description" content="{{ person.name }}, {{ person.role }}: {{ person.focus }}. Experience, projects, side ventures, and a downloadable one-page résumé." />
+  <meta name="theme-color" content="#113c8a" />
+  <meta property="og:type" content="profile" />
+  <meta property="og:title" content="{{ person.name }} — {{ person.role }}" />
+  <meta property="og:description" content="{{ person.focus }}" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23113c8a'/%3E%3Cpath d='M13 17h38v30H13z' fill='none' stroke='%23fff' stroke-width='3'/%3E%3Cpath d='M13 36h38M31 36v11' stroke='%23fff' stroke-width='3'/%3E%3Crect x='36' y='40' width='10' height='3.5' fill='%23ff6b1a'/%3E%3C/svg%3E" />
+  <link rel="preload" href="{{ assets.font_archivo }}" as="font" type="font/woff2" crossorigin />
+  <script>document.documentElement.classList.add("js");</script>
   <style>
-    :root {
-      --page: #f5f7fa;
-      --panel: rgba(255, 255, 255, 0.95);
-      --panel-strong: #ffffff;
-      --line: rgba(0, 0, 0, 0.09);
-      --line-strong: rgba(0, 0, 0, 0.18);
-      --text: #111827;
-      --muted: #6b7280;
-      --accent: #1d6fa4;
-      --accent-strong: #125882;
-      --accent-soft: rgba(29, 111, 164, 0.10);
-      --shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
-      --radius-lg: 24px;
-      --radius-md: 16px;
-      --radius-sm: 12px;
-      --mono: "Consolas", "SFMono-Regular", "Courier New", monospace;
-      --sans: "Segoe UI", "Aptos", "Trebuchet MS", sans-serif;
+    @font-face {
+      font-family: "Archivo";
+      src: url("{{ assets.font_archivo }}") format("woff2");
+      font-weight: 100 900;
+      font-stretch: 62% 125%;
+      font-display: swap;
     }
 
-    * { box-sizing: border-box; }
+    /* Holigram's wordmark face (brand guide: Roboto 800, -0.5px tracking) */
+    @font-face {
+      font-family: "Holigram Wordmark";
+      src: url("{{ assets.font_roboto }}") format("woff2");
+      font-weight: 800;
+      font-display: swap;
+    }
+
+    :root {
+      /* Drawing-set palette: cyanotype masthead, white sheets, navy ink */
+      --blueprint: #113c8a;
+      --blueprint-deep: #0b2c6b;
+      --on-blue: #ffffff;
+      --on-blue-soft: #c9d8f5;
+      --line-on-blue: rgba(255, 255, 255, 0.42);
+      --grid-on-blue: rgba(255, 255, 255, 0.06);
+      --grid-on-blue-major: rgba(255, 255, 255, 0.11);
+
+      --paper: #eef2f8;
+      --sheet: #ffffff;
+      --ink: #0a1a33;
+      --ink-2: #3d4d6a;
+      --ink-3: #56657f;
+      --rule: #d3dbe7;
+      --rule-strong: #9fb0c9;
+
+      --cobalt: #1f4fd1;
+      --cobalt-ink: #173ea6;
+      --cobalt-wash: #e4ecff;
+      --hivis: #ff6b1a;
+      --hivis-ink: #0a1a33;
+
+      --sans: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --shadow-sheet: 0 1px 0 rgba(10, 26, 51, 0.04), 0 18px 32px -24px rgba(10, 26, 51, 0.45);
+      --radius-sheet: 10px;
+      --radius-control: 6px;
+      --wrap: 1180px;
+      --gutter: 24px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { -webkit-text-size-adjust: 100%; scroll-padding-top: 72px; }
 
     body {
       margin: 0;
       font-family: var(--sans);
-      color: var(--text);
-      background: linear-gradient(180deg, #f0f4f8 0%, var(--page) 100%);
-      height: 100vh;
-      overflow: hidden;
+      font-size: 1rem;
+      line-height: 1.62;
+      color: var(--ink);
+      background: var(--paper);
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .shell {
-      width: calc(100vw - 48px);
-      max-width: none;
-      height: calc(100vh - 48px);
-      margin: 24px auto;
-      padding: 24px;
-      border: 1px solid var(--line);
-      border-radius: 32px;
-      background: #ffffff;
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+    img { max-width: 100%; display: block; }
+    a { color: var(--cobalt); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+    a:hover { color: var(--cobalt-ink); }
+    p { margin: 0 0 0.9em; }
+    p:last-child { margin-bottom: 0; }
+    h1, h2, h3, h4 { margin: 0; }
+    ul { margin: 0; padding: 0; }
+
+    :focus-visible { outline: 3px solid var(--cobalt); outline-offset: 2px; border-radius: 2px; }
+
+    .wrap { width: 100%; max-width: calc(var(--wrap) + var(--gutter) * 2); margin: 0 auto; padding-inline: var(--gutter); }
+
+    .skip-link {
+      position: absolute; left: 12px; top: -48px; z-index: 50;
+      padding: 10px 14px; border-radius: var(--radius-control);
+      background: var(--hivis); color: var(--hivis-ink); font-weight: 650; text-decoration: none;
+    }
+    .skip-link:focus { top: 12px; }
+
+    .visually-hidden {
+      position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+      clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
     }
 
-    /* ── Hero ───────────────────────────────────────────────── */
-    .hero {
-      display: grid;
-      gap: 10px;
-      grid-template-columns: auto minmax(0, 1fr) minmax(220px, auto);
-      align-items: center;
-      padding: 6px 4px 12px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .hero-avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--line-strong);
-      flex-shrink: 0;
-    }
-
-    .hero-identity {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 2px;
-    }
-
-    h1 {
-      margin: 0;
+    /* Display type: condensed Archivo carries the drawing-set voice */
+    .display {
       font-family: var(--sans);
-      font-size: clamp(1.4rem, 2.2vw, 2rem);
-      line-height: 1;
-      letter-spacing: -0.03em;
+      font-stretch: 74%;
+      font-weight: 740;
+      letter-spacing: -0.005em;
+      line-height: 1.04;
     }
 
-    .hero-subtitle {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.95rem;
+    /* ── Buttons ─────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 42px; padding: 9px 16px;
+      border: 1.5px solid transparent; border-radius: var(--radius-control);
+      font: inherit; font-weight: 650; font-stretch: 92%; font-size: 0.95rem; line-height: 1.1;
+      text-decoration: none; cursor: pointer;
+      transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+    }
+    .btn svg { width: 16px; height: 16px; flex: none; }
+    .btn--hivis { background: var(--hivis); color: var(--hivis-ink); }
+    .btn--hivis:hover { background: #ff843f; color: var(--hivis-ink); }
+    .btn--cobalt { background: var(--cobalt); color: #fff; }
+    .btn--cobalt:hover { background: var(--cobalt-ink); color: #fff; }
+    .btn--line { border-color: var(--rule-strong); color: var(--ink); background: var(--sheet); }
+    .btn--line:hover { border-color: var(--cobalt); color: var(--cobalt-ink); }
+    .btn--on-blue { border-color: var(--line-on-blue); color: var(--on-blue); background: transparent; }
+    .btn--on-blue:hover { border-color: #fff; background: rgba(255, 255, 255, 0.08); color: #fff; }
+
+    /* ── Masthead: the title block ───────────────────────────── */
+    .masthead {
+      color: var(--on-blue);
+      background-color: var(--blueprint);
+      background-image:
+        linear-gradient(var(--grid-on-blue-major) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-on-blue-major) 1px, transparent 1px),
+        linear-gradient(var(--grid-on-blue) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-on-blue) 1px, transparent 1px),
+        linear-gradient(180deg, var(--blueprint) 0%, var(--blueprint-deep) 100%);
+      background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px, 100% 100%;
+      background-position: -1px -1px;
+      padding: 40px 0 28px;
     }
 
-    .hero-contact {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 4px;
-      font-size: 0.82rem;
-      color: var(--muted);
-    }
+    .masthead :focus-visible, .sheet-tabs :focus-visible { outline-color: #fff; }
 
-    .hero-contact a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .hero-contact a:hover { text-decoration: underline; }
-
-    /* ── Tab strip ──────────────────────────────────────────── */
-    .workspace {
-      margin-top: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1;
-      min-height: 0;
-    }
-
-    .tab-bar {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      padding: 4px 0;
-    }
-
-    .tab-button {
-      appearance: none;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.72);
-      color: var(--text);
-      border-radius: 999px;
-      padding: 7px 18px;
-      font-family: var(--sans);
-      font-weight: 700;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
-    }
-
-    .tab-button:hover {
-      transform: translateY(-1px);
-      border-color: var(--line-strong);
-    }
-
-    .tab-button.is-active {
-      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-      color: white;
-      border-color: transparent;
-      box-shadow: 0 4px 14px rgba(29, 111, 164, 0.20);
-    }
-
-    /* ── Tab panels ─────────────────────────────────────────── */
-    .tab-content {
-      flex: 1;
-      min-height: 0;
-      overflow-y: auto;
-    }
-
-    .tab-panel { display: none; }
-    .tab-panel.is-active { display: block; }
-
-    /* ── Layout helpers ─────────────────────────────────────── */
-    .two-col {
+    .titleblock {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 18px;
-    }
-
-    .three-col {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .card {
-      padding: 20px 22px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      background: var(--panel);
-    }
-
-    .card-title {
-      margin: 0 0 12px;
-      font-size: 1rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--accent-strong);
-    }
-
-    .card p {
-      margin: 0 0 8px;
-      line-height: 1.65;
-      font-size: 0.93rem;
-    }
-
-    .card p:last-child { margin-bottom: 0; }
-
-    /* ── Tab 1: Profile ─────────────────────────────────────── */
-    #tab-profile {
-      padding: 4px 0 16px;
-    }
-
-    .profile-grid {
-      display: grid;
-      grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
-      gap: 18px;
-    }
-
-    .profile-left {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .disclaimer-text {
-      font-size: 0.8rem;
-      line-height: 1.6;
-      color: var(--muted);
-      white-space: pre-line;
-      margin: 0;
-    }
-
-    .contact-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      font-size: 0.85rem;
-    }
-
-    .contact-list li {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--muted);
-    }
-
-    .contact-list a { color: var(--accent); text-decoration: none; }
-    .contact-list a:hover { text-decoration: underline; }
-
-    .contact-icon {
-      width: 16px;
-      text-align: center;
-      color: var(--accent);
-      flex-shrink: 0;
-    }
-
-    .edu-item {
-      margin-bottom: 10px;
-    }
-
-    .edu-item:last-child { margin-bottom: 0; }
-
-    .edu-degree {
-      font-weight: 700;
-      font-size: 0.9rem;
-    }
-
-    .edu-school {
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-
-    .edu-detail {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .profile-right {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .summary-text {
-      font-size: 0.96rem;
-      line-height: 1.75;
-      margin: 0;
-    }
-
-    .cover-letter-text {
-      font-size: 0.92rem;
-      line-height: 1.75;
-      white-space: pre-line;
-      margin: 0;
-    }
-
-    /* ── Tab 2: Work Experience ─────────────────────────────── */
-    #tab-work {
-      padding: 4px 0 16px;
-    }
-
-    .work-section-title {
-      margin: 0 0 14px;
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: var(--accent-strong);
-      letter-spacing: 0.02em;
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 6px;
-    }
-
-    /* Skills */
-    .skill-group { margin-bottom: 18px; }
-
-    .skill-group-label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      margin: 0 0 8px;
-    }
-
-    .skill-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 7px;
-    }
-
-    .skill-name {
-      min-width: 160px;
-      font-size: 0.88rem;
-      font-weight: 600;
-    }
-
-    .skill-bar-wrap {
-      flex: 1;
-      height: 6px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      overflow: hidden;
-    }
-
-    .skill-bar {
-      height: 100%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-strong));
-    }
-
-    .skill-level {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--accent);
-      min-width: 80px;
-      text-align: right;
-    }
-
-    /* Resume timeline */
-    .role-block {
-      margin-bottom: 24px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .role-block:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .role-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 12px;
-      margin-bottom: 4px;
-    }
-
-    .role-title {
-      font-size: 1rem;
-      font-weight: 800;
-      margin: 0;
-    }
-
-    .role-company {
-      font-size: 0.9rem;
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    .role-period {
-      font-size: 0.82rem;
-      color: var(--muted);
-      white-space: nowrap;
-      font-family: var(--mono);
-    }
-
-    .role-bullets {
-      margin: 8px 0 0 0;
-      padding-left: 18px;
-    }
-
-    .role-bullets li {
-      font-size: 0.9rem;
-      line-height: 1.6;
-      margin-bottom: 4px;
-      color: var(--text);
-    }
-
-    /* Work History Carousel */
-    .carousel-wrap {
-      position: relative;
-    }
-
-    .carousel-track {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .carousel-slide {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .carousel-slide.is-active {
-      position: relative;
-      visibility: visible;
-      pointer-events: auto;
-    }
-
-    .carousel-controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 16px;
-      padding-top: 12px;
-      border-top: 1px solid var(--line);
-    }
-
-    .carousel-arrow {
-      appearance: none;
-      background: rgba(255,255,255,0.72);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1rem;
-      color: var(--accent);
-      transition: background 160ms, border-color 160ms, transform 160ms;
-      flex-shrink: 0;
-    }
-
-    .carousel-arrow:hover {
-      background: var(--accent-soft);
-      border-color: var(--accent);
-      transform: scale(1.08);
-    }
-
-    .carousel-arrow:disabled {
-      opacity: 0.3;
-      cursor: default;
-      transform: none;
-    }
-
-    .carousel-dots {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
-
-    .carousel-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--line-strong);
-      cursor: pointer;
-      transition: background 160ms, transform 160ms;
-    }
-
-    .carousel-dot.is-active {
-      background: var(--accent);
-      transform: scale(1.3);
-    }
-
-    .carousel-counter {
-      font-size: 0.78rem;
-      color: var(--muted);
-      font-family: var(--mono);
-    }
-
-    /* Projects */
-    .project-card {
-      padding: 20px 22px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      background: var(--panel);
-      margin-bottom: 14px;
-    }
-
-    .project-card:last-child { margin-bottom: 0; }
-
-    .project-title {
-      margin: 0 0 10px;
-      font-size: 1rem;
-      font-weight: 800;
-    }
-
-    .project-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 12px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent-strong);
-      font-size: 0.76rem;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .project-row {
-      display: grid;
-      grid-template-columns: 90px minmax(0, 1fr);
-      gap: 6px 12px;
-      font-size: 0.88rem;
-      line-height: 1.55;
-      margin-bottom: 4px;
-    }
-
-    .project-row-label {
-      font-weight: 700;
-      color: var(--muted);
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding-top: 2px;
-    }
-
-    /* ── Tab 3: Testimonials ────────────────────────────────── */
-    #tab-testimonials {
-      padding: 4px 0 16px;
-    }
-
-    .testimonial-group-title {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      margin: 0 0 12px;
-    }
-
-    .testimonial-card {
-      padding: 18px 20px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      background: var(--panel);
-      margin-bottom: 12px;
-      border-left: 3px solid var(--accent);
-    }
-
-    .testimonial-card:last-child { margin-bottom: 0; }
-
-    .testimonial-quote {
-      font-size: 0.95rem;
-      line-height: 1.7;
-      font-style: italic;
-      margin: 0 0 10px;
-      color: var(--text);
-    }
-
-    .testimonial-quote::before { content: "\201C"; }
-    .testimonial-quote::after  { content: "\201D"; }
-
-    .testimonial-attribution {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--accent-strong);
-    }
-
-    .testimonial-role {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    .testimonial-group-section {
-      margin-bottom: 28px;
-    }
-
-    .testimonial-group-section:last-child { margin-bottom: 0; }
-
-    /* ── Tab 4: About Me ────────────────────────────────────── */
-    #tab-about {
-      padding: 4px 0 16px;
-    }
-
-    .book-item {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--line);
-      font-size: 0.88rem;
-    }
-
-    .book-item:last-child { border-bottom: none; }
-
-    .book-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent);
-      margin-top: 5px;
-      flex-shrink: 0;
-    }
-
-    .book-title {
-      font-weight: 700;
-      margin-bottom: 2px;
-    }
-
-    .book-insight {
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .hobby-chip {
-      display: inline-flex;
-      align-items: center;
-      padding: 6px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.75);
-      border: 1px solid var(--line);
-      color: var(--text);
-      font-size: 0.85rem;
-      margin: 4px;
-    }
-
-    .personality-subheader {
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      margin: 14px 0 6px;
-    }
-
-    .personality-subheader:first-child { margin-top: 0; }
-
-    .personality-row {
-      display: grid;
-      grid-template-columns: 160px minmax(0, 1fr);
-      gap: 8px 14px;
-      font-size: 0.88rem;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--line);
-      align-items: start;
-    }
-
-    .personality-row:last-child { border-bottom: none; }
-
-    .personality-label {
-      font-weight: 700;
-      color: var(--accent-strong);
-      font-size: 0.82rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding-top: 2px;
-    }
-
-    .personality-test-badge {
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: var(--accent);
-      background: var(--accent-soft);
-      border-radius: 999px;
-      padding: 1px 7px;
-      margin-left: 6px;
-      vertical-align: middle;
-      letter-spacing: 0.04em;
-    }
-
-    /* ── Scrollbar ──────────────────────────────────────────── */
-    .tab-content::-webkit-scrollbar { width: 6px; }
-    .tab-content::-webkit-scrollbar-track { background: transparent; }
-    .tab-content::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3px; }
-
-    /* ── Responsive ─────────────────────────────────────────── */
-    @media (max-width: 1080px) {
-      .profile-grid, .two-col, .three-col { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 700px) {
-      .shell {
-        width: calc(100vw - 16px);
-        margin: 8px auto;
-        padding: 14px;
-        border-radius: 22px;
+      grid-template-columns: 136px minmax(0, 1fr) minmax(260px, 330px);
+      grid-template-rows: 1fr auto;
+      grid-template-areas: "portrait id cells" "portrait actions cells";
+      border: 1px solid var(--line-on-blue);
+    }
+
+    .titleblock__portrait { grid-area: portrait; padding: 18px; display: grid; place-items: center; border-right: 1px solid var(--line-on-blue); }
+    .titleblock__portrait img {
+      width: 100px; height: 100px; border-radius: 50%; object-fit: cover;
+      box-shadow: 0 0 0 3px var(--blueprint), 0 0 0 4px var(--line-on-blue);
+    }
+
+    .titleblock__id { grid-area: id; padding: 24px 26px 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; }
+    .titleblock__name { font-size: clamp(2.6rem, 5.4vw, 4.25rem); color: #fff; }
+    .titleblock__role { margin: 4px 0 0; font-size: 1.35rem; font-weight: 620; font-stretch: 86%; line-height: 1.2; }
+    .titleblock__focus { margin: 0; color: var(--on-blue-soft); font-size: 1rem; }
+    .titleblock__actions { grid-area: actions; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px; padding: 16px 26px 24px; }
+
+    .titleblock__cells { grid-area: cells; margin: 0; display: grid; grid-template-rows: repeat(4, 1fr); border-left: 1px solid var(--line-on-blue); }
+    .titleblock__cell { padding: 10px 16px; display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+    .titleblock__cell + .titleblock__cell { border-top: 1px solid var(--line-on-blue); }
+    .titleblock__cell dt { font-size: 0.78rem; color: var(--on-blue-soft); font-stretch: 90%; }
+    .titleblock__cell dd { margin: 0; font-size: 0.95rem; font-weight: 560; overflow-wrap: anywhere; }
+    .titleblock__cell a { color: #fff; text-decoration: none; }
+    .titleblock__cell a:hover { text-decoration: underline; color: #fff; }
+
+    /* ── Sheet tabs (sticky) ─────────────────────────────────── */
+    .sheet-tabs {
+      position: sticky; top: 0; z-index: 30;
+      background: var(--blueprint-deep);
+      box-shadow: 0 1px 0 rgba(10, 26, 51, 0.12);
+    }
+    .sheet-tabs__list { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-top: 8px; }
+    .sheet-tabs__list::-webkit-scrollbar { display: none; }
+
+    .sheet-tab {
+      appearance: none; flex: none; cursor: pointer;
+      padding: 11px 18px 12px;
+      border: 0; border-top: 3px solid transparent; border-radius: 8px 8px 0 0;
+      background: transparent; color: #dbe6fb;
+      font: inherit; font-size: 1rem; font-weight: 650; font-stretch: 84%; line-height: 1.2;
+      transition: background-color 140ms ease, color 140ms ease;
+    }
+    .sheet-tab:hover { color: #fff; background: rgba(255, 255, 255, 0.08); }
+    .sheet-tab[aria-selected="true"] { background: var(--paper); color: var(--ink); border-top-color: var(--hivis); }
+    .sheet-tab:focus-visible { outline-offset: -3px; }
+    .sheet-tab[aria-selected="true"]:focus-visible { outline-color: var(--cobalt); }
+    .lbl-short { display: none; }
+    @media (max-width: 480px) {
+      .lbl-long { display: none; }
+      .lbl-short { display: inline; }
+    }
+
+    /* ── Panels & blocks ─────────────────────────────────────── */
+    .content { padding-top: 40px; padding-bottom: 72px; }
+
+    .js .panel:not(.is-active) { display: none; }
+    .panel.is-active { animation: panel-in 180ms ease-out; }
+    @keyframes panel-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+    .block + .block { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule); }
+    .block__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 20px; margin-bottom: 20px; }
+    .block__title { font-size: 2rem; }
+    .block__note { margin: 0; color: var(--ink-3); font-size: 0.92rem; }
+    .subhead { font-size: 1.3rem; margin-bottom: 12px; }
+
+    .sheet {
+      background: var(--sheet);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-sheet);
+      box-shadow: var(--shadow-sheet);
+    }
+
+    .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+    .tags li {
+      padding: 3px 9px; border-radius: 999px;
+      background: var(--cobalt-wash); color: var(--cobalt-ink);
+      font-size: 0.8rem; font-weight: 600; font-stretch: 92%; line-height: 1.4;
+    }
+
+    /* Accordions: native <details>, styled once */
+    details > summary { list-style: none; cursor: pointer; }
+    details > summary::-webkit-details-marker { display: none; }
+    .chev {
+      flex: none; width: 22px; height: 22px; border-radius: 50%;
+      display: grid; place-items: center;
+      border: 1.5px solid var(--rule-strong); color: var(--ink-2);
+      transition: transform 180ms ease, border-color 140ms ease, color 140ms ease;
+    }
+    .chev::before {
+      content: ""; width: 7px; height: 7px; margin-top: -3px;
+      border-right: 1.75px solid currentColor; border-bottom: 1.75px solid currentColor;
+      transform: rotate(45deg);
+    }
+    details[open] > summary .chev { transform: rotate(180deg); }
+    details > summary:hover .chev { border-color: var(--cobalt); color: var(--cobalt); }
+
+    @supports (interpolate-size: allow-keywords) {
+      :root { interpolate-size: allow-keywords; }
+      details::details-content {
+        block-size: 0; overflow-y: clip;
+        transition: block-size 220ms ease, content-visibility 220ms allow-discrete;
       }
-      .hero { grid-template-columns: auto 1fr; }
-      .hero-contact { display: none; }
+      details[open]::details-content { block-size: auto; }
+    }
+
+    /* ── Tab 1: Profile ──────────────────────────────────────── */
+    .profile-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 48px; align-items: start; }
+
+    .lead { font-size: 1.32rem; line-height: 1.55; max-width: 62ch; color: var(--ink); }
+
+    .letter p, .letter__more { max-width: 68ch; }
+    .letter p { color: var(--ink-2); }
+    .letter p:first-of-type { color: var(--ink); font-weight: 560; }
+    .letter__more { margin-top: 0.9em; }
+    .letter__more > summary {
+      display: inline-flex; align-items: center; gap: 10px;
+      color: var(--cobalt); font-weight: 650; font-stretch: 92%;
+    }
+    .letter__more > summary:hover { color: var(--cobalt-ink); }
+    .letter__more[open] > summary { margin-bottom: 0.9em; }
+    .letter__more .when-open, .letter__more[open] .when-closed { display: none; }
+    .letter__more[open] .when-open { display: inline; }
+    .letter__sign { font-weight: 650; color: var(--ink); }
+
+    .profile-aside { display: flex; flex-direction: column; gap: 28px; }
+    @media (min-width: 861px) and (min-height: 900px) {
+      .profile-aside { position: sticky; top: 76px; }
+    }
+
+    .resume-card { padding: 20px; }
+    .resume-card__title { font-size: 1.5rem; }
+    .resume-card__meta { margin: 4px 0 16px; color: var(--ink-3); font-size: 0.9rem; }
+    .resume-card__preview {
+      display: block; width: 100%; padding: 0; cursor: zoom-in;
+      border: 1px solid var(--rule); border-radius: 4px; background: #fff;
+      box-shadow: 0 10px 22px -16px rgba(10, 26, 51, 0.55);
+      transition: border-color 140ms ease, box-shadow 140ms ease;
+    }
+    .resume-card__preview:hover { border-color: var(--cobalt); box-shadow: 0 14px 26px -16px rgba(31, 79, 209, 0.55); }
+    .resume-card__preview img { width: 100%; height: auto; border-radius: 3px; }
+    .resume-card__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+
+    .edu { list-style: none; display: grid; gap: 14px; }
+    .edu__degree { font-weight: 650; line-height: 1.3; }
+    .edu__school { color: var(--ink-2); font-size: 0.93rem; }
+    .edu__detail { color: var(--ink-3); font-size: 0.86rem; }
+
+    /* ── Tab 2: Work & Projects ──────────────────────────────── */
+    /* Experience as a dimension chain: segment widths are real durations */
+    .dimchain { display: flex; align-items: stretch; margin: 6px 0 28px; }
+    .dimchain__seg {
+      appearance: none; cursor: pointer; position: relative;
+      flex: var(--span) 1 0; min-width: 76px;
+      padding: 0 8px 26px; border: 0; background: none; color: var(--ink-2);
+      font: inherit; text-align: center;
+      border-left: 1px solid var(--rule-strong);
+    }
+    .dimchain__seg.is-last { border-right: 1px solid var(--rule-strong); }
+    .dimchain__label {
+      display: block; padding: 8px 4px 10px;
+      font-size: 0.98rem; font-weight: 650; font-stretch: 84%; line-height: 1.15; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    /* the dimension line with arrowheads */
+    .dimchain__line {
+      position: relative; display: block; height: 2px; margin: 0 2px;
+      background: currentColor; color: var(--rule-strong);
+    }
+    .dimchain__line::before, .dimchain__line::after {
+      content: ""; position: absolute; top: 50%; width: 0; height: 0;
+      border-block: 5px solid transparent; transform: translateY(-50%);
+    }
+    .dimchain__line::before { left: -2px; border-right: 9px solid currentColor; }
+    .dimchain__line::after { right: -2px; border-left: 9px solid currentColor; }
+    .dimchain__year {
+      position: absolute; bottom: 0; left: 0; transform: translateX(-50%);
+      font-size: 0.8rem; font-weight: 560; color: var(--ink-3); font-variant-numeric: tabular-nums;
+    }
+    .dimchain__year--end { left: auto; right: 0; transform: translateX(50%); }
+    .dimchain__seg:hover { color: var(--ink); }
+    .dimchain__seg:hover .dimchain__line { color: var(--cobalt); }
+    .dimchain__seg[aria-selected="true"] { color: var(--ink); background: linear-gradient(180deg, var(--cobalt-wash), transparent 85%); }
+    .dimchain__seg[aria-selected="true"] .dimchain__line { color: var(--cobalt); height: 3px; }
+    .dimchain__seg[aria-selected="true"] .dimchain__label { font-weight: 760; }
+    .dimchain__gap { flex: 0 0 38px; display: grid; place-items: start center; padding-top: 30px; color: var(--rule-strong); }
+    .dimchain__gap svg { width: 30px; height: 16px; }
+    .dimchain__years-mobile { display: none; }
+
+    .js .role:not(.is-active) { display: none; }
+    .role { max-width: 80ch; }
+    .role + .role { margin-top: 28px; }
+    .js .role + .role { margin-top: 0; }
+    .role__title { font-size: 1.6rem; }
+    .role__meta { margin: 6px 0 14px; color: var(--ink-2); }
+    .role__meta strong { color: var(--ink); font-weight: 620; }
+    .role__bullets { list-style: none; display: grid; gap: 10px; }
+    .role__bullets li { position: relative; padding-left: 22px; }
+    .role__bullets li::before {
+      content: ""; position: absolute; left: 2px; top: 0.62em;
+      width: 9px; height: 2px; background: var(--cobalt);
+    }
+
+    .feature {
+      display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px 36px;
+      padding: 28px 30px; border-top: 4px solid var(--blueprint);
+    }
+    .feature__aside { display: flex; flex-direction: column; gap: 18px; padding-left: 30px; border-left: 1px solid var(--rule); }
+    .feature__built h4 { font-size: 0.86rem; font-weight: 650; font-stretch: 90%; color: var(--ink-3); margin-bottom: 4px; }
+    .feature__built p { font-size: 0.95rem; color: var(--ink-2); }
+    .feature__status {
+      display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px;
+      padding: 5px 10px; border: 1.5px solid var(--cobalt); border-radius: var(--radius-control);
+      color: var(--cobalt-ink); font-size: 0.85rem; font-weight: 650; font-stretch: 92%;
+    }
+    .feature__status svg { width: 15px; height: 15px; }
+    .feature__title { font-size: 2.05rem; margin-bottom: 18px; }
+    .spec { margin: 0; display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px 20px; }
+    .spec dt { font-size: 0.86rem; font-weight: 650; font-stretch: 90%; color: var(--ink-3); padding-top: 2px; }
+    .spec dd { margin: 0; max-width: 72ch; }
+    .feature .spec dd { color: var(--ink); }
+    /* Dashed outline = planned work, like phantom lines on a drawing */
+    .feature__next {
+      padding: 16px 18px;
+      border: 1.5px dashed var(--cobalt); border-radius: 8px; background: #f7f9ff;
+    }
+    .feature__next h4 { font-size: 1.15rem; margin-bottom: 6px; color: var(--cobalt-ink); }
+    .feature__next p { color: var(--ink); font-size: 0.97rem; }
+
+    .projects { margin-top: 28px; border-top: 1px solid var(--rule); }
+    .project { border-bottom: 1px solid var(--rule); }
+    .project > summary {
+      display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px 20px;
+      padding: 16px 4px;
+    }
+    .project__title { font-size: 1.28rem; display: block; }
+    .project__impact { display: block; color: var(--ink-2); font-size: 0.95rem; margin-top: 3px; }
+    .project > summary:hover .project__title { color: var(--cobalt-ink); }
+    .project__body { padding: 2px 4px 22px; }
+    .project__body .tags { margin-top: 16px; }
+
+    .skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); background: var(--sheet); border-radius: var(--radius-sheet); overflow: hidden; }
+    .skills__group { padding: 20px 22px 22px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .skills__name { font-size: 1.2rem; margin-bottom: 12px; }
+    .skills__list { list-style: none; display: grid; gap: 9px; }
+    .skill { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px 12px; }
+    .skill__name { font-size: 0.93rem; line-height: 1.3; }
+    .meter { display: inline-flex; gap: 3px; }
+    .meter i { width: 14px; height: 7px; border-radius: 1.5px; background: var(--rule); }
+    .meter i.is-on { background: var(--cobalt); }
+    .legend { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--ink-3); font-size: 0.85rem; }
+    .legend span { display: inline-flex; align-items: center; gap: 8px; }
+
+    /* ── Tab 3: Side Ventures ────────────────────────────────── */
+    .ventures-intro { max-width: 62ch; color: var(--ink-2); font-size: 1.08rem; margin-bottom: 28px; }
+    .ventures { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; align-items: start; }
+
+    .venture { overflow: hidden; display: flex; flex-direction: column; }
+    .venture__brand { display: flex; align-items: center; gap: 18px; padding: 26px 26px 24px; }
+    .venture__logo { flex: none; width: 76px; height: 76px; object-fit: contain; }
+    .venture__name { font-size: 1.9rem; line-height: 1.05; }
+    .venture__tagline { margin: 6px 0 0; font-size: 1rem; line-height: 1.4; }
+    .venture__body { padding: 22px 26px 26px; display: flex; flex-direction: column; gap: 14px; }
+    .venture__role { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; color: var(--ink-2); }
+    .venture__role strong { color: var(--ink); font-weight: 700; font-size: 1.05rem; }
+    .venture__status { padding: 2px 9px; border-radius: 999px; font-size: 0.8rem; font-weight: 650; font-stretch: 92%; }
+    .venture__summary { margin: 0; }
+    .venture__highlights { list-style: none; display: grid; gap: 8px; }
+    .venture__highlights li { position: relative; padding-left: 20px; color: var(--ink-2); }
+    .venture__highlights li::before { content: ""; position: absolute; left: 2px; top: 0.62em; width: 8px; height: 2px; }
+    .venture__cta { align-self: flex-start; margin-top: 4px; }
+
+    /* Holigram: dark-first brand — the mark is never shown on white */
+    .venture--holigram .venture__brand {
+      background:
+        radial-gradient(120% 140% at 0% 0%, rgba(40, 194, 242, 0.28), transparent 55%),
+        radial-gradient(90% 120% at 100% 100%, rgba(45, 108, 240, 0.30), transparent 60%),
+        #050b18;
+      color: #e8f3ff;
+    }
+    .venture--holigram .venture__logo { filter: drop-shadow(0 0 18px rgba(40, 194, 242, 0.45)); }
+    .venture--holigram .venture__name { font-family: "Holigram Wordmark", Roboto, "Helvetica Neue", Arial, sans-serif; font-weight: 800; font-stretch: 100%; letter-spacing: -0.5px; }
+    .venture--holigram .venture__tagline { color: #8fa8c8; }
+    .venture--holigram .venture__status { background: #e0f6fd; color: #04506b; }
+    .venture--holigram .venture__highlights li::before { background: #28c2f2; }
+    .venture--holigram .venture__cta { background: #28c2f2; color: #050b18; }
+    .venture--holigram .venture__cta:hover { background: #5fd8ff; color: #050b18; }
+
+    /* Hourglass Trader: black and gold */
+    .venture--hourglass .venture__brand {
+      background:
+        radial-gradient(110% 130% at 100% 0%, rgba(215, 180, 90, 0.20), transparent 55%),
+        #050604;
+      color: #f4f3ec;
+      border-bottom: 3px solid #d4af37;
+    }
+    .venture--hourglass .venture__logo { background: #fff; border-radius: 14px; padding: 4px; }
+    .venture--hourglass .venture__name { color: #d7b45a; }
+    .venture--hourglass .venture__tagline { color: #d9d9d0; }
+    .venture--hourglass .venture__highlights li::before { background: #c49b30; }
+    .venture--hourglass .venture__cta { background: #d4af37; color: #050604; }
+    .venture--hourglass .venture__cta:hover { background: #f0d060; color: #050604; }
+
+    /* ── Tab 4: About Me ─────────────────────────────────────── */
+    .about-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+    .about-grid + .about-grid { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule); }
+    .about-grid > div > .block + .block { margin-top: 40px; }
+
+    .group-label { font-size: 1.02rem; font-weight: 650; font-stretch: 88%; color: var(--ink-2); margin: 22px 0 8px; }
+    .group-label:first-of-type { margin-top: 0; }
+
+    .quotes { border-top: 1px solid var(--rule); }
+    .quote { border-bottom: 1px solid var(--rule); }
+    .quote > summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; align-items: start; padding: 15px 2px; }
+    .quote__highlight { font-size: 1.14rem; line-height: 1.4; font-weight: 560; color: var(--ink); }
+    .quote__by { grid-column: 1; color: var(--ink-3); font-size: 0.9rem; }
+    .quote > summary .chev { grid-column: 2; grid-row: 1 / span 2; margin-top: 2px; }
+    .quote > summary:hover .quote__highlight { color: var(--cobalt-ink); }
+    .quote__full { margin: 0 0 16px; padding: 2px 0 2px 16px; border-left: 3px solid var(--cobalt); color: var(--ink-2); }
+    .quote__full p { margin-bottom: 6px; }
+    .quote__src { font-size: 0.86rem; color: var(--ink-3); }
+    .quote--static { margin: 0; padding: 15px 2px; }
+    .quote--static blockquote { margin: 0; font-size: 1.14rem; line-height: 1.4; font-weight: 560; }
+    .quote--static figcaption { color: var(--ink-3); font-size: 0.9rem; margin-top: 4px; }
+
+    .awards { list-style: none; display: grid; gap: 12px; }
+    .award { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 2px 12px; padding: 14px 16px; }
+    .award__icon { grid-row: span 2; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--cobalt-wash); color: var(--cobalt-ink); }
+    .award__icon svg { width: 18px; height: 18px; }
+    .award__title { font-weight: 700; line-height: 1.3; }
+    .award__detail { color: var(--ink-2); font-size: 0.93rem; }
+
+    .traits { margin: 0; display: grid; gap: 16px; }
+    .traits dt { font-weight: 700; }
+    .traits dd { margin: 2px 0 0; color: var(--ink-2); }
+
+    .types { display: grid; gap: 10px; }
+    .type { padding: 0 16px; }
+    .type > summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 14px; padding: 13px 0; }
+    .type__result { font-size: 1.35rem; }
+    .type__system { grid-column: 1; color: var(--ink-3); font-size: 0.88rem; }
+    .type > summary .chev { grid-column: 2; grid-row: 1 / span 2; }
+    .type__body { padding: 0 0 16px; color: var(--ink-2); font-size: 0.95rem; }
+
+    .hobbies { list-style: none; display: grid; gap: 16px; }
+    .hobby__name { font-weight: 700; }
+    .hobby__items { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .hobby__items li { padding: 3px 10px; border: 1px solid var(--rule-strong); border-radius: 999px; font-size: 0.85rem; color: var(--ink-2); background: var(--sheet); }
+    .family { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--rule); }
+    .family p { margin-top: 4px; color: var(--ink-2); }
+
+    .books { list-style: none; display: grid; gap: 14px; }
+    .book__title { font-weight: 700; line-height: 1.3; }
+    .book__author { color: var(--ink-3); font-size: 0.88rem; }
+    .book__insight { color: var(--ink-2); font-size: 0.95rem; margin-top: 3px; }
+    .books-more { margin-top: 14px; }
+    .books-more > summary { display: inline-flex; align-items: center; gap: 10px; color: var(--cobalt); font-weight: 650; font-stretch: 92%; }
+    .books-more[open] > summary { margin-bottom: 14px; }
+    .books-more .when-open, .books-more[open] .when-closed { display: none; }
+    .books-more[open] .when-open { display: inline; }
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    .colophon { padding-top: 28px; padding-bottom: 40px; border-top: 1px solid var(--rule); color: var(--ink-3); font-size: 0.86rem; }
+    .colophon p { max-width: 90ch; }
+    .colophon__stamp { margin-top: 10px; color: var(--ink-2); font-weight: 600; }
+
+    /* ── Résumé viewer dialog (behavior in assets/js/resume-viewer.js) ── */
+    .resume-dialog {
+      width: min(1000px, 94vw); height: 92vh; max-width: none; max-height: none;
+      padding: 0; border: 1px solid var(--rule); border-radius: 12px;
+      background: var(--sheet); color: var(--ink);
+      box-shadow: 0 30px 80px -30px rgba(6, 20, 48, 0.6);
+    }
+    .resume-dialog[open] { display: flex; flex-direction: column; }
+    body:has(.resume-dialog[open]) { overflow: hidden; }
+    .resume-dialog::backdrop { background: rgba(6, 20, 48, 0.62); }
+    .resume-dialog__bar { display: flex; align-items: center; gap: 10px; padding: 10px 12px 10px 18px; border-bottom: 1px solid var(--rule); }
+    .resume-dialog__bar h2 { margin-right: auto; font-size: 1.3rem; font-stretch: 74%; font-weight: 740; }
+    .resume-dialog__download {
+      display: inline-flex; align-items: center; min-height: 38px; padding: 7px 14px;
+      border-radius: var(--radius-control); background: var(--hivis); color: var(--hivis-ink);
+      font-weight: 650; font-stretch: 92%; font-size: 0.92rem; text-decoration: none;
+    }
+    .resume-dialog__download:hover { background: #ff843f; color: var(--hivis-ink); }
+    .resume-dialog__close {
+      width: 38px; height: 38px; border: 1.5px solid var(--rule-strong); border-radius: var(--radius-control);
+      background: var(--sheet); color: var(--ink); font-size: 1.4rem; line-height: 1; cursor: pointer;
+    }
+    .resume-dialog__close:hover { border-color: var(--cobalt); color: var(--cobalt); }
+    .resume-dialog__viewer { flex: 1; min-height: 0; position: relative; background: var(--paper); }
+
+    /* ── Responsive ──────────────────────────────────────────── */
+    @media (max-width: 1080px) {
+      .profile-grid { grid-template-columns: minmax(0, 1fr) 300px; gap: 36px; }
+      .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .ventures { grid-template-columns: 1fr; max-width: 720px; }
+      .about-grid { grid-template-columns: 1fr; gap: 0; }
+      .about-grid > div + div { margin-top: 40px; }
+    }
+
+    @media (max-width: 860px) {
+      .titleblock { grid-template-columns: 112px minmax(0, 1fr); grid-template-areas: "portrait id" "portrait actions" "cells cells"; }
+      .titleblock__portrait img { width: 84px; height: 84px; }
+      .titleblock__cells { grid-template-rows: none; grid-template-columns: repeat(2, minmax(0, 1fr)); border-left: 0; border-top: 1px solid var(--line-on-blue); }
+      .titleblock__cell + .titleblock__cell { border-top: 0; }
+      .titleblock__cell:nth-child(even) { border-left: 1px solid var(--line-on-blue); }
+      .titleblock__cell:nth-child(n + 3) { border-top: 1px solid var(--line-on-blue); }
+      .profile-grid { grid-template-columns: 1fr; }
+      .profile-aside { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+      .feature { grid-template-columns: 1fr; }
+      .feature__aside { padding: 20px 0 0; border-left: 0; border-top: 1px solid var(--rule); }
+    }
+
+    @media (max-width: 640px) {
+      :root { --gutter: 16px; }
+      .masthead { padding: 16px 0 16px; }
+      .titleblock { grid-template-columns: 84px minmax(0, 1fr); grid-template-areas: "portrait id" "actions actions" "cells cells"; grid-template-rows: auto; }
+      .titleblock__portrait { border-right: 0; place-items: start; padding: 16px 0 0 16px; }
+      .titleblock__portrait img { width: 68px; height: 68px; }
+      .titleblock__id { padding: 14px 16px 0 12px; justify-content: flex-start; gap: 2px; }
+      .titleblock__name { font-size: 2.35rem; }
+      .titleblock__role { font-size: 1.15rem; }
+      .titleblock__focus { font-size: 0.92rem; line-height: 1.4; }
+      .titleblock__actions { padding: 14px 16px 16px; }
+      .titleblock__actions .btn { flex: 1 1 0; padding-inline: 10px; }
+      .titleblock__cells { grid-template-columns: 1fr; }
+      .titleblock__cell { flex-direction: row; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 16px; }
+      .titleblock__cell dd { text-align: right; }
+      .titleblock__cell:nth-child(even) { border-left: 0; }
+      .titleblock__cell + .titleblock__cell { border-top: 1px solid var(--line-on-blue); }
+      .sheet-tab { padding: 10px 14px 11px; font-size: 0.98rem; }
+      .content { padding-top: 28px; }
+      .block__title { font-size: 1.7rem; }
+      .lead { font-size: 1.16rem; }
+      .profile-aside { grid-template-columns: 1fr; }
+      .dimchain { flex-direction: column; margin-bottom: 20px; border-left: 2px solid var(--rule-strong); }
+      .dimchain__seg { flex: none; min-width: 0; display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; padding: 10px 12px; text-align: left; border-left: 0; }
+      .dimchain__seg.is-last { border-right: 0; }
+      .dimchain__label { grid-column: 2; grid-row: 1; padding: 0; }
+      .dimchain__line { display: none; }
+      .dimchain__year { position: static; transform: none; grid-column: 1; grid-row: 1; font-size: 0.86rem; }
+      .dimchain__year--end { display: none; }
+      .dimchain__years-mobile { display: inline; }
+      .dimchain__seg[aria-selected="true"] { background: var(--cobalt-wash); box-shadow: inset 3px 0 0 var(--cobalt); }
+      .dimchain__gap { display: none; }
+      .feature { padding: 22px 18px; }
+      .feature__title { font-size: 1.7rem; }
+      .spec { grid-template-columns: 1fr; gap: 2px; }
+      .spec dd + dt { margin-top: 12px; }
+      .skills { grid-template-columns: 1fr; }
+      .venture__brand { padding: 20px; gap: 14px; }
+      .venture__logo { width: 60px; height: 60px; }
+      .venture__name { font-size: 1.6rem; }
+      .venture__body { padding: 18px 20px 22px; }
+      .resume-dialog { width: 100vw; height: 100dvh; border-radius: 0; border: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    }
+
+    @media print {
+      .sheet-tabs, .skip-link, .titleblock__actions, .resume-card, .resume-dialog, .letter__more > summary, .books-more > summary { display: none !important; }
+      .js .panel:not(.is-active), .js .role:not(.is-active) { display: block; }
+      details > *:not(summary) { display: block; }
+      .masthead { background: none; color: var(--ink); padding: 0 0 16px; }
+      .titleblock, .titleblock > * + * { border-color: var(--rule-strong); }
+      .titleblock__name, .titleblock__cell a { color: var(--ink); }
+      .titleblock__focus, .titleblock__cell dt { color: var(--ink-3); }
     }
   </style>
 </head>
 <body>
-  <div class="shell">
+  {% macro external_icon() -%}
+  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 2.5h4v4M13.5 2.5 7 9M11.5 9.5v3a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3"/></svg>
+  {%- endmacro %}
+  {% macro download_icon() -%}
+  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5v7.5M4.75 7 8 10.25 11.25 7M3 13.5h10"/></svg>
+  {%- endmacro %}
 
-    <!-- ── Hero ─────────────────────────────────────────────── -->
-    <section class="hero">
-      <img class="hero-avatar" src="{{ person.avatar_src }}" alt="{{ person.name }}" />
-      <div class="hero-identity">
-        <h1>{{ person.name }}</h1>
-        <p class="hero-subtitle">{{ person.title }}</p>
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <!-- ══ Masthead: title block ═══════════════════════════════════ -->
+  <header class="masthead">
+    <div class="wrap">
+      <div class="titleblock">
+        <div class="titleblock__portrait">
+          <img src="{{ person.avatar_src }}" alt="Portrait of {{ person.name }}" width="100" height="100" />
+        </div>
+        <div class="titleblock__id">
+          <h1 class="titleblock__name display">{{ person.name }}</h1>
+          <p class="titleblock__role">{{ person.role }}</p>
+          <p class="titleblock__focus">{{ person.focus }}</p>
+        </div>
+        <div class="titleblock__actions">
+          {% if assets.resume_pdf %}
+          <a class="btn btn--hivis" href="{{ assets.resume_pdf }}" download="{{ resume.file_name }}" aria-label="Download résumé (PDF)">{{ download_icon() }}<span class="lbl-long">Download résumé</span><span class="lbl-short">Résumé PDF</span></a>
+          <button type="button" class="btn btn--on-blue" data-resume-open aria-label="View résumé"><span class="lbl-long">View résumé</span><span class="lbl-short">View</span></button>
+          {% endif %}
+        </div>
+        <dl class="titleblock__cells">
+          <div class="titleblock__cell"><dt>Based in</dt><dd>{{ person.location }}</dd></div>
+          <div class="titleblock__cell"><dt>Email</dt><dd><a href="mailto:{{ person.email }}">{{ person.email }}</a></dd></div>
+          <div class="titleblock__cell"><dt>Phone</dt><dd><a href="tel:{{ person.phone_href }}">{{ person.phone }}</a></dd></div>
+          <div class="titleblock__cell"><dt>LinkedIn</dt><dd><a href="{{ person.linkedin }}" target="_blank" rel="noopener">{{ person.linkedin_display }}</a></dd></div>
+        </dl>
       </div>
-      <div class="hero-contact">
-        <span>{{ person.location }}</span>
-        <a href="mailto:{{ person.email }}">{{ person.email }}</a>
-        <a href="tel:{{ person.phone }}">{{ person.phone }}</a>
-        <a href="{{ person.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </header>
+
+  <nav class="sheet-tabs" aria-label="Sections">
+    <div class="wrap">
+      <div class="sheet-tabs__list" role="tablist">
+        {% for tab in tabs %}
+        <button type="button" class="sheet-tab" role="tab" id="tab-{{ tab.id }}" data-tab="{{ tab.id }}"
+                aria-controls="panel-{{ tab.id }}" aria-selected="{{ 'true' if loop.first else 'false' }}"{% if not loop.first %} tabindex="-1"{% endif %}><span class="lbl-long">{{ tab.label }}</span><span class="lbl-short">{{ tab.short }}</span></button>
+        {% endfor %}
+      </div>
+    </div>
+  </nav>
+
+  <main id="content" class="content wrap" tabindex="-1">
+
+    <!-- ══ Tab 1 — Profile ═════════════════════════════════════ -->
+    <section class="panel is-active" id="panel-profile" role="tabpanel" aria-labelledby="tab-profile">
+      <div class="profile-grid">
+        <div class="profile-main">
+          <div class="block">
+            <h2 class="visually-hidden">Professional summary</h2>
+            <p class="lead">{{ profile.summary }}</p>
+          </div>
+
+          {% set letter = profile.cover_letter.split('\n\n') %}
+          <div class="block letter">
+            <div class="block__head"><h2 class="block__title display">Cover letter</h2></div>
+            {% for para in letter[:3] %}
+            <p>{{ para }}</p>
+            {% endfor %}
+            {% if letter|length > 3 %}
+            <details class="letter__more">
+              <summary><span class="when-closed">Read the full letter</span><span class="when-open">Show less</span><span class="chev" aria-hidden="true"></span></summary>
+              {% for para in letter[3:] %}
+              <p{% if loop.last %} class="letter__sign"{% endif %}>{{ para }}</p>
+              {% endfor %}
+            </details>
+            {% endif %}
+          </div>
+        </div>
+
+        <aside class="profile-aside">
+          {% if assets.resume_pdf %}
+          <section class="resume-card sheet" aria-labelledby="resume-card-title">
+            <h2 class="resume-card__title display" id="resume-card-title">Résumé</h2>
+            <p class="resume-card__meta">One page, PDF. Updated {{ profile.compiled }}.</p>
+            {% if assets.resume_preview %}
+            <button type="button" class="resume-card__preview" data-resume-open aria-label="Open the résumé viewer">
+              <img src="{{ assets.resume_preview }}" alt="Page 1 of {{ person.name }}'s résumé" width="1200" height="1553" loading="lazy" />
+            </button>
+            {% endif %}
+            <div class="resume-card__actions">
+              <button type="button" class="btn btn--cobalt" data-resume-open>View</button>
+              <a class="btn btn--line" href="{{ assets.resume_pdf }}" download="{{ resume.file_name }}">{{ download_icon() }}Download</a>
+            </div>
+          </section>
+          {% endif %}
+
+          <section aria-labelledby="edu-title">
+            <h2 class="subhead display" id="edu-title">Education</h2>
+            <ul class="edu">
+              {% for edu in education %}
+              <li>
+                <div class="edu__degree">{{ edu.degree }}</div>
+                <div class="edu__school">{{ edu.school }}</div>
+                <div class="edu__detail">{{ edu.detail }}</div>
+              </li>
+              {% endfor %}
+            </ul>
+          </section>
+        </aside>
       </div>
     </section>
 
-    <!-- ── Tab bar ───────────────────────────────────────────── -->
-    <section class="workspace">
-      <div class="tab-bar" id="tabBar">
-        {% for tab in tabs %}
-        <button class="tab-button{% if loop.first %} is-active{% endif %}"
-                data-tab="{{ tab.id }}">{{ tab.label }}</button>
-        {% endfor %}
-      </div>
+    <!-- ══ Tab 2 — Work & Projects ═════════════════════════════ -->
+    <section class="panel" id="panel-work" role="tabpanel" aria-labelledby="tab-work">
 
-      <div class="tab-content" id="tabContent">
-
-        <!-- ══════════════════════════════════════════════════════
-             TAB 1 — PROFILE
-        ═══════════════════════════════════════════════════════ -->
-        <div class="tab-panel is-active" id="tab-profile">
-          <div class="profile-grid">
-
-            <!-- Left column -->
-            <div class="profile-left">
-
-              <div class="card">
-                <div class="card-title">Contact</div>
-                <ul class="contact-list">
-                  <li><span class="contact-icon">&#9993;</span><a href="mailto:{{ person.email }}">{{ person.email }}</a></li>
-                  <li><span class="contact-icon">&#9742;</span>{{ person.phone }}</li>
-                  <li><span class="contact-icon">&#128205;</span>{{ person.location }}</li>
-                  <li><span class="contact-icon">&#128279;</span><a href="{{ person.linkedin }}" target="_blank" rel="noopener">LinkedIn Profile</a></li>
-                </ul>
-              </div>
-
-              <div class="card">
-                <div class="card-title">Education</div>
-                {% for edu in education %}
-                <div class="edu-item">
-                  <div class="edu-degree">{{ edu.degree }}</div>
-                  <div class="edu-school">{{ edu.school }}</div>
-                  <div class="edu-detail">{{ edu.detail }}</div>
-                </div>
-                {% endfor %}
-              </div>
-
-              <div class="card">
-                <div class="card-title">Disclaimer</div>
-                <p class="disclaimer-text">{{ profile.disclaimer }}</p>
-              </div>
-
-            </div>
-
-            <!-- Right column -->
-            <div class="profile-right">
-
-              <div class="card">
-                <div class="card-title">Professional Summary</div>
-                <p class="summary-text">{{ profile.summary }}</p>
-              </div>
-
-              <div class="card">
-                <div class="card-title">Cover Letter</div>
-                <p class="cover-letter-text">{{ profile.cover_letter }}</p>
-              </div>
-
-            </div>
-          </div>
+      <div class="block">
+        <div class="block__head">
+          <h2 class="block__title display">Experience</h2>
+          <p class="block__note">Each span is drawn to scale. Select one to read the role.</p>
         </div>
 
-        <!-- ══════════════════════════════════════════════════════
-             TAB 2 — WORK EXPERIENCE & PROJECTS
-        ═══════════════════════════════════════════════════════ -->
-        <div class="tab-panel" id="tab-work">
-
-          <!-- Section A: Work History Carousel -->
-          <div class="card" style="margin-bottom:18px;">
-            <h2 class="work-section-title">Work History</h2>
-            <div class="carousel-wrap" id="workCarousel">
-              <div class="carousel-track">
-                {% for role in roles %}
-                <div class="carousel-slide{% if loop.first %} is-active{% endif %}" data-index="{{ loop.index0 }}">
-                  <div class="role-header">
-                    <div>
-                      <p class="role-title">{{ role.title }}</p>
-                      <span class="role-company">{{ role.company }}</span>
-                    </div>
-                    <span class="role-period">{{ role.period }}</span>
-                  </div>
-                  <ul class="role-bullets">
-                    {% for bullet in role.bullets %}
-                    <li>{{ bullet }}</li>
-                    {% endfor %}
-                  </ul>
-                </div>
-                {% endfor %}
-              </div>
-              <div class="carousel-controls">
-                <button class="carousel-arrow" id="workPrev" aria-label="Previous role">&#8592;</button>
-                <div class="carousel-dots" id="workDots">
-                  {% for role in roles %}
-                  <div class="carousel-dot{% if loop.first %} is-active{% endif %}" data-index="{{ loop.index0 }}"></div>
-                  {% endfor %}
-                </div>
-                <span class="carousel-counter" id="workCounter">1 / {{ roles|length }}</span>
-                <button class="carousel-arrow" id="workNext" aria-label="Next role">&#8594;</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Section B: Project Highlights -->
-          <div style="margin-bottom:18px;">
-            <h2 class="work-section-title" style="padding:0 0 6px; border-bottom:1px solid var(--line); margin-bottom:14px;">
-              Project Highlights
-            </h2>
-            {% for project in projects %}
-            <div class="project-card">
-              <p class="project-title">{{ project.title }}</p>
-              <div class="project-meta">
-                {% for tag in project.tags %}
-                <span class="badge">{{ tag }}</span>
-                {% endfor %}
-              </div>
-              <div class="project-row">
-                <span class="project-row-label">Problem</span>
-                <span>{{ project.problem }}</span>
-              </div>
-              <div class="project-row">
-                <span class="project-row-label">Solution</span>
-                <span>{{ project.solution }}</span>
-              </div>
-              <div class="project-row">
-                <span class="project-row-label">Tech</span>
-                <span>{{ project.tech }}</span>
-              </div>
-              <div class="project-row">
-                <span class="project-row-label">Impact</span>
-                <span>{{ project.impact }}</span>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-
-          <!-- Section C: Skills -->
-          <div class="card" style="margin-bottom:18px;">
-            <h2 class="work-section-title">Skills &amp; Proficiency</h2>
-            {% for group in skills %}
-            <div class="skill-group">
-              <div class="skill-group-label">{{ group.category }}</div>
-              {% for skill in group.skills %}
-              <div class="skill-row">
-                <span class="skill-name">{{ skill.name }}</span>
-                <div class="skill-bar-wrap">
-                  <div class="skill-bar" style="width:{{ skill.pct }}%"></div>
-                </div>
-                <span class="skill-level">{{ skill.level }}</span>
-              </div>
-              {% endfor %}
-            </div>
-            {% endfor %}
-          </div>
-
-        </div>
-
-        <!-- ══════════════════════════════════════════════════════
-             TAB 3 — TESTIMONIALS
-        ═══════════════════════════════════════════════════════ -->
-        <div class="tab-panel" id="tab-testimonials">
-          {% for group in testimonials %}
-          <div class="testimonial-group-section">
-            <div class="testimonial-group-title">{{ group.group }}</div>
-            {% for t in group.quotes %}
-            <div class="testimonial-card">
-              <p class="testimonial-quote">{{ t.quote }}</p>
-              <div class="testimonial-attribution">{{ t.name }}</div>
-              <div class="testimonial-role">{{ t.role }}</div>
-            </div>
-            {% endfor %}
-          </div>
+        <div class="dimchain" role="tablist" aria-label="Roles by date">
+          {% for seg in timeline %}
+          {% if seg.kind == 'gap' %}
+          <span class="dimchain__gap" aria-hidden="true" title="{{ seg.start }}–{{ seg.end }}">
+            <svg viewBox="0 0 30 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h7l3-6 4 12 4-12 3 6h9"/></svg>
+          </span>
+          {% else %}
+          {% set role = roles[seg.index] %}
+          {% set next = timeline[loop.index] if not loop.last else none %}
+          <button type="button" class="dimchain__seg{% if loop.last or (next and next.kind == 'gap') %} is-last{% endif %}" role="tab"
+                  id="role-tab-{{ seg.index }}" data-role="{{ seg.index }}" aria-controls="role-{{ seg.index }}"
+                  aria-selected="{{ 'true' if seg.index == 0 else 'false' }}"{% if seg.index != 0 %} tabindex="-1"{% endif %}
+                  style="--span: {{ seg.span }}">
+            <span class="dimchain__label">{{ role.short }}</span>
+            <span class="dimchain__line" aria-hidden="true"></span>
+            <span class="dimchain__year">{{ seg.start }}<span class="dimchain__years-mobile">–{{ seg.end_label }}</span></span>
+            {% if loop.last or (next and next.kind == 'gap') %}<span class="dimchain__year dimchain__year--end" aria-hidden="true">{{ seg.end_label }}</span>{% endif %}
+          </button>
+          {% endif %}
           {% endfor %}
         </div>
 
-        <!-- ══════════════════════════════════════════════════════
-             TAB 4 — ABOUT ME
-        ═══════════════════════════════════════════════════════ -->
-        <div class="tab-panel" id="tab-about">
-          <div class="two-col">
+        {% for role in roles %}
+        <article class="role{% if loop.first %} is-active{% endif %}" id="role-{{ loop.index0 }}" role="tabpanel" aria-labelledby="role-tab-{{ loop.index0 }}">
+          <h3 class="role__title display">{{ role.title }}</h3>
+          <p class="role__meta"><strong>{{ role.company }}</strong>, {{ role.period }}</p>
+          <ul class="role__bullets">
+            {% for bullet in role.bullets %}
+            <li>{{ bullet }}</li>
+            {% endfor %}
+          </ul>
+        </article>
+        {% endfor %}
+      </div>
 
-            <!-- Left -->
-            <div>
-              <div class="card" style="margin-bottom:18px;">
-                <div class="card-title">Personal Interests &amp; Hobbies</div>
-                <div>
-                  {% for hobby in about.hobbies %}
-                  <span class="hobby-chip">{{ hobby }}</span>
-                  {% endfor %}
-                </div>
-              </div>
+      <div class="block">
+        <div class="block__head"><h2 class="block__title display">Projects</h2></div>
 
-              <div class="card" style="margin-bottom:18px;">
-                <div class="card-title">Work Style</div>
-                {% for trait in about.personality if trait.group == 'style' %}
-                <div class="personality-row">
-                  <span class="personality-label">{{ trait.label }}</span>
-                  <span>{{ trait.value }}</span>
-                </div>
-                {% endfor %}
-              </div>
-
-              <div class="card" style="margin-bottom:18px;">
-                <div class="card-title">Personality Assessments</div>
-                {% for trait in about.personality if trait.group == 'test' %}
-                <div class="personality-row">
-                  <span class="personality-label">{{ trait.label }}</span>
-                  <span>{{ trait.value }}</span>
-                </div>
-                {% endfor %}
-              </div>
-
-              <div class="card">
-                <div class="card-title">Family</div>
-                {% for trait in about.personality if trait.group == 'family' %}
-                  {% if trait.sub_items %}
-                    {% for item in trait.sub_items %}
-                    <div class="personality-row">
-                      <span class="personality-label">{{ item.label }}</span>
-                      <span>{{ item.value }}</span>
-                    </div>
-                    {% endfor %}
-                  {% else %}
-                  <div class="personality-row">
-                    <span class="personality-label">{{ trait.label }}</span>
-                    <span>{{ trait.value }}</span>
-                  </div>
-                  {% endif %}
-                {% endfor %}
-              </div>
-            </div>
-
-            <!-- Right -->
-            <div class="card">
-              <div class="card-title">Influential Books</div>
-              {% for book in about.books %}
-              <div class="book-item">
-                <div class="book-dot"></div>
-                <div>
-                  <div class="book-title">{{ book.title }}</div>
-                  <div class="book-insight">{{ book.insight }}</div>
-                </div>
-              </div>
-              {% endfor %}
-            </div>
-
+        {% for p in projects if p.featured %}
+        <article class="feature sheet">
+          <div class="feature__main">
+            {% if p.status %}
+            <p class="feature__status"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3.5 8.5 3 3 6-7"/></svg>{{ p.status }}</p>
+            {% endif %}
+            <h3 class="feature__title display">{{ p.title }}</h3>
+            <dl class="spec">
+              <dt>Problem</dt><dd>{{ p.problem }}</dd>
+              <dt>Solution</dt><dd>{{ p.solution }}</dd>
+              <dt>Impact</dt><dd>{{ p.impact }}</dd>
+            </dl>
           </div>
-        </div>
+          <div class="feature__aside">
+            {% if p.next %}
+            <div class="feature__next">
+              <h4 class="display">What's next</h4>
+              <p>{{ p.next }}</p>
+            </div>
+            {% endif %}
+            <div class="feature__built">
+              <h4>Built with</h4>
+              <p>{{ p.tech }}</p>
+            </div>
+            <ul class="tags" aria-label="Tags">{% for tag in p.tags %}<li>{{ tag }}</li>{% endfor %}</ul>
+          </div>
+        </article>
+        {% endfor %}
 
-      </div><!-- /tab-content -->
+        <div class="projects">
+          {% for p in projects if not p.featured %}
+          <details class="project" name="projects">
+            <summary>
+              <span>
+                <span class="project__title display">{{ p.title }}</span>
+                <span class="project__impact">{{ p.impact_short }}</span>
+              </span>
+              <span class="chev" aria-hidden="true"></span>
+            </summary>
+            <div class="project__body">
+              <dl class="spec">
+                <dt>Problem</dt><dd>{{ p.problem }}</dd>
+                <dt>Solution</dt><dd>{{ p.solution }}</dd>
+                <dt>Impact</dt><dd>{{ p.impact }}</dd>
+                <dt>Built with</dt><dd>{{ p.tech }}</dd>
+              </dl>
+              <ul class="tags" aria-label="Tags">{% for tag in p.tags %}<li>{{ tag }}</li>{% endfor %}</ul>
+            </div>
+          </details>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block__head">
+          <h2 class="block__title display">Skills</h2>
+          <p class="legend" aria-hidden="true">
+            {% for level in ['Beginner', 'Intermediate', 'Advanced', 'Expert'] %}
+            {% set filled = loop.index %}
+            <span><span class="meter">{% for i in range(1, 5) %}<i{% if i <= filled %} class="is-on"{% endif %}></i>{% endfor %}</span>{{ level }}</span>
+            {% endfor %}
+          </p>
+        </div>
+        <div class="skills">
+          {% for group in skills %}
+          <section class="skills__group" aria-labelledby="skills-{{ loop.index }}">
+            <h3 class="skills__name display" id="skills-{{ loop.index }}">{{ group.category }}</h3>
+            <ul class="skills__list">
+              {% for skill in group.skills %}
+              <li class="skill">
+                <span class="skill__name">{{ skill.name }}</span>
+                <span class="meter" role="img" aria-label="{{ skill.level }}, {{ skill.level_index }} of 4" title="{{ skill.level }}">{% for i in range(1, 5) %}<i{% if i <= skill.level_index %} class="is-on"{% endif %}></i>{% endfor %}</span>
+              </li>
+              {% endfor %}
+            </ul>
+          </section>
+          {% endfor %}
+        </div>
+      </div>
     </section>
 
-  </div><!-- /shell -->
+    <!-- ══ Tab 3 — Side Ventures ═══════════════════════════════ -->
+    <section class="panel" id="panel-ventures" role="tabpanel" aria-labelledby="tab-ventures">
+      <div class="block__head"><h2 class="block__title display">Side ventures</h2></div>
+      <p class="ventures-intro">Products I build and teams I advise outside the day job. The short version is here; each site tells the rest.</p>
+      <div class="ventures">
+        {% for v in ventures %}
+        <article class="venture venture--{{ v.theme }} sheet" aria-labelledby="venture-{{ loop.index }}">
+          <header class="venture__brand">
+            {% if v.logo %}<img class="venture__logo" src="{{ v.logo }}" alt="{{ v.name }} logo" width="76" height="76" loading="lazy" />{% endif %}
+            <div>
+              <h3 class="venture__name display" id="venture-{{ loop.index }}">{{ v.name }}</h3>
+              {% if v.tagline %}<p class="venture__tagline">{{ v.tagline }}</p>{% endif %}
+            </div>
+          </header>
+          <div class="venture__body">
+            <p class="venture__role"><strong>{{ v.role }}</strong>{% if v.period %}<span>{{ v.period }}</span>{% endif %}{% if v.status %}<span class="venture__status">{{ v.status }}</span>{% endif %}</p>
+            <p class="venture__summary">{{ v.summary }}</p>
+            {% if v.highlights %}
+            <ul class="venture__highlights">
+              {% for item in v.highlights %}<li>{{ item }}</li>{% endfor %}
+            </ul>
+            {% endif %}
+            {% if v.tags %}<ul class="tags" aria-label="Tags">{% for tag in v.tags %}<li>{{ tag }}</li>{% endfor %}</ul>{% endif %}
+            <a class="btn venture__cta" href="{{ v.url }}" target="_blank" rel="noopener">Visit {{ v.url_display }}{{ external_icon() }}<span class="visually-hidden"> (opens in a new tab)</span></a>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- ══ Tab 4 — About Me ════════════════════════════════════ -->
+    <section class="panel" id="panel-about" role="tabpanel" aria-labelledby="tab-about">
+      <div class="about-grid">
+        <div>
+          <section class="block" aria-labelledby="quotes-title">
+            <div class="block__head">
+              <h2 class="block__title display" id="quotes-title">What colleagues say</h2>
+              <p class="block__note">From year-end reviews. Open a quote to read it in full.</p>
+            </div>
+            {% for group in testimonials %}
+            <h3 class="group-label">{{ group.group }}</h3>
+            <div class="quotes">
+              {% for q in group.quotes %}
+              {% if q.highlight %}
+              <details class="quote" name="quotes">
+                <summary>
+                  <span class="quote__highlight">“{{ q.highlight }}”</span>
+                  <span class="quote__by">{{ q.name }}{% if q.year %}, {{ q.year }}{% endif %}</span>
+                  <span class="chev" aria-hidden="true"></span>
+                </summary>
+                <blockquote class="quote__full">
+                  {% for para in q.quote.split('\n\n') %}<p>{{ para }}</p>{% endfor %}
+                </blockquote>
+                <p class="quote__src">{{ q.name }}, {{ q.role }}</p>
+              </details>
+              {% else %}
+              <figure class="quote quote--static">
+                <blockquote>“{{ q.quote }}”</blockquote>
+                <figcaption>{{ q.name }}, {{ q.role }}</figcaption>
+              </figure>
+              {% endif %}
+              {% endfor %}
+            </div>
+            {% endfor %}
+          </section>
+
+          {% if recognition %}
+          <section class="block" aria-labelledby="recognition-title">
+            <h2 class="subhead display" id="recognition-title">Recognition</h2>
+            <ul class="awards">
+              {% for a in recognition %}
+              <li class="award sheet">
+                <span class="award__icon" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="10" cy="8" r="5"/><path d="m7 12.2-1.5 5.3L10 15.4l4.5 2.1-1.5-5.3"/></svg></span>
+                <span class="award__title">{{ a.title }}</span>
+                <span class="award__detail">{{ a.detail }}{% if a.issuer %} ({{ a.issuer }}){% endif %}</span>
+              </li>
+              {% endfor %}
+            </ul>
+          </section>
+          {% endif %}
+        </div>
+
+        <div>
+          <section class="block" aria-labelledby="style-title">
+            <h2 class="subhead display" id="style-title">How Zach works</h2>
+            <dl class="traits">
+              {% for trait in about.personality if trait.group == 'style' %}
+              <div><dt>{{ trait.label }}</dt><dd>{{ trait.value }}</dd></div>
+              {% endfor %}
+            </dl>
+          </section>
+
+          <section class="block" aria-labelledby="types-title">
+            <h2 class="subhead display" id="types-title">Personality</h2>
+            <div class="types">
+              {% for trait in about.personality if trait.group == 'test' %}
+              <details class="type sheet" name="types">
+                <summary>
+                  <span class="type__result display">{{ trait.result }}</span>
+                  <span class="type__system">{{ trait.system }}</span>
+                  <span class="chev" aria-hidden="true"></span>
+                </summary>
+                <p class="type__body">{{ trait.value }}</p>
+              </details>
+              {% endfor %}
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div class="about-grid">
+        <section aria-labelledby="interests-title">
+          <h2 class="subhead display" id="interests-title">Outside work</h2>
+          <ul class="hobbies">
+            {% for hobby in about.hobbies %}
+            <li>
+              <div class="hobby__name">{{ hobby.name }}</div>
+              {% if hobby['items'] %}
+              <ul class="hobby__items">{% for item in hobby['items'] %}<li>{{ item }}</li>{% endfor %}</ul>
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+          {% for trait in about.personality if trait.group == 'family' %}
+          <div class="family">
+            <div class="hobby__name">{{ trait.label }}</div>
+            <p>{% for item in trait.sub_items %}{{ item.value }}{% if not loop.last %} {% endif %}{% endfor %}</p>
+          </div>
+          {% endfor %}
+        </section>
+
+        <section aria-labelledby="books-title">
+          <h2 class="subhead display" id="books-title">Books that shaped my thinking</h2>
+          {% macro book_item(book) -%}
+          <li>
+            <div class="book__title">{{ book.title }}</div>
+            {% if book.author %}<div class="book__author">{{ book.author }}</div>{% endif %}
+            <div class="book__insight">{{ book.insight }}</div>
+          </li>
+          {%- endmacro %}
+          <ul class="books">
+            {% for book in about.books[:5] %}{{ book_item(book) }}{% endfor %}
+          </ul>
+          {% if about.books|length > 5 %}
+          <details class="books-more">
+            <summary><span class="when-closed">Show {{ about.books|length - 5 }} more</span><span class="when-open">Show fewer</span><span class="chev" aria-hidden="true"></span></summary>
+            <ul class="books">
+              {% for book in about.books[5:] %}{{ book_item(book) }}{% endfor %}
+            </ul>
+          </details>
+          {% endif %}
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="colophon wrap">
+    <p>{{ profile.disclaimer }}</p>
+    <p class="colophon__stamp">Last compiled {{ profile.compiled }}</p>
+  </footer>
+
+  {% if assets.resume_pdf %}
+  <dialog id="resume-dialog" class="resume-dialog" aria-labelledby="resume-dialog-title"
+          data-pdf-url="{{ assets.resume_pdf }}"
+          data-preview-url="{{ assets.resume_preview }}"
+          data-css-url="{{ assets.viewer_css }}"
+          data-license-url="syncfusion-license.js">
+    <div class="resume-dialog__bar">
+      <h2 id="resume-dialog-title">Résumé</h2>
+      <a class="resume-dialog__download" href="{{ assets.resume_pdf }}" download="{{ resume.file_name }}">Download PDF</a>
+      <button type="button" class="resume-dialog__close" data-resume-close aria-label="Close résumé viewer">×</button>
+    </div>
+    <div id="resume-viewer" class="resume-dialog__viewer"></div>
+  </dialog>
+  <script src="{{ assets.viewer_js }}" defer></script>
+  {% endif %}
 
   <script>
-    const tabBar     = document.getElementById('tabBar');
-    const tabContent = document.getElementById('tabContent');
-
-    tabBar.querySelectorAll('.tab-button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        tabBar.querySelectorAll('.tab-button').forEach(b => b.classList.remove('is-active'));
-        tabContent.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('is-active'));
-        btn.classList.add('is-active');
-        const panel = document.getElementById('tab-' + btn.dataset.tab);
-        if (panel) panel.classList.add('is-active');
-      });
-    });
-
-    // Work History Carousel
+    // Tabs: a roving-tabindex tablist with deep links (#work, #ventures, #about)
     (function () {
-      const track   = document.querySelector('#workCarousel .carousel-track');
-      const slides  = Array.from(document.querySelectorAll('#workCarousel .carousel-slide'));
-      const dots    = Array.from(document.querySelectorAll('#workDots .carousel-dot'));
-      const counter = document.getElementById('workCounter');
-      const prev    = document.getElementById('workPrev');
-      const next    = document.getElementById('workNext');
-      let current   = 0;
-
-      // Measure tallest slide and lock track height so panel never resizes
-      function lockHeight() {
-        slides.forEach(s => {
-          s.style.position = 'relative';
-          s.style.visibility = 'visible';
+      function tablist(list, onSelect) {
+        var tabs = Array.prototype.slice.call(list.querySelectorAll('[role="tab"]'));
+        function select(tab, focus) {
+          tabs.forEach(function (t) {
+            var on = t === tab;
+            t.setAttribute("aria-selected", on ? "true" : "false");
+            t.tabIndex = on ? 0 : -1;
+            var panel = document.getElementById(t.getAttribute("aria-controls"));
+            if (panel) panel.classList.toggle("is-active", on);
+          });
+          if (focus) tab.focus();
+          if (onSelect) onSelect(tab);
+        }
+        list.addEventListener("click", function (e) {
+          var tab = e.target.closest('[role="tab"]');
+          if (tab) select(tab, false);
         });
-        const maxH = Math.max(...slides.map(s => s.offsetHeight));
-        slides.forEach(s => {
-          s.style.position = '';
-          s.style.visibility = '';
+        list.addEventListener("keydown", function (e) {
+          var i = tabs.indexOf(document.activeElement);
+          if (i < 0) return;
+          var next = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+          if (next === undefined) return;
+          e.preventDefault();
+          select(tabs[(next + tabs.length) % tabs.length], true);
         });
-        track.style.height = maxH + 'px';
+        return { tabs: tabs, select: select };
       }
 
-      lockHeight();
-      window.addEventListener('resize', lockHeight);
+      var nav = document.querySelector(".sheet-tabs");
+      var masthead = document.querySelector(".masthead");
+      var sheets = tablist(nav.querySelector('[role="tablist"]'), function (tab) {
+        var id = tab.dataset.tab;
+        history.replaceState(null, "", id === "profile" ? location.pathname + location.search : "#" + id);
+        tab.scrollIntoView({ block: "nearest", inline: "nearest" });
+        // Keep the new sheet's first line in view once the tab bar is stuck
+        var top = masthead.offsetHeight;
+        if (window.scrollY > top) window.scrollTo(0, top);
+      });
 
-      function goTo(idx) {
-        slides[current].classList.remove('is-active');
-        dots[current].classList.remove('is-active');
-        current = idx;
-        slides[current].classList.add('is-active');
-        dots[current].classList.add('is-active');
-        counter.textContent = (current + 1) + ' / ' + slides.length;
-        prev.disabled = current === 0;
-        next.disabled = current === slides.length - 1;
+      function fromHash() {
+        var id = location.hash.slice(1);
+        var tab = sheets.tabs.filter(function (t) { return t.dataset.tab === id; })[0];
+        if (tab) sheets.select(tab, false);
       }
+      fromHash();
+      window.addEventListener("hashchange", fromHash);
 
-      prev.addEventListener('click', () => { if (current > 0) goTo(current - 1); });
-      next.addEventListener('click', () => { if (current < slides.length - 1) goTo(current + 1); });
-      dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
-
-      goTo(0);
+      var chain = document.querySelector(".dimchain");
+      if (chain) tablist(chain);
     })();
   </script>
 </body>

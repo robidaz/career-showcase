@@ -11,9 +11,7 @@
 
 ## Disclaimer
 
-This website’s content was generated in a local VS Code environment using GitHub Copilot, powered by Anthropic’s Claude Sonnet 4.6 AI model. It draws from materials provided by Zach Robida, including his resume, cover letter, past performance reviews, and other supporting documents. Despite the AI-generated nature of this content, all information in this document has been independently verified for accuracy.
-
-This information was last compiled 4/25/2026 12:11AM GMT
+This website's content was generated in a local VS Code environment using GitHub Copilot and Claude Code, powered by Anthropic's Claude models. It draws from materials provided by Zach Robida, including his resume, cover letter, past performance reviews, and other supporting documents. Despite the AI-generated nature of this content, all information on this site has been independently verified for accuracy.
 
 ## Education
 
@@ -29,7 +27,7 @@ This information was last compiled 4/25/2026 12:11AM GMT
 
 ## Professional Summary
 
-Zach Robida is a Design Lead at Manhattan Associates with 8 years of experience delivering high-impact supply chain software solutions for federal government clients. He bridges the gap between functional design and technical implementation — translating complex business requirements into scalable, well-documented solutions on platforms ranging from cloud-native FedRAMP environments to modern Angular-based logistics applications. Zach is an automation-first thinker who actively embeds AI into his workflow, using GitHub Copilot and Glean among other tools to accelerate design documentation, reduce manual overhead, and raise the quality bar for his entire team. Recognized with a Spirit Award for Master Mentor in 2025, he consistently elevates the consultants around him through structured coaching, delegated ownership, and a relentless focus on process improvement.
+Zach Robida is a Design Lead at Manhattan Associates with eight years of experience delivering supply chain software for federal clients, from FedRAMP cloud environments to modern Angular logistics applications. He bridges functional design and technical implementation, turning complex business requirements into specifications developers can build from directly. An automation-first thinker, he built the AI-driven documentation platform his 25-person functional and development team now designs, builds, and tests from, and he founded Holigram, a private data home with a built-in AI assistant that he designed and shipped end to end. Recognized with a 2025 Spirit Award for Master Mentor, he raises the output of the people around him through structured coaching and delegated ownership.
 
 ## Cover Letter
 
@@ -41,7 +39,7 @@ Within my first year as a consultant at Manhattan Associates, I identified a cri
 
 Since then, I have expanded into a Design Lead role, responsible for delivering multi-million-dollar implementations and guiding solution design end-to-end. I work directly with clients to understand their business processes, define requirements, and architect solutions that are both technically sound and operationally practical. Across these engagements, I have consistently introduced automation and, more recently, AI-driven approaches to improve efficiency, reduce manual effort, and enhance decision-making.
 
-My focus today is on applying AI as a practical layer within real systems — not as a standalone capability, but as an integrated component that enhances workflows, accelerates development, and enables smarter operations. I am particularly interested in how AI-driven feedback loops can continuously refine systems over time, creating compounding gains in efficiency and quality.
+My focus today is on applying AI as a practical layer within real systems — not as a standalone capability, but as an integrated component that enhances workflows, accelerates development, and enables smarter operations. The documentation platform I built is a working example: it is now how my 25-person team designs, builds, and tests, and the foundation I am using to generate test flows and training directly from design. I am particularly interested in how AI-driven feedback loops can continuously refine systems over time, creating compounding gains in efficiency and quality.
 
 What differentiates me is not a specific toolset, but a mindset: I question assumptions, identify constraints, make tough decisions, and design solutions that scale. I am comfortable operating across technical implementation, system design, and stakeholder communication.
 
@@ -54,6 +52,8 @@ Zach Robida
 ### AI & Automation
 
 - GitHub Copilot (Instructions, Prompting, Agents) | Expert | 90
+- Claude Code & Agentic Workflows | Advanced | 85
+- MCP Servers & LLM APIs | Advanced | 80
 - Glean Collections & Memories | Advanced | 85
 - Automated Testing | Expert | 95
 - AI Workflow Integration | Advanced | 85
@@ -77,6 +77,7 @@ Zach Robida
 - AWS (EC2, S3, SSM, Athena) | Advanced | 80
 - FedRAMP / Security Compliance | Advanced | 80
 - Manhattan Active Supply Chain | Expert | 90
+- Google Cloud (Cloud Run, Cloud SQL) & Firebase | Intermediate | 70
 - Windows Server Administration | Intermediate | 65
 
 ### Data & Analysis
@@ -90,7 +91,6 @@ Zach Robida
 ### Tools & Platforms
 
 - WebInspect / Nessus (DAST/SAST) | Advanced | 80
-- Figma | Advanced | 85
 - Git / GitHub | Advanced | 85
 - ServiceNow / ServiceDesk | Intermediate | 60
 - Jira / Confluence | Advanced | 80
@@ -100,8 +100,8 @@ Zach Robida
 ### Design Lead | Manhattan Associates — PSO Government Division | 2024 – Present
 
 - Lead end-to-end functional design for FEMA's MATM/MASC platform upgrade, authoring the Solution Design Document and orchestrating 120+ slide design overview presentations delivered to FEMA TMD stakeholders.
+- Built and maintain the AI-driven documentation platform a 25-person functional and development team now builds and tests from, pairing Python/Jinja2 spec scaffolding with GitHub Copilot agents and Claude as live context.
 - Pioneered the adoption of GitHub Copilot across the team, introducing AI-driven workflows for design documentation, mockup generation, and gap analysis — measurably reducing spec authoring time.
-- Built a centralized, version-controlled documentation repository with Jinja2-based automation tooling that scaffolds new functional specs on demand, enforcing consistent standards across the entire implementation pipeline.
 - Spearheaded the adoption of the Syncfusion Angular UI framework and Figma for the LogX1 application, reducing developer-functional back-and-forth and delivering a higher-quality product within budget.
 - Mentored a rotating cast of consultants through structured design reviews, open-door coaching, and delegated extension spec ownership — earning a Q4 2025 Spirit Award for Master Mentor.
 - Completed over 30 campus recruiting interviews (top 5 company-wide), demonstrating sustained commitment to attracting top talent into the organization.
@@ -129,13 +129,16 @@ Zach Robida
 
 ## Project Highlights
 
-### AI-Driven Documentation Repository (Current Effort)
+### AI-Driven Documentation Platform
 
-- **Tags:** GitHub Copilot, Claude Sonnet, Glean, Python, Jinja2, AI
-- **Problem:** Functional design documentation was inconsistent, repetitive to scaffold, and disconnected from the development pipeline — creating delays and quality variance across projects.
-- **Solution:** Designed and built a centralized, version-controlled documentation repository with Jinja2-based automation tooling that scaffolds new specs on demand. Custom GitHub Copilot instructions and Claude Sonnet-powered agents are embedded directly in the repo as live context, driving high-quality output at scale. Leveraging Glean via MCP for knowledge management to ensure Claude has a substantial context window of internal documentation, past projects, and design patterns to draw from.
-- **Tech:** Python, Jinja2, GitHub Copilot, Claude Sonnet 4.6, Glean, Markdown, Git
-- **Impact:** Eliminated repetitive document setup, enforced consistent specification standards, and measurably accelerated functional documentation throughput across the implementation team.
+- **Featured:** yes
+- **Status:** In production with a 25-person functional and development team
+- **Tags:** GitHub Copilot, Claude, Glean, Python, Jinja2, AI
+- **Problem:** Functional design documentation was inconsistent, repetitive to scaffold, and disconnected from development and testing — creating delays and quality variance across projects.
+- **Solution:** Designed and built a centralized, version-controlled documentation repository with Jinja2 tooling that scaffolds new specs on demand. Custom GitHub Copilot instructions, prompt files, and Claude-powered agents live in the repo as working context, and Glean (via MCP) feeds them internal documentation, past projects, and design patterns. Continues to own and maintain the repository, its templates, and its AI configuration as the team grows.
+- **Tech:** Python, Jinja2, GitHub Copilot (instructions, prompt files, agents), Claude Sonnet 4.6, Glean via MCP, Markdown, Git
+- **Impact:** Adopted as the system of record by a 25-person functional and development team: developers build directly from the specs, and test cases are written from them. Eliminated repetitive document setup and enforced one specification standard across the implementation pipeline.
+- **Next:** Generate automated test flows and training videos directly from the flow documentation and the code, so every new design ships with its tests and its training.
 
 ### Syncfusion + Figma Design System (LogX1)
 
@@ -149,8 +152,9 @@ Zach Robida
 
 - **Tags:** Design Lead, Custom, FEMA
 - **Problem:** FEMA has major operational gaps with receiving commodities at state sites, leading to systematic errors — creating operational inefficiencies and compliance risks.
-- **Solution:** Designed a custom digital proof of delivery solution that integrates with the existing LSCMS inventory model, enabling state-level receiving and inventory reconciliation with real-time visibility for FEMA. Presented the design to FEMA as $1.5M project currently pending funding approval.
+- **Solution:** Designed a custom digital proof of delivery solution that integrates with the existing LSCMS inventory model, enabling state-level receiving and inventory reconciliation with real-time visibility for FEMA.
 - **Tech:** Manhattan Active, LogX1, Angular
+- **Impact:** Presented to FEMA as a $1.5M project, currently pending funding approval.
 
 ### FEMA State Portal
 
@@ -176,6 +180,37 @@ Zach Robida
 - **Tech:** Python, AWS S3 / Athena, WebInspect, Nessus, Jira API, PowerShell
 - **Impact:** Saved hundreds of annual hours on vulnerability management. Provided a compliant, auditable evidence trail that supported FEMA's FedRAMP High authorization.
 
+## Side Ventures
+
+### Holigram
+
+- **Role:** Founder
+- **Period:** June 2026 – Present
+- **Status:** Early access
+- **Tagline:** A memory you can open, edit, and build on.
+- **URL:** <https://holigram.ai>
+- **Logo:** assets/ventures/holigram.svg
+- **Theme:** holigram
+- **Summary:** A private data home for everything you like, own, and experience, with an assistant that answers only from what you actually keep. Founded, designed, and built end to end.
+- **Tags:** Angular + Syncfusion, FastAPI, PostgreSQL + pgvector, Claude API, MCP, Google Cloud
+
+- Went from first commit to production in 24 days; 1,000+ commits and 60+ tagged releases since.
+- Ships as a web app and an iOS app (TestFlight), with AI that drafts entries from a photo, a link, or a description for you to approve.
+- Built an MCP connector with OAuth 2.1 so Claude and ChatGPT can read a person's collections one at a time, with every grant revocable and every read logged.
+
+### Hourglass Trader
+
+- **Role:** AI Consultant
+- **Tagline:** Smarter trading tools, research, and strategy.
+- **URL:** <https://www.hourglasstrader.com>
+- **Logo:** assets/ventures/hourglass-trader.webp
+- **Theme:** hourglass
+- **Summary:** An options-trading research platform and community, founded by a friend.
+- **Tags:** AI enablement, Tool generation, Automation
+
+- Coached the founder on using AI to generate bespoke trading tools and automate recurring work.
+- The platform now offers eight member tools, three free tools, real-time trade alerts, and a community of 3,000+ options sellers.
+
 ## Testimonials
 
 Sourced from performance reviews
@@ -190,46 +225,66 @@ He has exhibited a talent I have only seen in two or three new consultants over 
 
 #### Thomas Adams | Manager, 2025 Year-End Review
 
+- **Highlight:** Zach will be critical in designing FEMA's MASC solution and driving the project to a successful 2027 go-live.
+
 Zach ramped up on the MATM solution, helped translate FEMA's SCPP solution into MATM, and established key contacts throughout the company to enhance his skills and progress his projects forward. In the coming year, Zach will be critical in designing FEMA's MASC solution and driving the project to a successful 2027 go-live.
 
 #### Thomas Adams | Manager, 2024 Year-End Review
+
+- **Highlight:** Not just leading design phases, but spearheading internal initiatives to help us deliver higher-quality solutions more quickly.
 
 Zach has had a great first year as a Design Lead — not just leading design phases, but spearheading internal initiatives to help us deliver higher-quality solutions more quickly and efficiently. These efforts were impactful from both a design and development perspective.
 
 #### Thomas Adams | Manager, 2023 Year-End Review
 
+- **Highlight:** Performing well beyond the role of a Senior Consultant.
+
 Zach had another great year and is performing well-beyond the role of a Senior Consultant. His FEMA solution knowledge, technical and design skills, and ability to work well within our team makes him an invaluable resource to our department and Manhattan as a whole.
 
 #### Thomas Adams | Manager, 2020 Year-End Review
+
+- **Highlight:** Zach played a critical role in our COVID response for FEMA.
 
 Zach played a critical role in our COVID response for FEMA. He worked long hours and solved difficult functional problems. His input will be invaluable as we move into 2021 with many new projects and initiatives on the horizon.
 
 #### Michaela McGinty | Manager, 2019 Year-End Review
 
+- **Highlight:** Some of the best initiative I've seen at Manhattan.
+
 Zach has continued to grow in many areas of his professional and technical development. He has proven that he can work on some of the most challenging tasks and master them as quickly as anyone. He has continued to show some of the best initiative I've seen at Manhattan.
 
 #### Ellie Kelly | Manager, 2018 Year-End Review
 
+- **Highlight:** A very quick learner, a hard worker, and able to understand complex systems.
+
 Zach is off to an outstanding start in his career at MA. He has made contributions beyond what is expected of a new consultant — a very quick learner, a hard worker, and able to understand complex systems.
 
-### Spirit Awards & Recognition
+## Recognition
 
-#### Manhattan Associates | Q4 2025 Spirit Award — Master Mentor
+### Master Mentor, Q4 2025 Spirit Award
 
-Zach received the Q4 2025 Spirit Award for Master Mentor — recognized for building durable design instincts across the consulting team through structured coaching, delegated ownership, and an open-door approach to knowledge transfer.
+- **Issuer:** Manhattan Associates
 
-#### Manhattan Associates | 2025 Recruiting Recognition
+Recognized for building durable design instincts across the consulting team through structured coaching, delegated ownership, and an open-door approach to knowledge transfer.
 
-Completed 18 campus recruiting interviews in Fall 2025 — ranking in the top 5 interviewers company-wide — demonstrating sustained commitment to bringing top talent into the organization.
+### Top 5 Campus Recruiter, Fall 2025
+
+- **Issuer:** Manhattan Associates
+
+Completed 18 campus recruiting interviews in Fall 2025, ranking in the top 5 interviewers company-wide.
 
 ## Hobbies
 
 - Woodworking
-- DIY Home Projects
-- Carpentry
-- Bathroom Renovations
-- Tiling
-- Electrical Work
+  - Cutting boards
+  - Charcuterie boards
+  - Gift and commissioned pieces
+- DIY home projects
+  - Carpentry
+  - Bathroom renovations
+  - Painting
+  - Tiling
+  - Electrical work
 - Reading
 
 ## Personality
@@ -313,3 +368,12 @@ Incentives explain almost everything. Look at the data, question the conventiona
 ### Conscious — Annaka Harris
 
 Consciousness may be far more fundamental — and far stranger — than our intuitions suggest. Staying humble about what we don't know keeps thinking sharp.
+
+## Resume Export
+
+One-page PDF generated from this file. The website links to it from the Profile tab.
+
+- **File Name:** Zach-Robida-Resume.pdf
+- **Summary:** Design Lead with eight years delivering federal supply chain software at Manhattan Associates. Automation-first: built the AI-driven documentation platform a 25-person team designs, builds, and tests from, and founded Holigram, an AI-powered private data home.
+- **Bullets Per Role:** 4, 3, 3, 1
+- **Skills Per Category:** 4

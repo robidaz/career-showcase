@@ -18,14 +18,23 @@ The final output is not just text—it is **content intentionally shaped for an 
 
 The AI MUST understand and use the repo structure:
 
-career-builder/
-├── documentation/
+career-showcase/
+├── documentation/ (private, gitignored, read-only source material)
 │ ├── additional information/
 │ ├── eoy_reviews/
 │ └── resumes/
-├── scripts/templates/
-│ └── starting_template.html.j2
+├── career-data.md (compiled content — the single source for the site and the PDF)
+├── scripts/
+│ ├── generate_career_showcase.py (career-data.md → index.html; calls resume_pdf.py)
+│ ├── resume_pdf.py (one-page résumé PDF + preview image via headless Chrome)
+│ └── templates/
+│   ├── career-showcase.html.j2 (site layout)
+│   └── resume.html.j2 (PDF print layout)
+├── assets/ (fonts, venture logos, résumé PDF, viewer script)
+├── index.html (generated — never edit by hand)
 ├── visuals.md
+
+Build: edit career-data.md, then run `.venv/bin/python scripts/generate_career_showcase.py` (`--skip-pdf` keeps the existing PDF). See README.md.
 
 ### Data Sources
 
@@ -83,13 +92,13 @@ Transform all available data into a **cohesive, high-impact professional showcas
 
 The AI MUST structure output according to:
 
-# Tab 1: Profile
+# Tab 1: Profile (includes the exportable résumé)
 
 # Tab 2: Work Experience & Projects
 
-# Tab 3: Testimonials
+# Tab 3: Side Ventures
 
-# Tab 4: About Me
+# Tab 4: About Me (includes testimonials)
 
 No exceptions.
 
@@ -111,6 +120,7 @@ Include:
 - Education (clean, minimal)
 - Contact Info (from JSON)
 - Cover Letter (tailored, confident, not generic)
+- Exportable Résumé: one-page US Letter PDF generated from career-data.md (`## Resume Export` sets the PDF summary and bullets per role), with a download link and an embedded PDF viewer (Syncfusion, loaded only when opened). Keep it to one page, structurally clean, ATS-friendly real text.
 
 #### Rules:
 
@@ -193,17 +203,31 @@ Focus heavily on:
 
 ---
 
-#### Section D: Exportable Resume
-
-Ensure content here can be:
-
-- easily converted to PDF
-- concise enough for 1-page version
-- structurally clean
+The exportable PDF résumé lives on Tab 1 and is built from the same work history.
 
 ---
 
-### 🔹 Tab 3: Testimonials
+### 🔹 Tab 3: Side Ventures
+
+Purpose: show what Zach builds outside the day job. Brief by design; the venture websites carry the detail.
+
+Include, per venture:
+
+- logo and brand colors (respect each brand's rules, e.g. Holigram's mark only on its dark navy)
+- role and timeframe
+- 1–2 sentence description and 2–3 highlights
+- a link out to the venture's website
+
+#### Rules:
+
+- Only publicly shareable facts. Never use investor or NDA material (pricing, market sizing, funding, user counts), and never claim a legal entity or trademark that doesn't exist
+- Don't take credit for a venture's results beyond Zach's actual role
+
+---
+
+### 🔹 Tab 4: About Me — Testimonials
+
+Testimonials live at the top of the About Me tab, as accordions: a punchy pull quote in the header, the full quote on expand. Awards and recognition sit beside them, stated plainly (not as quotes).
 
 Source: EOY reviews
 
@@ -232,7 +256,7 @@ Group testimonials by:
 
 ---
 
-### 🔹 Tab 4: About Me
+### 🔹 Tab 4: About Me — Personal
 
 This is where you become human (without being cringe).
 

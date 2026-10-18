@@ -5,23 +5,28 @@
 
 - profile picture avatar
 - name
-- Job title
-- Education information
+- job title
+- professional summary
+- education information
 - contact information
-- cover letter information
+- cover letter information (opening paragraphs visible, the rest collapsible)
+- exportable resume: one-page PDF built from career-data.md, with a download link and an embedded PDF viewer (Syncfusion)
 
 ## Tab 2: Work Experience & Projects
 
+- html based resume (work history, drawn as a to-scale timeline)
+- project highlights: one featured project, the rest in accordions
 - list of skills with proficiency levels
-- html based resume
-- exportable resume in PDF format
 
-## Tab 3: Testimonials
+## Tab 3: Side Ventures
 
-- blurbs from colleagues, managers, and direct reports about work style, strengths, and impact on the team and company
+- ventures outside the day job: Holigram (founder) and Hourglass Trader (AI consultant)
+- brief by design: logo and brand colors, role, a short description, a few highlights, and a link out to each venture's website for the details
 
 ## Tab 4: About me
 
+- testimonials: blurbs from colleagues, managers, and leadership about work style, strengths, and impact (accordions: a punchy pull quote, the full quote on expand)
+- recognition and awards
+- work style and personality types
 - hobbies, interests, and personal background information that gives a more holistic view of the candidate beyond just their professional experience
 - books that have influenced their thinking and approach to work
-- personality types

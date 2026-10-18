@@ -1,13 +1,21 @@
 """
 generate_career_showcase.py
-Renders career-showcase.html from:
-  - scripts/templates/career-showcase.html.j2  (layout)
+Renders index.html and the one-page résumé PDF from:
+  - scripts/templates/career-showcase.html.j2  (site layout)
+  - scripts/templates/resume.html.j2           (résumé layout — see resume_pdf.py)
   - career-data.md                              (all content — edit this file)
+
+Usage:
+  python scripts/generate_career_showcase.py             # site + résumé PDF
+  python scripts/generate_career_showcase.py --skip-pdf  # site only, keep the existing PDF
 """
 
 from __future__ import annotations
 
+import argparse
 import base64
+import datetime as dt
+import hashlib
 import pathlib
 import re
 import sys
@@ -20,6 +28,10 @@ TEMPLATE_PATH = WORKSPACE / "scripts" / "templates" / "career-showcase.html.j2"
 OUTPUT_PATH = WORKSPACE / "index.html"
 AVATAR_PATH = WORKSPACE / "documentation" / "additional information" / "profile_picture.jpg"
 DATA_PATH = WORKSPACE / "career-data.md"
+RESUME_DIR = WORKSPACE / "assets" / "resume"
+RESUME_PREVIEW_NAME = "resume-preview.png"
+
+LEVELS = ["Beginner", "Intermediate", "Advanced", "Expert"]
 
 # ---------------------------------------------------------------------------
 # Inline the avatar as a data URI so the HTML is fully self-contained
@@ -28,6 +40,15 @@ def _avatar_data_uri(path: pathlib.Path) -> str:
     data = path.read_bytes()
     b64 = base64.b64encode(data).decode()
     return f"data:image/jpeg;base64,{b64}"
+
+
+def _asset_url(rel_path: str) -> str:
+    """Relative URL for a file under the repo, cache-busted with a content hash."""
+    path = WORKSPACE / rel_path
+    if not path.is_file():
+        return rel_path
+    digest = hashlib.sha1(path.read_bytes()).hexdigest()[:8]
+    return f"{rel_path}?v={digest}"
 
 
 # ---------------------------------------------------------------------------
@@ -75,6 +96,20 @@ def _bullets(text: str) -> list[str]:
     return result
 
 
+def _nested_bullets(text: str) -> list[dict]:
+    """Parse a two-level '- item' / '  - sub-item' list into [{name, items}]."""
+    result: list[dict] = []
+    for line in text.splitlines():
+        m = re.match(r"^(\s*)-\s+(.+)$", line)
+        if not m:
+            continue
+        if m.group(1) and result:
+            result[-1]["items"].append(m.group(2).strip())
+        else:
+            result.append({"name": m.group(2).strip(), "items": []})
+    return result
+
+
 def _paragraphs(text: str) -> str:
     """Collapse text into paragraphs separated by \\n\\n."""
     blocks = re.split(r"\n{2,}", text.strip())
@@ -84,6 +119,18 @@ def _paragraphs(text: str) -> str:
         if lines:
             joined.append(" ".join(lines))
     return "\n\n".join(joined)
+
+
+def _prose(text: str) -> str:
+    """Body text with bold-KV lines removed, collapsed into paragraphs."""
+    kept = [l for l in text.splitlines() if not re.match(r"^\s*-\s+\*\*.+?:\*\*", l)]
+    return _paragraphs("\n".join(kept))
+
+
+def _first_sentence(text: str) -> str:
+    """'Did X. Then Y.' → 'Did X.'"""
+    head, sep, _ = text.partition(". ")
+    return head + "." if sep else text
 
 
 # -- Section parsers ----------------------------------------------------------
@@ -96,15 +143,28 @@ def _strip_angle(s: str) -> str:
     return s
 
 
+def _display_url(url: str) -> str:
+    """https://www.example.com/path/ → example.com/path"""
+    return re.sub(r"^https?://(www\.)?", "", url).rstrip("/")
+
+
 def _parse_person(body: str) -> dict:
     kv = _bold_kv(body)
+    title = kv.get("Title", "")
+    role, _, focus = title.partition(" — ")
+    phone = kv.get("Phone", "")
+    linkedin = _strip_angle(kv.get("LinkedIn", ""))
     return {
         "name":     kv.get("Name", ""),
-        "title":    kv.get("Title", ""),
+        "title":    title,
+        "role":     role.strip(),
+        "focus":    focus.strip(),
         "email":    _strip_angle(kv.get("Email", "")),
-        "phone":    kv.get("Phone", ""),
+        "phone":    phone,
+        "phone_href": "+" + re.sub(r"\D", "", phone),
         "location": kv.get("Location", ""),
-        "linkedin": _strip_angle(kv.get("LinkedIn", "")),
+        "linkedin": linkedin,
+        "linkedin_display": _display_url(linkedin),
     }
 
 
@@ -127,9 +187,11 @@ def _parse_skills(body: str) -> list[dict]:
         for line in content.splitlines():
             m = re.match(r"^\s*-\s+(.+?)\s*\|\s*(.+?)\s*\|\s*(\d+)\s*$", line)
             if m:
+                level = m.group(2).strip()
                 skills.append({
                     "name":  m.group(1).strip(),
-                    "level": m.group(2).strip(),
+                    "level": level,
+                    "level_index": LEVELS.index(level) + 1 if level in LEVELS else 0,
                     "pct":   int(m.group(3).strip()),
                 })
         if skills:
@@ -137,17 +199,58 @@ def _parse_skills(body: str) -> list[dict]:
     return groups
 
 
-def _parse_work_history(body: str) -> list[dict]:
+def _parse_period(period: str, now: float) -> tuple[int, float, bool]:
+    """'2021 – 2024' → (2021, 2024.0, False); '2024 – Present' → (2024, now, True)."""
+    years = [int(y) for y in re.findall(r"\b(?:19|20)\d{2}\b", period)]
+    start = years[0] if years else int(now)
+    is_current = "present" in period.lower()
+    end = now if is_current else float(years[-1] if len(years) > 1 else start + 1)
+    return start, end, is_current
+
+
+def _short_title(title: str) -> str:
+    """Label for the timeline: 'Consultant → Senior Consultant' → 'Consultant'."""
+    short = title.split(" → ")[0].strip()
+    return short.split()[-1] if len(short) > 20 else short
+
+
+def _parse_work_history(body: str, now: float) -> list[dict]:
     roles = []
     for heading, content in _split_by_heading(body, 3):
         parts = heading.split(" | ", 2)
+        period = parts[2].strip() if len(parts) > 2 else ""
+        start, end, is_current = _parse_period(period, now)
+        title = parts[0].strip()
         roles.append({
-            "title":   parts[0].strip(),
+            "title":   title,
+            "short":   _short_title(title),
             "company": parts[1].strip() if len(parts) > 1 else "",
-            "period":  parts[2].strip() if len(parts) > 2 else "",
+            "period":  period,
+            "start":   start,
+            "end":     end,
+            "is_current": is_current,
             "bullets": _bullets(content),
         })
     return roles
+
+
+def _build_timeline(roles: list[dict]) -> list[dict]:
+    """Chronological segments for the dimension-line timeline (gaps become breaks)."""
+    ordered = sorted(enumerate(roles), key=lambda pair: pair[1]["start"])
+    segments: list[dict] = []
+    prev_end = None
+    for index, role in ordered:
+        if prev_end is not None and role["start"] > prev_end:
+            segments.append({"kind": "gap", "start": int(prev_end), "end": role["start"]})
+        segments.append({
+            "kind":  "role",
+            "index": index,
+            "start": role["start"],
+            "end_label": "Now" if role["is_current"] else str(int(role["end"])),
+            "span":  round(max(role["end"] - role["start"], 0.5), 2),
+        })
+        prev_end = role["end"]
+    return segments
 
 
 def _parse_projects(body: str) -> list[dict]:
@@ -157,13 +260,39 @@ def _parse_projects(body: str) -> list[dict]:
         tags_raw = kv.get("Tags", "")
         projects.append({
             "title":    title,
+            "featured": kv.get("Featured", "").lower() in ("yes", "true"),
+            "status":   kv.get("Status", ""),
             "tags":     [t.strip() for t in tags_raw.split(",") if t.strip()],
             "problem":  kv.get("Problem", ""),
             "solution": kv.get("Solution", ""),
             "tech":     kv.get("Tech", ""),
             "impact":   kv.get("Impact", ""),
+            "impact_short": _first_sentence(kv.get("Impact", "")),
+            "next":     kv.get("Next", ""),
         })
     return projects
+
+
+def _parse_ventures(body: str) -> list[dict]:
+    ventures = []
+    for name, content in _split_by_heading(body, 3):
+        kv = _bold_kv(content)
+        url = _strip_angle(kv.get("URL", ""))
+        ventures.append({
+            "name":       name,
+            "role":       kv.get("Role", ""),
+            "period":     kv.get("Period", ""),
+            "status":     kv.get("Status", ""),
+            "tagline":    kv.get("Tagline", ""),
+            "url":        url,
+            "url_display": _display_url(url),
+            "logo":       _asset_url(kv.get("Logo", "")) if kv.get("Logo") else "",
+            "theme":      kv.get("Theme", ""),
+            "summary":    kv.get("Summary", ""),
+            "tags":       [t.strip() for t in kv.get("Tags", "").split(",") if t.strip()],
+            "highlights": _bullets(content),
+        })
+    return ventures
 
 
 def _parse_testimonials(body: str) -> list[dict]:
@@ -172,14 +301,29 @@ def _parse_testimonials(body: str) -> list[dict]:
         quotes = []
         for heading, content in _split_by_heading(group_body, 4):
             parts = heading.split(" | ", 1)
+            role = parts[1].strip() if len(parts) > 1 else ""
+            year = re.search(r"\b(?:19|20)\d{2}\b", role)
             quotes.append({
-                "name":  parts[0].strip(),
-                "role":  parts[1].strip() if len(parts) > 1 else "",
-                "quote": content.strip(),
+                "name":      parts[0].strip(),
+                "role":      role,
+                "year":      year.group(0) if year else "",
+                "highlight": _bold_kv(content).get("Highlight", ""),
+                "quote":     _prose(content),
             })
         if quotes:
             groups.append({"group": group_name, "quotes": quotes})
     return groups
+
+
+def _parse_recognition(body: str) -> list[dict]:
+    return [
+        {
+            "title":  title,
+            "issuer": _bold_kv(content).get("Issuer", ""),
+            "detail": _prose(content),
+        }
+        for title, content in _split_by_heading(body, 3)
+    ]
 
 
 def _parse_personality(body: str) -> list[dict]:
@@ -195,36 +339,61 @@ def _parse_personality(body: str) -> list[dict]:
             {"label": sl, "value": sc.strip()}
             for sl, sc in _split_by_heading(content, 4)
         ]
-        result.append({"label": label, "value": content.strip(), "group": group, "sub_items": sub_items})
+        system, _, result_label = label.partition(" — ")
+        result.append({
+            "label": label,
+            "system": system.strip(),
+            "result": result_label.strip(),
+            "value": content.strip(),
+            "group": group,
+            "sub_items": sub_items,
+        })
     return result
 
 
 def _parse_books(body: str) -> list[dict]:
-    return [
-        {"title": title, "insight": content.strip()}
-        for title, content in _split_by_heading(body, 3)
-    ]
+    books = []
+    for heading, content in _split_by_heading(body, 3):
+        title, _, author = heading.partition(" — ")
+        books.append({"title": title.strip(), "author": author.strip(), "insight": content.strip()})
+    return books
+
+
+def _parse_resume_config(body: str) -> dict:
+    kv = _bold_kv(body)
+    per_role = [int(n) for n in re.findall(r"\d+", kv.get("Bullets Per Role", ""))]
+    return {
+        "file_name":           kv.get("File Name", "resume.pdf"),
+        "summary":             kv.get("Summary", ""),
+        "bullets_per_role":    per_role,
+        "skills_per_category": int(kv.get("Skills Per Category", "0") or 0),
+    }
 
 
 # ---------------------------------------------------------------------------
 # Main data loader — reads career-data.md
 # ---------------------------------------------------------------------------
-def load_career_data(md_path: pathlib.Path) -> dict:
+def load_career_data(md_path: pathlib.Path, today: dt.date | None = None) -> dict:
     text = md_path.read_text(encoding="utf-8")
     sections = _h2_sections(text)
+    today = today or dt.date.today()
+    now = today.year + (today.timetuple().tm_yday - 1) / 365
 
     person = _parse_person(sections.get("Person", ""))
     education = _parse_education(sections.get("Education", ""))
     summary = _paragraphs(sections.get("Professional Summary", ""))
     cover_letter = _paragraphs(sections.get("Cover Letter", ""))
-    disclaimer = sections.get("Disclaimer", "").strip()
+    disclaimer = _paragraphs(sections.get("Disclaimer", ""))
     skills = _parse_skills(sections.get("Skills", ""))
-    roles = _parse_work_history(sections.get("Work History", ""))
+    roles = _parse_work_history(sections.get("Work History", ""), now)
     projects = _parse_projects(sections.get("Project Highlights", ""))
+    ventures = _parse_ventures(sections.get("Side Ventures", ""))
     testimonials = _parse_testimonials(sections.get("Testimonials", ""))
-    hobbies = _bullets(sections.get("Hobbies", ""))
+    recognition = _parse_recognition(sections.get("Recognition", ""))
+    hobbies = _nested_bullets(sections.get("Hobbies", ""))
     personality = _parse_personality(sections.get("Personality", ""))
     books = _parse_books(sections.get("Books", ""))
+    resume = _parse_resume_config(sections.get("Resume Export", ""))
 
     return {
         "person":    person,
@@ -233,21 +402,26 @@ def load_career_data(md_path: pathlib.Path) -> dict:
             "summary":      summary,
             "cover_letter": cover_letter,
             "disclaimer":   disclaimer,
+            "compiled":     f"{today:%B} {today.day}, {today.year}",
         },
         "skills":       skills,
         "roles":        roles,
+        "timeline":     _build_timeline(roles),
         "projects":     projects,
+        "ventures":     ventures,
         "testimonials": testimonials,
+        "recognition":  recognition,
         "about": {
             "hobbies":     hobbies,
             "personality": personality,
             "books":       books,
         },
+        "resume": resume,
         "tabs": [
-            {"id": "profile",      "label": "Profile"},
-            {"id": "work",         "label": "Work Experience & Projects"},
-            {"id": "testimonials", "label": "Testimonials"},
-            {"id": "about",        "label": "About Me"},
+            {"id": "profile",  "label": "Profile",         "short": "Profile"},
+            {"id": "work",     "label": "Work & Projects", "short": "Work"},
+            {"id": "ventures", "label": "Side Ventures",   "short": "Ventures"},
+            {"id": "about",    "label": "About Me",        "short": "About"},
         ],
     }
 
@@ -637,11 +811,30 @@ def build_context(avatar_src: str) -> dict:
 # ---------------------------------------------------------------------------
 # Render
 # ---------------------------------------------------------------------------
-def main() -> None:
+def _site_assets(resume: dict) -> dict:
+    """Cache-busted URLs for the files the page links to (call after the PDF build)."""
+    pdf_rel = f"assets/resume/{resume['file_name']}"
+    preview_rel = f"assets/resume/{RESUME_PREVIEW_NAME}"
+    return {
+        "resume_pdf":     _asset_url(pdf_rel) if (WORKSPACE / pdf_rel).is_file() else "",
+        "resume_preview": _asset_url(preview_rel) if (WORKSPACE / preview_rel).is_file() else "",
+        "viewer_js":      _asset_url("assets/js/resume-viewer.js"),
+        "viewer_css":     _asset_url("assets/css/resume-viewer.css"),
+        "font_archivo":   _asset_url("assets/fonts/archivo-variable.woff2"),
+        "font_roboto":    _asset_url("assets/fonts/roboto-800.woff2"),
+    }
+
+
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description="Render index.html and the résumé PDF from career-data.md.")
+    parser.add_argument("--skip-pdf", action="store_true",
+                        help="Render index.html only and keep the existing résumé PDF.")
+    args = parser.parse_args(argv)
+
     try:
         from jinja2 import Environment, FileSystemLoader, select_autoescape
     except ImportError:
-        print("ERROR: jinja2 not installed. Run: pip install jinja2")
+        print("ERROR: jinja2 not installed. Run: pip install -r requirements.txt")
         sys.exit(1)
 
     # Load all content from career-data.md
@@ -650,9 +843,18 @@ def main() -> None:
     # Embed the profile picture as a self-contained data URI
     context["person"]["avatar_src"] = _avatar_data_uri(AVATAR_PATH)
 
+    # One-page résumé PDF + preview image (assets/resume/)
+    if not args.skip_pdf:
+        from resume_pdf import build_resume
+        build_resume(context, WORKSPACE)
+
+    context["assets"] = _site_assets(context["resume"])
+
     env = Environment(
         loader=FileSystemLoader(str(TEMPLATE_PATH.parent)),
-        autoescape=select_autoescape(["html"]),
+        autoescape=select_autoescape(["html", "j2"]),
+        trim_blocks=True,
+        lstrip_blocks=True,
     )
     template = env.get_template(TEMPLATE_PATH.name)
     html = template.render(**context)
