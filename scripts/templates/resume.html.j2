@@ -93,14 +93,13 @@
     text-underline-offset: 1.5pt;
   }
   .summary {
-    margin-top: 7pt;
     font-size: 9.75pt;
     line-height: 1.32;
     text-wrap: pretty;
   }
 
   /* Sections ------------------------------------------------------------ */
-  .section { margin-top: 8.5pt; }
+  .section { margin-top: 7.5pt; }
   .section > h2 {
     display: flex;
     align-items: center;
@@ -196,11 +195,13 @@
     <li><a class="link" href="{{ person.linkedin }}">{{ person.linkedin_display }}</a></li>
   </ul>
 </header>
-{% if summary %}
-<p class="summary">{{ summary|typeset }}</p>
-{% endif %}
-
 <main>
+  {% if summary %}
+  <section class="section" aria-labelledby="summary">
+    <h2 id="summary" class="display">Professional Summary</h2>
+    <p class="summary">{{ summary|typeset }}</p>
+  </section>
+  {% endif %}
   <section class="section" aria-labelledby="experience">
     <h2 id="experience" class="display">Experience</h2>
     {% for org in groups %}

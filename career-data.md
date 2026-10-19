@@ -378,6 +378,6 @@ Consciousness may be far more fundamental — and far stranger — than our intu
 One-page PDF generated from this file. The website links to it from the Profile tab.
 
 - **File Name:** Zach-Robida-Resume.pdf
-- **Summary:** Design Lead with eight years delivering federal supply chain software at Manhattan Associates. Automation-first: built the AI-driven documentation platform a 25-person team designs, builds, and tests from, and founded Holigram, an AI-powered private data home.
+- **Summary:** Design Lead with eight years delivering complex software for federal clients at Manhattan Associates. Automation-first: architected the AI-driven documentation platform a 25-person team designs, builds, and tests from. Open to discussing opportunities to keep growing and apply AI and systems-level problem solving at greater scale.
 - **Bullets Per Role:** 4, 3, 3, 1
 - **Skills Per Category:** 4
