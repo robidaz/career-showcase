@@ -167,24 +167,24 @@
     .titleblock {
       background: rgba(5, 16, 40, 0.45);
       display: grid;
-      grid-template-columns: 136px minmax(0, 1fr) 120px minmax(260px, 330px);
-      grid-template-areas: "portrait id resume cells";
+      grid-template-columns: minmax(0, 1fr) auto minmax(260px, 330px);
+      grid-template-areas: "main resume cells";
       border: 1px solid var(--line-on-blue);
     }
 
-    .titleblock__portrait { grid-area: portrait; padding: 18px; display: grid; place-items: center; border-right: 1px solid var(--line-on-blue); }
-    .titleblock__portrait img {
-      width: 100px; height: 100px; border-radius: 50%; object-fit: cover;
+    /* portrait and name share one panel */
+    .titleblock__main { grid-area: main; display: flex; align-items: center; gap: 28px; padding: 24px 28px; min-width: 0; }
+    .titleblock__avatar {
+      flex: none; width: 112px; height: 112px; border-radius: 50%; object-fit: cover;
       box-shadow: 0 0 0 3px var(--blueprint), 0 0 0 4px var(--line-on-blue);
     }
-
-    .titleblock__id { grid-area: id; padding: 24px 26px; display: flex; flex-direction: column; justify-content: center; gap: 6px; }
+    .titleblock__id { display: flex; flex-direction: column; justify-content: center; gap: 6px; min-width: 0; }
     .titleblock__name { font-size: clamp(2.6rem, 5.4vw, 4.25rem); color: #fff; }
     .titleblock__role { margin: 4px 0 0; font-size: var(--fs-lg); font-weight: 600; font-stretch: 88%; line-height: 1.2; }
     .titleblock__focus { margin: 0; color: var(--on-blue-soft); font-size: var(--fs-base); }
-    .titleblock__resume { grid-area: resume; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 14px 12px; border-left: 1px solid var(--line-on-blue); }
+    .titleblock__resume { grid-area: resume; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 16px 22px 12px; border-left: 1px solid var(--line-on-blue); }
     .resume-thumb {
-      display: block; width: 76px; padding: 0; cursor: zoom-in; background: #fff;
+      display: block; width: 168px; padding: 0; cursor: zoom-in; background: #fff;
       border: 0; border-radius: 3px; box-shadow: 0 0 0 1px var(--line-on-blue), 0 8px 18px -8px rgba(0, 0, 0, 0.6);
       transition: transform 160ms ease, box-shadow 160ms ease;
     }
@@ -536,8 +536,10 @@
     }
 
     @media (max-width: 860px) {
-      .titleblock { grid-template-columns: 112px minmax(0, 1fr) 108px; grid-template-areas: "portrait id resume" "cells cells cells"; }
-      .titleblock__portrait img { width: 84px; height: 84px; }
+      .titleblock { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "main resume" "cells cells"; }
+      .titleblock__avatar { width: 88px; height: 88px; }
+      .titleblock__main { gap: 20px; padding: 20px 22px; }
+      .resume-thumb { width: 124px; }
       .titleblock__cells { grid-template-rows: none; grid-template-columns: repeat(2, minmax(0, 1fr)); border-left: 0; border-top: 1px solid var(--line-on-blue); }
       .titleblock__cell + .titleblock__cell { border-top: 0; }
       .titleblock__cell:nth-child(even) { border-left: 1px solid var(--line-on-blue); }
@@ -553,15 +555,15 @@
     @media (max-width: 640px) {
       :root { --gutter: 16px; }
       .masthead { padding: 16px 0 16px; }
-      .titleblock { grid-template-columns: 84px minmax(0, 1fr) 70px; grid-template-areas: "portrait id resume" "cells cells cells"; }
-      .titleblock__portrait { border-right: 0; place-items: start; padding: 16px 0 0 16px; }
-      .titleblock__portrait img { width: 68px; height: 68px; }
-      .titleblock__id { padding: 14px 8px 14px 12px; justify-content: flex-start; gap: 2px; }
+      .titleblock { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "main resume" "cells cells"; }
+      .titleblock__main { flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px 8px 16px 16px; }
+      .titleblock__avatar { width: 64px; height: 64px; }
+      .titleblock__id { gap: 2px; }
       .titleblock__name { font-size: var(--fs-2xl); }
       .titleblock__role { font-size: var(--fs-md); }
       .titleblock__focus { font-size: var(--fs-sm); line-height: 1.4; }
-      .titleblock__resume { padding: 14px 14px 12px 0; border-left: 0; justify-content: flex-start; }
-      .resume-thumb { width: 54px; }
+      .titleblock__resume { padding: 16px 16px 12px 4px; border-left: 0; justify-content: flex-start; }
+      .resume-thumb { width: 96px; }
       .titleblock__cells { grid-template-columns: 1fr; }
       .titleblock__cell { flex-direction: row; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 16px; }
       .titleblock__cell dd { text-align: right; }
@@ -626,18 +628,18 @@
     <canvas class="masthead__canvas" aria-hidden="true"></canvas>
     <div class="wrap">
       <div class="titleblock">
-        <div class="titleblock__portrait">
-          <img src="{{ person.avatar_src }}" alt="Portrait of {{ person.name }}" width="100" height="100" />
-        </div>
-        <div class="titleblock__id">
-          <h1 class="titleblock__name display">{{ person.name }}</h1>
-          <p class="titleblock__role">{{ person.role }}</p>
-          <p class="titleblock__focus">{{ person.focus }}</p>
+        <div class="titleblock__main">
+          <img class="titleblock__avatar" src="{{ person.avatar_src }}" alt="Portrait of {{ person.name }}" width="112" height="112" />
+          <div class="titleblock__id">
+            <h1 class="titleblock__name display">{{ person.name }}</h1>
+            <p class="titleblock__role">{{ person.role }}</p>
+            <p class="titleblock__focus">{{ person.focus }}</p>
+          </div>
         </div>
         {% if assets.resume_pdf %}
         <div class="titleblock__resume">
           <button type="button" class="resume-thumb" data-resume-open aria-label="View résumé">
-            <img src="{{ assets.resume_thumb or assets.resume_preview }}" alt="" width="152" height="197" />
+            <img src="{{ assets.resume_thumb or assets.resume_preview }}" alt="" width="336" height="435" />
           </button>
           <span class="titleblock__resume-label" aria-hidden="true">Résumé</span>
         </div>

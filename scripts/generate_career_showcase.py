@@ -30,7 +30,7 @@ AVATAR_PATH = WORKSPACE / "documentation" / "additional information" / "profile_
 DATA_PATH = WORKSPACE / "career-data.md"
 RESUME_DIR = WORKSPACE / "assets" / "resume"
 RESUME_PREVIEW_NAME = "resume-preview.png"
-RESUME_THUMB_NAME = "resume-thumb.png"         # small header thumbnail (152px wide = 76px at 2x)
+RESUME_THUMB_NAME = "resume-thumb.png"         # header thumbnail (336px wide = 168px at 2x)
 
 LEVELS = ["Beginner", "Intermediate", "Advanced", "Expert"]
 
@@ -821,7 +821,7 @@ def _make_thumb(pdf: pathlib.Path, dest: pathlib.Path) -> None:
     if not shutil.which("pdftoppm"):
         print("WARNING: pdftoppm not found; the header uses the full-size preview instead.")
         return
-    subprocess.run(["pdftoppm", "-png", "-singlefile", "-scale-to-x", "152", "-scale-to-y", "-1",
+    subprocess.run(["pdftoppm", "-png", "-singlefile", "-scale-to-x", "336", "-scale-to-y", "-1",
                     str(pdf), str(dest.with_suffix(""))], check=True, timeout=30)
 
 
