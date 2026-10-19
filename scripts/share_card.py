@@ -32,6 +32,7 @@ def _screenshot(chrome: pathlib.Path, page: pathlib.Path, out: pathlib.Path,
     out.unlink(missing_ok=True)
     cmd = [str(chrome), "--headless", "--disable-gpu", "--hide-scrollbars",
            "--force-device-scale-factor=1", "--virtual-time-budget=4000",
+           "--force-prefers-reduced-motion",                 # arcs paint one still frame, so reruns match
            "--no-first-run", "--no-default-browser-check", f"--user-data-dir={profile}",
            f"--window-size={size[0]},{size[1]}", f"--screenshot={out}", page.as_uri()]
     for attempt in (cmd, [*cmd[:-1], "--no-sandbox", cmd[-1]]):

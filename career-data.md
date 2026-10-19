@@ -57,11 +57,11 @@ Zach Robida
 ### AI & Automation
 
 - GitHub Copilot (Instructions, Prompting, Agents) | Expert | 90
-- Claude Code & Agentic Workflows | Advanced | 85
+- Claude Code & Agentic Workflows | Expert | 90
 - MCP Servers & LLM APIs | Advanced | 80
 - Glean Collections & Memories | Advanced | 85
 - Automated Testing | Expert | 95
-- AI Workflow Integration | Advanced | 85
+- AI Workflow Integration | Expert | 90
 
 ### Design & UI Systems
 
