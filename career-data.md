@@ -29,7 +29,7 @@ This website's content was generated in a local VS Code environment using GitHub
 
 Zach Robida is a Design Lead at Manhattan Associates with eight years of experience delivering complex software for federal clients. He works where functional design meets technical implementation, turning business requirements into specifications developers can build from directly. An automation-first thinker, he architected the AI-driven documentation platform his 25-person cross-functional team now designs, builds, and tests from. Recognized with a 2025 Spirit Award for Master Mentor, he raises the output of the people around him through structured coaching and delegated ownership.
 
-He applies that same instinct to AI, treating it as a practical layer within real systems that keeps them improving over time. He starts by questioning assumptions and finding the real constraint, then designs a durable solution that scales. Outside of work, he brings that approach to his [side ventures](#ventures). He founded and built Holigram, an AI-powered private data home, and advised Hourglass Trader on AI tooling and automation.
+He treats AI as a practical layer within real systems that keeps them improving over time. He starts by questioning assumptions and finding the real constraint, then designs a durable solution that scales. Outside of work, he brings that approach to his [side ventures](#ventures). He founded and built Holigram, an AI-powered private data home, and advised Hourglass Trader on AI tooling and automation.
 
 ## Cover Letter
 
