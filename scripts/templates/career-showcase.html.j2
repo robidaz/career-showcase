@@ -692,7 +692,7 @@
           <div class="block">
             <h2 class="visually-hidden">Professional summary</h2>
             {% for para in profile.summary.split('\n\n') %}
-            <p class="profile-text">{{ para }}</p>
+            <p class="profile-text">{{ para | links }}</p>
             {% endfor %}
           </div>
           </div>

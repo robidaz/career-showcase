@@ -122,6 +122,19 @@ def _paragraphs(text: str) -> str:
     return "\n\n".join(joined)
 
 
+def _links(text: str):
+    """Escape text, then render [label](href) as links (in-page #anchors or https only)."""
+    from markupsafe import Markup, escape
+
+    def repl(m: re.Match) -> str:
+        label, href = m.group(1), m.group(2)
+        ext = href.startswith("https://")
+        attrs = ' target="_blank" rel="noopener"' if ext else ""
+        return f'<a href="{href}"{attrs}>{label}</a>'
+
+    return Markup(re.sub(r"\[([^\]]+)\]\((#[\w-]+|https://[^\s)]+)\)", repl, str(escape(text))))
+
+
 def _prose(text: str) -> str:
     """Body text with bold-KV lines removed, collapsed into paragraphs."""
     kept = [l for l in text.splitlines() if not re.match(r"^\s*-\s+\*\*.+?:\*\*", l)]
@@ -874,6 +887,7 @@ def main(argv: list[str] | None = None) -> None:
         trim_blocks=True,
         lstrip_blocks=True,
     )
+    env.filters["links"] = _links
     template = env.get_template(TEMPLATE_PATH.name)
     html = template.render(**context)
 
