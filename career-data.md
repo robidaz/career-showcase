@@ -8,7 +8,7 @@
 - **Phone:** +1 (678) 524-3186
 - **Location:** Atlanta, GA
 - **LinkedIn:** <https://linkedin.com/in/zach-robida>
-- **Site:** <https://zach-career-7fb9926c1a06.herokuapp.com>
+- **Site:** <https://zachrobida.online>
 
 ## Disclaimer
 
