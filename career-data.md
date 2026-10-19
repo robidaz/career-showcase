@@ -199,7 +199,7 @@ Zach Robida
 - **Tags:** Angular + Syncfusion, FastAPI, PostgreSQL + pgvector, Claude API, MCP, Google Cloud
 
 - Went from first commit to production in 24 days; 1,000+ commits and 60+ tagged releases since.
-- Ships as a web app and an iOS app (TestFlight), with AI that drafts entries from a photo, a link, or a description for you to approve.
+- Ships as a web app and an iOS app on the App Store, with AI that drafts entries from a photo, a link, or a description for you to approve.
 - Built an MCP connector with OAuth 2.1 so Claude and ChatGPT can read a person's collections one at a time, with every grant revocable and every read logged.
 
 ### Hourglass Trader
