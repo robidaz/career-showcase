@@ -103,11 +103,11 @@ Zach Robida
 
 ### Design Lead | Manhattan Associates — PSO Government Division | 2024 – Present
 
-- Lead end-to-end functional design for FEMA's MATM/MASC platform upgrade, authoring the Solution Design Document and orchestrating 120+ slide design overview presentations delivered to FEMA TMD stakeholders.
+- Co-Lead end-to-end functional design for FEMA's MASC (Manhattan Active Supply Chain) platform upgrade, designing custom extensions and applications, authoring the Solution Design Document, and conducting client engagement sessions with FEMA stakeholders.
 - Built and maintain the AI-driven documentation platform a 25-person functional and development team now builds and tests from, pairing Python/Jinja2 spec scaffolding with GitHub Copilot agents and Claude as live context.
 - Pioneered the adoption of GitHub Copilot across the team, introducing AI-driven workflows for design documentation, mockup generation, and gap analysis — measurably reducing spec authoring time.
 - Spearheaded the adoption of the Syncfusion Angular UI framework and Figma for the LogX1 application, reducing developer-functional back-and-forth and delivering a higher-quality product within budget.
-- Mentored a rotating cast of consultants through structured design reviews, open-door coaching, and delegated extension spec ownership — earning a Q4 2025 Spirit Award for Master Mentor.
+- Mentored a rotating cast of consultants through structured design reviews, open-door coaching, and delegated extension spec ownership — earning a 2025 Spirit Award for Master Mentor.
 - Completed over 30 campus recruiting interviews (top 5 company-wide), demonstrating sustained commitment to attracting top talent into the organization.
 
 ### Senior Consultant → Design Lead | Manhattan Associates — PSO Government Division | 2021 – 2024
