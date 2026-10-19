@@ -208,8 +208,7 @@
       background: var(--blueprint-deep);
       box-shadow: 0 1px 0 rgba(10, 26, 51, 0.12);
     }
-    .sheet-tabs__list { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-top: 8px; }
-    .sheet-tabs__list::-webkit-scrollbar { display: none; }
+    .sheet-tabs__list { display: flex; gap: 4px; padding-top: 8px; }
 
     .sheet-tab {
       appearance: none; flex: none; cursor: pointer;
@@ -223,24 +222,26 @@
     .sheet-tab[aria-selected="true"] { background: var(--paper); color: var(--ink); border-top-color: var(--hivis); }
     .sheet-tab:focus-visible { outline-offset: -3px; }
     .sheet-tab[aria-selected="true"]:focus-visible { outline-color: var(--cobalt); }
-    /* Work expands into a button group joined to its tab, like one wide folder tab */
-    .subtabs {
-      display: flex; align-items: stretch; gap: 2px; flex: none;
-      max-width: 0; overflow: hidden; opacity: 0;
-      margin-left: -4px;
-      background: var(--paper); border-radius: 0 8px 0 0;
-      transition: max-width 260ms ease, opacity 200ms ease;
+    /* Work ▾ opens a small menu of its three sections */
+    .tab-dd { position: relative; display: flex; flex: none; }
+    .sheet-tab--menu { display: inline-flex; align-items: center; gap: 7px; }
+    .caret { width: 11px; height: 11px; transition: transform 180ms ease; }
+    .sheet-tab--menu[aria-expanded="true"] .caret { transform: rotate(180deg); }
+    .tab-menu {
+      position: absolute; top: 100%; left: 0; z-index: 40; min-width: 200px; margin-top: 6px; padding: 6px;
+      display: grid; gap: 2px;
+      background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px;
+      box-shadow: 0 18px 36px -18px rgba(10, 26, 51, 0.5);
     }
-    .sheet-tabs.is-work .subtabs { max-width: 420px; opacity: 1; padding: 6px 8px 0 4px; }
-    .sheet-tabs.is-work #tab-work { border-top-right-radius: 0; }
-    .subtab {
-      appearance: none; flex: none; cursor: pointer; align-self: center;
-      padding: 7px 12px; border: 0; border-radius: 6px; background: transparent;
-      color: var(--ink-2); font: inherit; font-size: var(--fs-sm); font-weight: 600; font-stretch: 88%; line-height: 1.2; white-space: nowrap;
+    .tab-menu[hidden] { display: none; }
+    .tab-menu__item {
+      appearance: none; cursor: pointer; text-align: left; padding: 9px 12px;
+      border: 0; border-radius: 6px; background: transparent; color: var(--ink);
+      font: inherit; font-size: var(--fs-base); font-weight: 600; font-stretch: 88%; line-height: 1.2;
     }
-    .subtab:hover { color: var(--ink); background: var(--cobalt-wash); }
-    .subtab[aria-pressed="true"] { color: var(--cobalt-ink); background: var(--cobalt-wash); box-shadow: inset 0 -2px 0 var(--cobalt); }
-    .subtab:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 1px; }
+    .tab-menu__item:hover { background: var(--cobalt-wash); }
+    .tab-menu__item[aria-pressed="true"] { color: var(--cobalt-ink); background: var(--cobalt-wash); box-shadow: inset 3px 0 0 var(--cobalt); }
+    .tab-menu__item:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 1px; }
     .js .subpanel:not(.is-active) { display: none; }
     .js .block.subpanel { margin-top: 0; padding-top: 0; border-top: 0; }
 
@@ -585,11 +586,6 @@
       .titleblock__cell:nth-child(even) { border-left: 0; }
       .titleblock__cell + .titleblock__cell { border-top: 1px solid var(--line-on-blue); }
       .sheet-tab { padding: 10px 14px 11px; font-size: var(--fs-base); }
-      .sheet-tabs__list { flex-wrap: wrap; row-gap: 0; overflow: visible; }
-      .subtabs { order: 10; flex-basis: 100%; margin: 0; border-radius: 0; justify-content: center; }
-      /* full-bleed paper band behind the row */
-      .sheet-tabs.is-work .subtabs { padding: 6px 0; box-shadow: 0 0 0 100vmax var(--paper); clip-path: inset(0 -100vmax); }
-      .sheet-tabs.is-work #tab-work { border-top-right-radius: 8px; }
       .content { padding-top: 28px; }
       .block__title { font-size: var(--fs-xl); }
       .lead { font-size: var(--fs-md); }
@@ -681,14 +677,19 @@
     <div class="wrap">
       <div class="sheet-tabs__list" role="tablist">
         {% for tab in tabs %}
+        {% if tab.id == 'work' %}
+        <div class="tab-dd" role="presentation">
+          <button type="button" class="sheet-tab sheet-tab--menu" role="tab" id="tab-work" data-tab="work"
+                  aria-controls="panel-work" aria-selected="false" tabindex="-1" aria-haspopup="true" aria-expanded="false"><span class="lbl-long">{{ tab.label }}</span><span class="lbl-short">{{ tab.short }}</span><svg class="caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4h8L6 9z" fill="currentColor"/></svg></button>
+          <div class="tab-menu" id="work-menu" role="group" aria-label="Work sections" hidden>
+            <button type="button" class="tab-menu__item" data-sub="experience" aria-controls="sub-experience" aria-pressed="true">Experience</button>
+            <button type="button" class="tab-menu__item" data-sub="projects" aria-controls="sub-projects" aria-pressed="false">Projects</button>
+            <button type="button" class="tab-menu__item" data-sub="skills" aria-controls="sub-skills" aria-pressed="false">Skills</button>
+          </div>
+        </div>
+        {% else %}
         <button type="button" class="sheet-tab" role="tab" id="tab-{{ tab.id }}" data-tab="{{ tab.id }}"
                 aria-controls="panel-{{ tab.id }}" aria-selected="{{ 'true' if loop.first else 'false' }}"{% if not loop.first %} tabindex="-1"{% endif %}><span class="lbl-long">{{ tab.label }}</span><span class="lbl-short">{{ tab.short }}</span></button>
-        {% if tab.id == 'work' %}
-        <div class="subtabs" role="group" aria-label="Work sections">
-          <button type="button" class="subtab" data-sub="experience" aria-controls="sub-experience" aria-pressed="true">Experience</button>
-          <button type="button" class="subtab" data-sub="projects" aria-controls="sub-projects" aria-pressed="false">Projects</button>
-          <button type="button" class="subtab" data-sub="skills" aria-controls="sub-skills" aria-pressed="false">Skills</button>
-        </div>
         {% endif %}
         {% endfor %}
       </div>
@@ -1007,8 +1008,16 @@
 
       var nav = document.querySelector(".sheet-tabs");
       var masthead = document.querySelector(".masthead");
-      var subButtons = Array.prototype.slice.call(nav.querySelectorAll(".subtab"));
+      var workTab = document.getElementById("tab-work");
+      var menu = document.getElementById("work-menu");
+      var subButtons = menu ? Array.prototype.slice.call(menu.querySelectorAll(".tab-menu__item")) : [];
       var currentSub = "experience";
+
+      function setMenu(open) {
+        if (!menu) return;
+        menu.hidden = !open;
+        workTab.setAttribute("aria-expanded", open ? "true" : "false");
+      }
 
       function showSub(id) {
         currentSub = id;
@@ -1022,7 +1031,7 @@
 
       var sheets = tablist(nav.querySelector('[role="tablist"]'), function (tab) {
         var id = tab.dataset.tab;
-        nav.classList.toggle("is-work", id === "work");
+        if (id !== "work") setMenu(false);
         var hash = id === "work" && currentSub !== "experience" ? currentSub : id;
         history.replaceState(null, "", id === "profile" ? location.pathname + location.search : "#" + hash);
         tab.scrollIntoView({ block: "nearest", inline: "nearest" });
@@ -1031,14 +1040,24 @@
         if (window.scrollY > top) window.scrollTo(0, top);
       });
 
-      subButtons.forEach(function (b) {
-        b.addEventListener("click", function () {
-          showSub(b.dataset.sub);
-          history.replaceState(null, "", "#" + (b.dataset.sub === "experience" ? "work" : b.dataset.sub));
-          var top = masthead.offsetHeight;
-          if (window.scrollY > top) window.scrollTo(0, top);
+      if (menu) {
+        // clicking anywhere on Work opens (or closes) its menu; the tablist also selects the tab
+        workTab.addEventListener("click", function () { setMenu(menu.hidden); });
+        subButtons.forEach(function (b) {
+          b.addEventListener("click", function () {
+            showSub(b.dataset.sub);
+            sheets.select(workTab, false);
+            setMenu(false);
+            workTab.focus();
+          });
         });
-      });
+        document.addEventListener("click", function (e) {
+          if (!menu.hidden && !e.target.closest(".tab-dd")) setMenu(false);
+        });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && !menu.hidden) { setMenu(false); workTab.focus(); }
+        });
+      }
 
       function fromHash() {
         var id = location.hash.slice(1);

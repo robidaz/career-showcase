@@ -14,7 +14,7 @@
 
 ## Tab 2: Work
 
-The Work tab expands into a button group (Experience, Projects, Skills); each shows its own section.
+The Work tab has a ▾ menu (Experience, Projects, Skills); each shows its own section.
 
 - html based resume (work history, drawn as a to-scale timeline)
 - project highlights: one featured project, the rest in accordions
