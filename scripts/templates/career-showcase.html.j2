@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ person.name }} — {{ person.role }}</title>
   <meta name="description" content="{{ person.name }}, {{ person.role }}: {{ person.focus }}. Experience, projects, side ventures, and a downloadable one-page résumé." />
-  <meta name="theme-color" content="#2a6bd1" />
+  <meta name="theme-color" content="#0f2550" />
   <meta property="og:type" content="profile" />
   <meta property="og:title" content="{{ person.name }} — {{ person.role }}" />
   <meta property="og:description" content="{{ person.focus }}" />
@@ -31,8 +31,8 @@
 
     :root {
       /* Drawing-set palette: cyanotype masthead, white sheets, navy ink */
-      --blueprint: #2a6bd1;
-      --blueprint-deep: #1a4ea8;
+      --blueprint: #0f2550;
+      --blueprint-deep: #0a1a3a;
       --on-blue: #ffffff;
       --on-blue-soft: #dde8fb;
       --line-on-blue: rgba(255, 255, 255, 0.42);
@@ -145,21 +145,18 @@
       isolation: isolate;
       overflow: hidden;
     }
-    /* With JS, a drifting particle field replaces the grid (assets/js/masthead-particles.js) */
+    /* With JS, slowly turning instrument arcs replace the grid (assets/js/masthead-arcs.js) */
     .js .masthead {
-      background-image:
-        radial-gradient(70% 140% at 12% 0%, rgba(40, 194, 242, 0.22), transparent 60%),
-        radial-gradient(55% 120% at 92% 0%, rgba(45, 108, 240, 0.32), transparent 65%),
-        linear-gradient(180deg, var(--blueprint) 0%, var(--blueprint-deep) 100%);
+      background-image: linear-gradient(180deg, var(--blueprint) 0%, var(--blueprint-deep) 100%);
       background-size: auto;
     }
-    .masthead__particles { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
+    .masthead__canvas { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
     .masthead > .wrap { position: relative; }
 
     .masthead :focus-visible, .sheet-tabs :focus-visible { outline-color: #fff; }
 
     .titleblock {
-      background: rgba(14, 48, 120, 0.42);
+      background: rgba(5, 16, 40, 0.45);
       display: grid;
       grid-template-columns: 136px minmax(0, 1fr) minmax(260px, 330px);
       grid-template-rows: 1fr auto;
@@ -602,7 +599,7 @@
     }
 
     @media print {
-      .sheet-tabs, .skip-link, .masthead__particles, .titleblock__actions, .resume-card, .resume-dialog, .letter__more > summary, .books-more > summary { display: none !important; }
+      .sheet-tabs, .skip-link, .masthead__canvas, .titleblock__actions, .resume-card, .resume-dialog, .letter__more > summary, .books-more > summary { display: none !important; }
       .js .panel:not(.is-active), .js .role:not(.is-active) { display: block; }
       details > *:not(summary) { display: block; }
       .masthead { background: none; color: var(--ink); padding: 0 0 16px; }
@@ -624,7 +621,7 @@
 
   <!-- ══ Masthead: title block ═══════════════════════════════════ -->
   <header class="masthead">
-    <canvas class="masthead__particles" aria-hidden="true"></canvas>
+    <canvas class="masthead__canvas" aria-hidden="true"></canvas>
     <div class="wrap">
       <div class="titleblock">
         <div class="titleblock__portrait">
@@ -984,7 +981,7 @@
   </dialog>
   <script src="{{ assets.viewer_js }}" defer></script>
   {% endif %}
-  <script src="{{ assets.particles_js }}" defer></script>
+  <script src="{{ assets.masthead_js }}" defer></script>
 
   <script>
     // Tabs: a roving-tabindex tablist with deep links (#work, #ventures, #about)

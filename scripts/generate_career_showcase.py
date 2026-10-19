@@ -820,7 +820,7 @@ def _site_assets(resume: dict) -> dict:
         "resume_preview": _asset_url(preview_rel) if (WORKSPACE / preview_rel).is_file() else "",
         "viewer_js":      _asset_url("assets/js/resume-viewer.js"),
         "viewer_css":     _asset_url("assets/css/resume-viewer.css"),
-        "particles_js":   _asset_url("assets/js/masthead-particles.js"),
+        "masthead_js":    _asset_url("assets/js/masthead-arcs.js"),
         "font_archivo":   _asset_url("assets/fonts/archivo-variable.woff2"),
         "font_roboto":    _asset_url("assets/fonts/roboto-800.woff2"),
     }
