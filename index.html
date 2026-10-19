@@ -182,6 +182,8 @@
     .titleblock__name { font-size: clamp(2.6rem, 5.4vw, 4.25rem); color: #fff; }
     .titleblock__role { margin: 4px 0 0; font-size: var(--fs-lg); font-weight: 600; font-stretch: 88%; line-height: 1.2; }
     .titleblock__focus { margin: 0; color: var(--on-blue-soft); font-size: var(--fs-base); }
+    .titleblock__edu { margin: 10px 0 0; padding-top: 10px; border-top: 1px solid var(--line-on-blue); color: var(--on-blue-soft); font-size: var(--fs-sm); }
+    .titleblock__edu strong { color: #fff; font-weight: 600; }
     .titleblock__resume { grid-area: resume; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 16px 22px 12px; border-left: 1px solid var(--line-on-blue); }
     .resume-thumb {
       display: block; width: 168px; padding: 0; cursor: zoom-in; background: #fff;
@@ -221,6 +223,27 @@
     .sheet-tab[aria-selected="true"] { background: var(--paper); color: var(--ink); border-top-color: var(--hivis); }
     .sheet-tab:focus-visible { outline-offset: -3px; }
     .sheet-tab[aria-selected="true"]:focus-visible { outline-color: var(--cobalt); }
+    /* Work expands into a button group joined to its tab, like one wide folder tab */
+    .subtabs {
+      display: flex; align-items: stretch; gap: 2px; flex: none;
+      max-width: 0; overflow: hidden; opacity: 0;
+      margin-left: -4px;
+      background: var(--paper); border-radius: 0 8px 0 0;
+      transition: max-width 260ms ease, opacity 200ms ease;
+    }
+    .sheet-tabs.is-work .subtabs { max-width: 420px; opacity: 1; padding: 6px 8px 0 4px; }
+    .sheet-tabs.is-work #tab-work { border-top-right-radius: 0; }
+    .subtab {
+      appearance: none; flex: none; cursor: pointer; align-self: center;
+      padding: 7px 12px; border: 0; border-radius: 6px; background: transparent;
+      color: var(--ink-2); font: inherit; font-size: var(--fs-sm); font-weight: 600; font-stretch: 88%; line-height: 1.2; white-space: nowrap;
+    }
+    .subtab:hover { color: var(--ink); background: var(--cobalt-wash); }
+    .subtab[aria-pressed="true"] { color: var(--cobalt-ink); background: var(--cobalt-wash); box-shadow: inset 0 -2px 0 var(--cobalt); }
+    .subtab:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 1px; }
+    .js .subpanel:not(.is-active) { display: none; }
+    .js .block.subpanel { margin-top: 0; padding-top: 0; border-top: 0; }
+
     .lbl-short { display: none; }
     @media (max-width: 480px) {
       .lbl-long { display: none; }
@@ -281,11 +304,10 @@
     }
 
     /* ── Tab 1: Profile ──────────────────────────────────────── */
-    .profile-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 48px; align-items: start; }
+    .profile-grid { max-width: 46rem; }
 
-    .lead { font-size: var(--fs-lg); line-height: 1.55; max-width: 62ch; color: var(--ink); }
+    .lead { font-size: var(--fs-lg); line-height: 1.55; color: var(--ink); }
 
-    .letter p, .letter__more { max-width: 68ch; }
     .letter p { color: var(--ink-2); }
     .letter p:first-of-type { color: var(--ink); font-weight: 600; }
     .letter__more { margin-top: 0.9em; }
@@ -299,16 +321,8 @@
     .letter__more[open] .when-open { display: inline; }
     .letter__sign { font-weight: 600; color: var(--ink); }
 
-    .profile-aside { display: flex; flex-direction: column; gap: 28px; }
-    @media (min-width: 861px) and (min-height: 900px) {
-      .profile-aside { position: sticky; top: 76px; }
-    }
 
 
-    .edu { list-style: none; display: grid; gap: 14px; }
-    .edu__degree { font-weight: 600; line-height: 1.3; }
-    .edu__school { color: var(--ink-2); font-size: var(--fs-sm); }
-    .edu__detail { color: var(--ink-3); font-size: var(--fs-sm); }
 
     /* ── Tab 2: Work & Projects ──────────────────────────────── */
     /* Experience as a dimension chain: segment widths are real durations */
@@ -340,8 +354,12 @@
     .dimchain__year {
       position: absolute; bottom: 0; left: 0; transform: translateX(-50%);
       font-size: var(--fs-xs); font-weight: 600; color: var(--ink-3); font-variant-numeric: tabular-nums;
+      padding: 0 4px; background: var(--paper);   /* breaks the tick line behind the label */
     }
-    .dimchain__year--end { left: auto; right: 0; transform: translateX(50%); }
+    .dimchain__year--end { left: auto; right: 6px; transform: none; }
+    /* the first label, and labels beside a break, sit inside their own span so they never collide */
+    .dimchain__seg.is-first .dimchain__year:not(.dimchain__year--end),
+    .dimchain__seg.is-after-gap .dimchain__year:not(.dimchain__year--end) { left: 6px; transform: none; }
     .dimchain__seg:hover { color: var(--ink); }
     .dimchain__seg:hover .dimchain__line { color: var(--cobalt); }
     .dimchain__seg[aria-selected="true"] { color: var(--ink); background: linear-gradient(180deg, var(--cobalt-wash), transparent 85%); }
@@ -530,7 +548,6 @@
 
     /* ── Responsive ──────────────────────────────────────────── */
     @media (max-width: 1080px) {
-      .profile-grid { grid-template-columns: minmax(0, 1fr) 300px; gap: 36px; }
       .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .ventures { grid-template-columns: 1fr; max-width: 720px; }
     }
@@ -544,8 +561,6 @@
       .titleblock__cell + .titleblock__cell { border-top: 0; }
       .titleblock__cell:nth-child(even) { border-left: 1px solid var(--line-on-blue); }
       .titleblock__cell:nth-child(n + 3) { border-top: 1px solid var(--line-on-blue); }
-      .profile-grid { grid-template-columns: 1fr; }
-      .profile-aside { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
       .feature { grid-template-columns: 1fr; }
       .traits, .about-life { grid-template-columns: 1fr; }
       .about-life { gap: 36px; }
@@ -570,10 +585,14 @@
       .titleblock__cell:nth-child(even) { border-left: 0; }
       .titleblock__cell + .titleblock__cell { border-top: 1px solid var(--line-on-blue); }
       .sheet-tab { padding: 10px 14px 11px; font-size: var(--fs-base); }
+      .sheet-tabs__list { flex-wrap: wrap; row-gap: 0; overflow: visible; }
+      .subtabs { order: 10; flex-basis: 100%; margin: 0; border-radius: 0; justify-content: center; }
+      /* full-bleed paper band behind the row */
+      .sheet-tabs.is-work .subtabs { padding: 6px 0; box-shadow: 0 0 0 100vmax var(--paper); clip-path: inset(0 -100vmax); }
+      .sheet-tabs.is-work #tab-work { border-top-right-radius: 8px; }
       .content { padding-top: 28px; }
       .block__title { font-size: var(--fs-xl); }
       .lead { font-size: var(--fs-md); }
-      .profile-aside { grid-template-columns: 1fr; }
       .dimchain { flex-direction: column; margin-bottom: 20px; border-left: 2px solid var(--rule-strong); }
       .dimchain__seg { flex: none; min-width: 0; display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; padding: 10px 12px; text-align: left; border-left: 0; }
       .dimchain__seg.is-last { border-right: 0; }
@@ -628,6 +647,7 @@
             <h1 class="titleblock__name display">Zach Robida</h1>
             <p class="titleblock__role">Design Lead</p>
             <p class="titleblock__focus">Supply Chain Software &amp; AI-Driven Solutions</p>
+            <p class="titleblock__edu"><strong>B.S. in Mechanical Engineering</strong>, Clemson University</p>
           </div>
         </div>
         <div class="titleblock__resume">
@@ -652,7 +672,12 @@
         <button type="button" class="sheet-tab" role="tab" id="tab-profile" data-tab="profile"
                 aria-controls="panel-profile" aria-selected="true"><span class="lbl-long">Profile</span><span class="lbl-short">Profile</span></button>
         <button type="button" class="sheet-tab" role="tab" id="tab-work" data-tab="work"
-                aria-controls="panel-work" aria-selected="false" tabindex="-1"><span class="lbl-long">Work &amp; Projects</span><span class="lbl-short">Work</span></button>
+                aria-controls="panel-work" aria-selected="false" tabindex="-1"><span class="lbl-long">Work</span><span class="lbl-short">Work</span></button>
+        <div class="subtabs" role="group" aria-label="Work sections">
+          <button type="button" class="subtab" data-sub="experience" aria-controls="sub-experience" aria-pressed="true">Experience</button>
+          <button type="button" class="subtab" data-sub="projects" aria-controls="sub-projects" aria-pressed="false">Projects</button>
+          <button type="button" class="subtab" data-sub="skills" aria-controls="sub-skills" aria-pressed="false">Skills</button>
+        </div>
         <button type="button" class="sheet-tab" role="tab" id="tab-ventures" data-tab="ventures"
                 aria-controls="panel-ventures" aria-selected="false" tabindex="-1"><span class="lbl-long">Side Ventures</span><span class="lbl-short">Ventures</span></button>
         <button type="button" class="sheet-tab" role="tab" id="tab-about" data-tab="about"
@@ -688,37 +713,20 @@
           </div>
         </div>
 
-        <aside class="profile-aside">
-          <section aria-labelledby="edu-title">
-            <h2 class="subhead display" id="edu-title">Education</h2>
-            <ul class="edu">
-              <li>
-                <div class="edu__degree">B.S. in Mechanical Engineering</div>
-                <div class="edu__school">Clemson University — Clemson, SC</div>
-                <div class="edu__detail">2013 - 2018 | 4 Semesters of Co-Op Experience</div>
-              </li>
-              <li>
-                <div class="edu__degree">Sustainable Cities of Scandinavia Program</div>
-                <div class="edu__school">Linnaeus University — Kalmar, Sweden</div>
-                <div class="edu__detail">Summer 2017 | Selected as commencement speaker out of 300 students</div>
-              </li>
-            </ul>
-          </section>
-        </aside>
       </div>
     </section>
 
-    <!-- ══ Tab 2 — Work & Projects ═════════════════════════════ -->
+    <!-- ══ Tab 2 — Work ════════════════════════════════════════ -->
     <section class="panel" id="panel-work" role="tabpanel" aria-labelledby="tab-work">
 
-      <div class="block">
+      <div class="block subpanel is-active" id="sub-experience" data-sub="experience">
         <div class="block__head">
           <h2 class="block__title display">Experience</h2>
           <p class="block__note">Select a role to read more.</p>
         </div>
 
         <div class="dimchain" role="tablist" aria-label="Roles by date">
-          <button type="button" class="dimchain__seg is-last" role="tab"
+          <button type="button" class="dimchain__seg is-last is-first" role="tab"
                   id="role-tab-3" data-role="3" aria-controls="role-3"
                   aria-selected="false" tabindex="-1"                  style="--span: 1.0">
             <span class="dimchain__label">Co-Op</span>
@@ -728,7 +736,7 @@
           <span class="dimchain__gap" aria-hidden="true" title="2016–2018">
             <svg viewBox="0 0 30 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 8h7l3-6 4 12 4-12 3 6h9"/></svg>
           </span>
-          <button type="button" class="dimchain__seg" role="tab"
+          <button type="button" class="dimchain__seg is-after-gap" role="tab"
                   id="role-tab-2" data-role="2" aria-controls="role-2"
                   aria-selected="false" tabindex="-1"                  style="--span: 3.0">
             <span class="dimchain__label">Consultant</span>
@@ -795,7 +803,7 @@
         </article>
       </div>
 
-      <div class="block">
+      <div class="block subpanel" id="sub-projects" data-sub="projects">
         <div class="block__head"><h2 class="block__title display">Projects</h2></div>
 
         <article class="feature sheet">
@@ -915,7 +923,7 @@
         </div>
       </div>
 
-      <div class="block">
+      <div class="block subpanel" id="sub-skills" data-sub="skills">
         <div class="block__head">
           <h2 class="block__title display">Skills</h2>
           <p class="legend" aria-hidden="true">
@@ -1269,17 +1277,42 @@
 
       var nav = document.querySelector(".sheet-tabs");
       var masthead = document.querySelector(".masthead");
+      var subButtons = Array.prototype.slice.call(nav.querySelectorAll(".subtab"));
+      var currentSub = "experience";
+
+      function showSub(id) {
+        currentSub = id;
+        subButtons.forEach(function (b) {
+          var on = b.dataset.sub === id;
+          b.setAttribute("aria-pressed", on ? "true" : "false");
+          var panel = document.getElementById(b.getAttribute("aria-controls"));
+          if (panel) panel.classList.toggle("is-active", on);
+        });
+      }
+
       var sheets = tablist(nav.querySelector('[role="tablist"]'), function (tab) {
         var id = tab.dataset.tab;
-        history.replaceState(null, "", id === "profile" ? location.pathname + location.search : "#" + id);
+        nav.classList.toggle("is-work", id === "work");
+        var hash = id === "work" && currentSub !== "experience" ? currentSub : id;
+        history.replaceState(null, "", id === "profile" ? location.pathname + location.search : "#" + hash);
         tab.scrollIntoView({ block: "nearest", inline: "nearest" });
         // Keep the new sheet's first line in view once the tab bar is stuck
         var top = masthead.offsetHeight;
         if (window.scrollY > top) window.scrollTo(0, top);
       });
 
+      subButtons.forEach(function (b) {
+        b.addEventListener("click", function () {
+          showSub(b.dataset.sub);
+          history.replaceState(null, "", "#" + (b.dataset.sub === "experience" ? "work" : b.dataset.sub));
+          var top = masthead.offsetHeight;
+          if (window.scrollY > top) window.scrollTo(0, top);
+        });
+      });
+
       function fromHash() {
         var id = location.hash.slice(1);
+        if (id === "experience" || id === "projects" || id === "skills") { showSub(id); id = "work"; }
         var tab = sheets.tabs.filter(function (t) { return t.dataset.tab === id; })[0];
         if (tab) sheets.select(tab, false);
       }

@@ -7,12 +7,14 @@
 - name
 - job title
 - professional summary
-- education information
+- education: the bachelor's degree, shown in the header (the full list stays on the PDF résumé)
 - contact information
 - cover letter information (opening paragraphs visible, the rest collapsible)
 - exportable resume: one-page PDF built from career-data.md; a small thumbnail in the header title block opens the PDF viewer (Syncfusion), which has Download
 
-## Tab 2: Work Experience & Projects
+## Tab 2: Work
+
+The Work tab expands into a button group (Experience, Projects, Skills); each shows its own section.
 
 - html based resume (work history, drawn as a to-scale timeline)
 - project highlights: one featured project, the rest in accordions

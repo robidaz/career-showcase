@@ -87,7 +87,7 @@ Transform all available data into a **cohesive, high-impact professional showcas
 Structure all output according to these four tabs. No exceptions.
 
 - Tab 1: Profile (includes the exportable résumé)
-- Tab 2: Work Experience & Projects
+- Tab 2: Work (expands into Experience, Projects, Skills)
 - Tab 3: Side Ventures
 - Tab 4: About Me
 

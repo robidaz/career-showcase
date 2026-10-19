@@ -420,7 +420,7 @@ def load_career_data(md_path: pathlib.Path, today: dt.date | None = None) -> dic
         "resume": resume,
         "tabs": [
             {"id": "profile",  "label": "Profile",         "short": "Profile"},
-            {"id": "work",     "label": "Work & Projects", "short": "Work"},
+            {"id": "work",     "label": "Work",            "short": "Work"},
             {"id": "ventures", "label": "Side Ventures",   "short": "Ventures"},
             {"id": "about",    "label": "About Me",        "short": "About"},
         ],
