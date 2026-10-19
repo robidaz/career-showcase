@@ -444,7 +444,17 @@
     .venture__highlights { list-style: none; display: grid; gap: 8px; }
     .venture__highlights li { position: relative; padding-left: 20px; color: var(--ink-2); }
     .venture__highlights li::before { content: ""; position: absolute; left: 2px; top: 0.62em; width: 8px; height: 2px; }
-    .venture__cta { align-self: flex-start; margin-top: 4px; }
+    /* the logo and the name link out; the arrow marks them as links */
+    .venture__logo-link { flex: none; display: block; }
+    .venture__logo { transition: transform 160ms ease; }
+    .venture__name a { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3em; border-radius: 4px; }
+    .venture__name a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+    .venture__go { flex: none; width: 0.8em; height: 0.8em; transition: transform 160ms ease; }
+    @media (hover: hover) {
+      .venture__brand:has(a:hover) .venture__name a { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.14em; }
+      .venture__brand:has(a:hover) .venture__go { transform: translateX(3px); }
+      .venture__brand:has(a:hover) .venture__logo { transform: scale(1.05); }
+    }
 
     /* Holigram: dark-first brand — the mark is never shown on white */
     .venture--holigram .venture__brand {
@@ -459,8 +469,8 @@
     .venture--holigram .venture__tagline { color: #8fa8c8; }
     .venture--holigram .venture__status { background: #e0f6fd; color: #04506b; }
     .venture--holigram .venture__highlights li::before { background: #28c2f2; }
-    .venture--holigram .venture__cta { background: #28c2f2; color: #050b18; }
-    .venture--holigram .venture__cta:hover { background: #5fd8ff; color: #050b18; }
+    .venture--holigram .venture__go { fill: #28c2f2; }
+    .venture--holigram .venture__brand:has(a:hover) .venture__name a { color: #5fd8ff; }
 
     /* Hourglass Trader: black and gold */
     .venture--hourglass .venture__brand {
@@ -474,8 +484,8 @@
     .venture--hourglass .venture__name { color: #d7b45a; }
     .venture--hourglass .venture__tagline { color: #d9d9d0; }
     .venture--hourglass .venture__highlights li::before { background: #c49b30; }
-    .venture--hourglass .venture__cta { background: #d4af37; color: #050604; }
-    .venture--hourglass .venture__cta:hover { background: #f0d060; color: #050604; }
+    .venture--hourglass .venture__go { fill: #d4af37; }
+    .venture--hourglass .venture__brand:has(a:hover) .venture__name a { color: #f0d060; }
 
     /* ── Tab 4: About Me ─────────────────────────────────────── */
     .awards { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 40px; border-top: 1px solid var(--rule); }
@@ -1075,8 +1085,8 @@
       <div class="ventures">
         <article class="venture venture--holigram sheet" aria-labelledby="venture-1">
           <header class="venture__brand">
-<img class="venture__logo" src="assets/ventures/holigram.svg?v=b869e09a" alt="Holigram logo" width="76" height="76" loading="lazy" />            <div>
-              <h3 class="venture__name display" id="venture-1">Holigram</h3>
+<a class="venture__logo-link" href="https://holigram.ai" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img class="venture__logo" src="assets/ventures/holigram.svg?v=b869e09a" alt="" width="76" height="76" loading="lazy" /></a>            <div>
+              <h3 class="venture__name display"><a href="https://holigram.ai" target="_blank" rel="noopener"><span id="venture-1">Holigram</span><svg class="venture__go" viewBox="0 -960 960 960" aria-hidden="true"><path d="m480-320 160-160-160-160-56 56 64 64H320v80h168l-64 64 56 56Zm0 240q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a></h3>
 <p class="venture__tagline">A memory you can open, edit, and build on.</p>            </div>
           </header>
           <div class="venture__body">
@@ -1084,13 +1094,12 @@
             <p class="venture__summary">A private data home for everything you like, own, and experience, with an assistant that answers only from what you actually keep. Founded, designed, and built end to end.</p>
             <ul class="venture__highlights">
 <li>Went from first commit to production in 24 days; 1,000+ commits and 60+ tagged releases since.</li><li>Ships as a web app and an iOS app on the App Store, with AI that drafts entries from a photo, a link, or a description for you to approve.</li><li>Built an MCP connector with OAuth 2.1 so Claude and ChatGPT can read a person&#39;s collections one at a time, with every grant revocable and every read logged.</li>            </ul>
-<ul class="tags" aria-label="Tags"><li>Angular + Syncfusion</li><li>FastAPI</li><li>PostgreSQL + pgvector</li><li>Claude API</li><li>MCP</li><li>Google Cloud</li></ul>            <a class="btn venture__cta" href="https://holigram.ai" target="_blank" rel="noopener">Visit holigram.ai<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 2.5h4v4M13.5 2.5 7 9M11.5 9.5v3a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
-          </div>
+<ul class="tags" aria-label="Tags"><li>Angular + Syncfusion</li><li>FastAPI</li><li>PostgreSQL + pgvector</li><li>Claude API</li><li>MCP</li><li>Google Cloud</li></ul>          </div>
         </article>
         <article class="venture venture--hourglass sheet" aria-labelledby="venture-2">
           <header class="venture__brand">
-<img class="venture__logo" src="assets/ventures/hourglass-trader.webp?v=6caebe8a" alt="Hourglass Trader logo" width="76" height="76" loading="lazy" />            <div>
-              <h3 class="venture__name display" id="venture-2">Hourglass Trader</h3>
+<a class="venture__logo-link" href="https://www.hourglasstrader.com" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img class="venture__logo" src="assets/ventures/hourglass-trader.webp?v=6caebe8a" alt="" width="76" height="76" loading="lazy" /></a>            <div>
+              <h3 class="venture__name display"><a href="https://www.hourglasstrader.com" target="_blank" rel="noopener"><span id="venture-2">Hourglass Trader</span><svg class="venture__go" viewBox="0 -960 960 960" aria-hidden="true"><path d="m480-320 160-160-160-160-56 56 64 64H320v80h168l-64 64 56 56Zm0 240q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a></h3>
 <p class="venture__tagline">Smarter trading tools, research, and strategy.</p>            </div>
           </header>
           <div class="venture__body">
@@ -1098,8 +1107,7 @@
             <p class="venture__summary">An options-trading research platform and community, founded by a friend.</p>
             <ul class="venture__highlights">
 <li>Coached the founder on using AI to generate bespoke trading tools and automate recurring work.</li><li>The platform now offers eight member tools, three free tools, real-time trade alerts, and a community of 3,000+ options sellers.</li>            </ul>
-<ul class="tags" aria-label="Tags"><li>AI enablement</li><li>Tool generation</li><li>Automation</li></ul>            <a class="btn venture__cta" href="https://www.hourglasstrader.com" target="_blank" rel="noopener">Visit hourglasstrader.com<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 2.5h4v4M13.5 2.5 7 9M11.5 9.5v3a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1h3"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
-          </div>
+<ul class="tags" aria-label="Tags"><li>AI enablement</li><li>Tool generation</li><li>Automation</li></ul>          </div>
         </article>
       </div>
     </section>
