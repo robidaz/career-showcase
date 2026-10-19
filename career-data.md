@@ -140,7 +140,7 @@ Zach Robida
 - **Tags:** GitHub Copilot, Claude, Glean, Python, Jinja2, AI
 - **Problem:** Functional design documentation was inconsistent, repetitive to scaffold, and disconnected from development and testing — creating delays and quality variance across projects.
 - **Solution:** Designed and built a centralized, version-controlled documentation repository with Jinja2 tooling that scaffolds new specs on demand. Custom GitHub Copilot instructions, prompt files, and Claude-powered agents live in the repo as working context, and Glean (via MCP) feeds them internal documentation, past projects, and design patterns. Continues to own and maintain the repository, its templates, and its AI configuration as the team grows.
-- **Tech:** Python, Jinja2, GitHub Copilot (instructions, prompt files, agents), Claude Sonnet 4.6, Glean via MCP, Markdown, Git
+- **Tech:** Python, Jinja2, GitHub Copilot (instructions, prompt files, agents), Claude Opus, Glean via MCP, Markdown, Git
 - **Impact:** Adopted as the system of record by a 25-person functional and development team: developers build directly from the specs, and test cases are written from them. Eliminated repetitive document setup and enforced one specification standard across the implementation pipeline.
 - **Next:** Generate automated test flows and training videos directly from the flow documentation and the code, so every new design ships with its tests and its training.
 
