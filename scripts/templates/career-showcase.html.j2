@@ -201,6 +201,8 @@
     .titleblock__cell dd { margin: 0; font-size: var(--fs-base); font-weight: 600; overflow-wrap: anywhere; }
     .titleblock__cell a { color: #fff; text-decoration: none; }
     .titleblock__cell a:hover { text-decoration: underline; color: #fff; }
+    .cell-ico, .cell-short { display: none; }
+    .cell-ico { width: 18px; height: 18px; fill: none; stroke: var(--hivis); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
     /* ── Sheet tabs (sticky) ─────────────────────────────────── */
     .sheet-tabs {
@@ -558,21 +560,32 @@
 
     @media (max-width: 640px) {
       :root { --gutter: 16px; }
-      .masthead { padding: 16px 0 16px; }
+      .masthead { padding: 12px 0; }
       .titleblock { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "main resume" "cells cells"; }
-      .titleblock__main { flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px 8px 16px 16px; }
-      .titleblock__avatar { width: 64px; height: 64px; }
-      .titleblock__id { gap: 2px; }
-      .titleblock__name { font-size: var(--fs-2xl); }
-      .titleblock__role { font-size: var(--fs-md); }
-      .titleblock__focus { font-size: var(--fs-sm); line-height: 1.4; }
-      .titleblock__resume { padding: 16px 16px 12px 4px; border-left: 0; justify-content: flex-start; }
-      .resume-thumb { width: 96px; }
-      .titleblock__cells { grid-template-columns: 1fr; }
-      .titleblock__cell { flex-direction: row; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 16px; }
-      .titleblock__cell dd { text-align: right; }
-      .titleblock__cell:nth-child(even) { border-left: 0; }
-      .titleblock__cell + .titleblock__cell { border-top: 1px solid var(--line-on-blue); }
+      .titleblock__main {
+        display: grid; grid-template-columns: 52px minmax(0, 1fr); grid-template-areas: "av name" "av role" "focus focus" "edu edu";
+        column-gap: 12px; row-gap: 0; align-items: center; padding: 14px 8px 14px 14px;
+      }
+      .titleblock__id { display: contents; }
+      .titleblock__avatar { grid-area: av; width: 52px; height: 52px; box-shadow: 0 0 0 2px var(--blueprint), 0 0 0 3px var(--line-on-blue); }
+      .titleblock__name { grid-area: name; align-self: end; font-size: var(--fs-xl); }
+      .titleblock__role { grid-area: role; align-self: start; margin: 2px 0 0; font-size: var(--fs-base); }
+      .titleblock__focus { grid-area: focus; margin-top: 10px; font-size: var(--fs-xs); line-height: 1.4; }
+      .titleblock__edu { grid-area: edu; margin-top: 8px; padding-top: 8px; font-size: var(--fs-xs); line-height: 1.4; }
+      .titleblock__resume { padding: 14px 14px 10px 4px; border-left: 0; justify-content: flex-start; gap: 6px; }
+      .resume-thumb { width: 84px; }
+      .titleblock__cells { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .titleblock__cell { padding: 0; }
+      .titleblock__cell + .titleblock__cell, .titleblock__cell:nth-child(n + 3) { border-top: 0; border-left: 1px solid var(--line-on-blue); }
+      .titleblock__cell dt { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+      .titleblock__cell dd, .titleblock__cell a {
+        display: flex; flex-direction: column; align-items: center; gap: 4px;
+        font-size: var(--fs-xs); font-weight: 600; text-align: center; line-height: 1.2;
+      }
+      .titleblock__cell dd { padding: 10px 4px; }
+      .titleblock__cell a { margin: -10px -4px; padding: 10px 4px; align-self: stretch; }
+      .cell-ico, .cell-short { display: block; }
+      .cell-full { display: none; }
       .sheet-tab { padding: 10px 14px 11px; font-size: var(--fs-base); }
       .content { padding-top: 28px; }
       .block__title { font-size: var(--fs-xl); }
@@ -651,10 +664,10 @@
         </div>
         {% endif %}
         <dl class="titleblock__cells">
-          <div class="titleblock__cell"><dt>Based in</dt><dd>{{ person.location }}</dd></div>
-          <div class="titleblock__cell"><dt>Email</dt><dd><a href="mailto:{{ person.email }}">{{ person.email }}</a></dd></div>
-          <div class="titleblock__cell"><dt>Phone</dt><dd><a href="tel:{{ person.phone_href }}">{{ person.phone }}</a></dd></div>
-          <div class="titleblock__cell"><dt>LinkedIn</dt><dd><a href="{{ person.linkedin }}" target="_blank" rel="noopener">{{ person.linkedin_display }}</a></dd></div>
+          <div class="titleblock__cell"><dt>Based in</dt><dd><svg class="cell-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>{{ person.location }}</span></dd></div>
+          <div class="titleblock__cell"><dt>Email</dt><dd><a href="mailto:{{ person.email }}" aria-label="Email {{ person.email }}"><svg class="cell-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 7 8.5-7"/></svg><span class="cell-full">{{ person.email }}</span><span class="cell-short">Email</span></a></dd></div>
+          <div class="titleblock__cell"><dt>Phone</dt><dd><a href="tel:{{ person.phone_href }}" aria-label="Call {{ person.phone }}"><svg class="cell-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5h3.5l2 5-2.5 1.5a11 11 0 0 0 6 6l1.5-2.5 5 2V19a2 2 0 0 1-2 2A17 17 0 0 1 3 5.5a2 2 0 0 1 2-2z"/></svg><span class="cell-full">{{ person.phone }}</span><span class="cell-short">Call</span></a></dd></div>
+          <div class="titleblock__cell"><dt>LinkedIn</dt><dd><a href="{{ person.linkedin }}" target="_blank" rel="noopener" aria-label="LinkedIn {{ person.linkedin_display }}"><svg class="cell-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10.5V17M8 7.5v.01M12 17v-6.5M12 13.5c0-2 1.2-3 2.6-3S17 11.4 17 13v4"/></svg><span class="cell-full">{{ person.linkedin_display }}</span><span class="cell-short">LinkedIn</span></a></dd></div>
         </dl>
       </div>
     </div>
