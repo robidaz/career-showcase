@@ -201,8 +201,11 @@
     .titleblock__cell dd { margin: 0; font-size: var(--fs-base); font-weight: 600; overflow-wrap: anywhere; }
     .titleblock__cell a { color: #fff; text-decoration: none; }
     .titleblock__cell a:hover { text-decoration: underline; color: #fff; }
-    .cell-ico, .cell-short { display: none; }
-    .cell-ico { width: 18px; height: 18px; fill: none; stroke: var(--hivis); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    /* icons stand in for the labels; the dt stays for screen readers */
+    .titleblock__cell dt { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    .titleblock__cell dd, .titleblock__cell a { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .cell-short { display: none; }
+    .cell-ico { display: block; flex: none; width: 18px; height: 18px; fill: none; stroke: var(--hivis); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
     /* ── Sheet tabs (sticky) ─────────────────────────────────── */
     .sheet-tabs {
@@ -577,14 +580,13 @@
       .titleblock__cells { grid-template-columns: repeat(4, minmax(0, 1fr)); }
       .titleblock__cell { padding: 0; }
       .titleblock__cell + .titleblock__cell, .titleblock__cell:nth-child(n + 3) { border-top: 0; border-left: 1px solid var(--line-on-blue); }
-      .titleblock__cell dt { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
       .titleblock__cell dd, .titleblock__cell a {
         display: flex; flex-direction: column; align-items: center; gap: 4px;
         font-size: var(--fs-xs); font-weight: 600; text-align: center; line-height: 1.2;
       }
       .titleblock__cell dd { padding: 10px 4px; }
       .titleblock__cell a { margin: -10px -4px; padding: 10px 4px; align-self: stretch; }
-      .cell-ico, .cell-short { display: block; }
+      .cell-short { display: block; }
       .cell-full { display: none; }
       .sheet-tab { padding: 10px 14px 11px; font-size: var(--fs-base); }
       .content { padding-top: 28px; }
@@ -625,6 +627,7 @@
       .titleblock, .titleblock > * + * { border-color: var(--rule-strong); }
       .titleblock__name, .titleblock__cell a { color: var(--ink); }
       .titleblock__focus, .titleblock__cell dt { color: var(--ink-3); }
+      .cell-ico { stroke: var(--ink-3); }
     }
   </style>
 </head>
