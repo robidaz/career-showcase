@@ -105,7 +105,7 @@ Include:
 - Professional Summary (3–5 sentences max)
 - Education (clean, minimal)
 - Contact Info (from JSON)
-- Cover Letter (tailored, confident, not generic)
+- Cover Letter (on hold: kept in career-data.md, not shown on the site)
 - Exportable Résumé (see below)
 
 Exportable Résumé:

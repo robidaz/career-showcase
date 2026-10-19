@@ -29,7 +29,11 @@ This website's content was generated in a local VS Code environment using GitHub
 
 Zach Robida is a Design Lead at Manhattan Associates with eight years of experience delivering supply chain software for federal clients, from FedRAMP cloud environments to modern Angular logistics applications. He bridges functional design and technical implementation, turning complex business requirements into specifications developers can build from directly. An automation-first thinker, he built the AI-driven documentation platform his 25-person functional and development team now designs, builds, and tests from. Recognized with a 2025 Spirit Award for Master Mentor, he raises the output of the people around him through structured coaching and delegated ownership.
 
+He sees AI as a practical layer within real systems, not a standalone capability, and is most interested in feedback loops that keep improving a system over time. His approach is consistent: question assumptions, identify the constraint, make the tough call, and design a solution that scales. The same approach drives Holigram, the AI-powered private data home he founded and built end to end.
+
 ## Cover Letter
+
+Not shown on the site for now; kept here for later use.
 
 To whom it may concern,
 
@@ -124,8 +128,8 @@ Zach Robida
 
 ### Manufacturing Engineering Co-Op | Itron, Inc. — West Union, SC | 2015 – 2016
 
-- Sole mechanical engineer on a Kaizen team; designed custom ESD workstations while managing a $30,000 budget.
-- Designed and implemented automated test equipment using precision load cells and a Unitronics PLC/HMI, reducing manual process time by up to 50%.
+- Completed four semester-long co-op rotations of hands-on manufacturing engineering, from workstation design to production-floor process improvement.
+- Designed automated test equipment (precision load cells, PLC/HMI) and custom ESD workstations as part of a Kaizen team, reducing manual process time by up to 50%.
 
 ## Project Highlights
 

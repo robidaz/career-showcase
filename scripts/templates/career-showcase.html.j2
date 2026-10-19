@@ -307,14 +307,8 @@
     /* ── Tab 1: Profile ──────────────────────────────────────── */
     .profile-grid { max-width: 46rem; }
 
-    /* Profile: one text style for the summary and the letter */
+    /* Profile: one text style for the summary */
     .profile-text { font-size: var(--fs-base); line-height: 1.7; color: var(--ink); }
-    .letter {
-      max-height: 26rem; overflow-y: auto; overscroll-behavior: contain;
-      padding: 22px 26px; background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius-sheet);
-      scrollbar-width: thin; scrollbar-color: var(--rule-strong) transparent;
-    }
-    .letter:focus-visible { outline-offset: 2px; }
 
 
 
@@ -697,16 +691,10 @@
         <div class="profile-main">
           <div class="block">
             <h2 class="visually-hidden">Professional summary</h2>
-            <p class="profile-text">{{ profile.summary }}</p>
+            {% for para in profile.summary.split('\n\n') %}
+            <p class="profile-text">{{ para }}</p>
+            {% endfor %}
           </div>
-
-          <div class="block">
-            <div class="block__head"><h2 class="block__title display" id="letter-title">Cover letter</h2></div>
-            <div class="letter" tabindex="0" role="region" aria-labelledby="letter-title">
-              {% for para in profile.cover_letter.split('\n\n') %}
-              <p class="profile-text">{{ para }}</p>
-              {% endfor %}
-            </div>
           </div>
         </div>
 

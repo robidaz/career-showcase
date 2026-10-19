@@ -307,14 +307,8 @@
     /* ── Tab 1: Profile ──────────────────────────────────────── */
     .profile-grid { max-width: 46rem; }
 
-    /* Profile: one text style for the summary and the letter */
+    /* Profile: one text style for the summary */
     .profile-text { font-size: var(--fs-base); line-height: 1.7; color: var(--ink); }
-    .letter {
-      max-height: 26rem; overflow-y: auto; overscroll-behavior: contain;
-      padding: 22px 26px; background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius-sheet);
-      scrollbar-width: thin; scrollbar-color: var(--rule-strong) transparent;
-    }
-    .letter:focus-visible { outline-offset: 2px; }
 
 
 
@@ -641,7 +635,7 @@
         </div>
         <div class="titleblock__resume">
           <button type="button" class="resume-thumb" data-resume-open aria-label="View résumé">
-            <img src="assets/resume/resume-thumb.png?v=61c12d56" alt="" width="336" height="435" />
+            <img src="assets/resume/resume-thumb.png?v=aea28cc8" alt="" width="336" height="435" />
           </button>
           <span class="titleblock__resume-label" aria-hidden="true">Résumé</span>
         </div>
@@ -686,20 +680,8 @@
           <div class="block">
             <h2 class="visually-hidden">Professional summary</h2>
             <p class="profile-text">Zach Robida is a Design Lead at Manhattan Associates with eight years of experience delivering supply chain software for federal clients, from FedRAMP cloud environments to modern Angular logistics applications. He bridges functional design and technical implementation, turning complex business requirements into specifications developers can build from directly. An automation-first thinker, he built the AI-driven documentation platform his 25-person functional and development team now designs, builds, and tests from. Recognized with a 2025 Spirit Award for Master Mentor, he raises the output of the people around him through structured coaching and delegated ownership.</p>
+            <p class="profile-text">He sees AI as a practical layer within real systems, not a standalone capability, and is most interested in feedback loops that keep improving a system over time. His approach is consistent: question assumptions, identify the constraint, make the tough call, and design a solution that scales. The same approach drives Holigram, the AI-powered private data home he founded and built end to end.</p>
           </div>
-
-          <div class="block">
-            <div class="block__head"><h2 class="block__title display" id="letter-title">Cover letter</h2></div>
-            <div class="letter" tabindex="0" role="region" aria-labelledby="letter-title">
-              <p class="profile-text">To whom it may concern,</p>
-              <p class="profile-text">For the past eight years, I have worked where enterprise software, supply chain operations, and evolving technology meet — finding where systems break down and designing better ways to make them work.</p>
-              <p class="profile-text">In my first year as a consultant at Manhattan Associates, a growing testing backlog was holding back our releases. I taught myself Python and built a Selenium-based automation framework that turned a manual process into a scalable system. That experience still shapes how I work: problems are systems to optimize, automate, and keep improving, not isolated tasks.</p>
-              <p class="profile-text">Today I am a Design Lead, delivering multi-million-dollar implementations and guiding solution design end to end. I work directly with clients to understand their processes, define requirements, and architect solutions that are both technically sound and operationally practical — and I keep introducing automation and AI to cut manual effort and improve decisions.</p>
-              <p class="profile-text">I see AI as a practical layer within real systems, not a standalone capability. The documentation platform I built is a working example: it is how my 25-person team designs, builds, and tests, and the foundation for generating test flows and training directly from design.</p>
-              <p class="profile-text">What differentiates me is not a toolset but a mindset: I question assumptions, identify constraints, make tough decisions, and design solutions that scale, moving comfortably between technical implementation, system design, and stakeholder communication.</p>
-              <p class="profile-text">I am seeking a role where I can help an organization design and implement AI-enabled systems that deliver measurable impact. If that aligns with your goals, I would welcome the opportunity to connect.</p>
-              <p class="profile-text">Zach Robida</p>
-            </div>
           </div>
         </div>
 
@@ -742,7 +724,7 @@
           </button>
           <button type="button" class="dimchain__seg is-last" role="tab"
                   id="role-tab-0" data-role="0" aria-controls="role-0"
-                  aria-selected="true"                  style="--span: 2.79">
+                  aria-selected="true"                  style="--span: 2.8">
             <span class="dimchain__label">Design Lead</span>
             <span class="dimchain__line" aria-hidden="true"></span>
             <span class="dimchain__year">2024<span class="dimchain__years-mobile">–Now</span></span>
@@ -787,8 +769,8 @@
           <h3 class="role__title display">Manufacturing Engineering Co-Op</h3>
           <p class="role__meta"><strong>Itron, Inc. — West Union, SC</strong>, 2015 – 2016</p>
           <ul class="role__bullets">
-            <li>Sole mechanical engineer on a Kaizen team; designed custom ESD workstations while managing a $30,000 budget.</li>
-            <li>Designed and implemented automated test equipment using precision load cells and a Unitronics PLC/HMI, reducing manual process time by up to 50%.</li>
+            <li>Completed four semester-long co-op rotations of hands-on manufacturing engineering, from workstation design to production-floor process improvement.</li>
+            <li>Designed automated test equipment (precision load cells, PLC/HMI) and custom ESD workstations as part of a Kaizen team, reducing manual process time by up to 50%.</li>
           </ul>
         </article>
       </div>
@@ -1220,13 +1202,13 @@
   </main>
 
   <dialog id="resume-dialog" class="resume-dialog" aria-labelledby="resume-dialog-title"
-          data-pdf-url="assets/resume/Zach-Robida-Resume.pdf?v=0316e7da"
-          data-preview-url="assets/resume/resume-preview.png?v=537f8942"
+          data-pdf-url="assets/resume/Zach-Robida-Resume.pdf?v=41bb69c6"
+          data-preview-url="assets/resume/resume-preview.png?v=8fe2ba78"
           data-css-url="assets/css/resume-viewer.css?v=586e5ad8"
           data-license-url="syncfusion-license.js">
     <div class="resume-dialog__bar">
       <h2 id="resume-dialog-title">Résumé</h2>
-      <a class="resume-dialog__download" href="assets/resume/Zach-Robida-Resume.pdf?v=0316e7da" download="Zach-Robida-Resume.pdf">Download PDF</a>
+      <a class="resume-dialog__download" href="assets/resume/Zach-Robida-Resume.pdf?v=41bb69c6" download="Zach-Robida-Resume.pdf">Download PDF</a>
       <button type="button" class="resume-dialog__close" data-resume-close aria-label="Close résumé viewer">×</button>
     </div>
     <div id="resume-viewer" class="resume-dialog__viewer"></div>

@@ -9,7 +9,8 @@
 - professional summary
 - education: the bachelor's degree, shown in the header (the full list stays on the PDF résumé)
 - contact information
-- cover letter information (opening paragraphs visible, the rest collapsible)
+- professional summary in two paragraphs: work, then how Zach operates and uses AI (with a high-level Holigram mention)
+- cover letter: on hold, not shown (text kept in career-data.md)
 - exportable resume: one-page PDF built from career-data.md; a small thumbnail in the header title block opens the PDF viewer (Syncfusion), which has Download
 
 ## Tab 2: Work
