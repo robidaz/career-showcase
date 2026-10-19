@@ -329,7 +329,7 @@ Married to Molly McCullough Robida.
 
 #### Pets
 
-Two Cavalier King Charles Spaniels: Nova (6) and Bentley (3).
+Two Cavalier King Charles Spaniels: Nova (7) and Bentley (4).
 
 ## Books
 

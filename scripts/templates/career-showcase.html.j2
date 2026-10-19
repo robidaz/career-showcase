@@ -512,18 +512,33 @@
     .hobby__items li { padding: 3px 10px; border: 1px solid var(--rule-strong); border-radius: 999px; font-size: var(--fs-sm); color: var(--ink-2); background: var(--sheet); }
     .hobby__text { margin-top: 4px; color: var(--ink-2); }
 
+    /* Reading: a book log, numbered entries with a coloured spine */
+    .booklog { background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius-sheet); overflow: hidden; }
+    .booklog__head, .book { display: grid; grid-template-columns: 22px 6px minmax(0, 1fr) auto; column-gap: 12px; }
+    .booklog__head {
+      padding: 8px 14px; background: var(--paper); border-bottom: 1px solid var(--rule-strong);
+      font-size: var(--fs-xs); font-weight: 600; font-stretch: 88%; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3);
+    }
+    .booklog__head > span:nth-child(2) { grid-column: 3; }
+    .booklog__count { grid-column: 4; letter-spacing: 0; text-transform: none; font-weight: 500; }
     .books {
-      list-style: none; max-height: 340px; overflow-y: auto; overscroll-behavior: contain;
-      background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius-sheet);
+      list-style: none; margin: 0; padding: 0; max-height: 360px; overflow-y: auto; overscroll-behavior: contain;
       scrollbar-width: thin; scrollbar-color: var(--rule-strong) transparent;
     }
-    .books:focus-visible { outline-offset: 2px; }
-    .book { padding: 10px 14px; }
+    .books:focus-visible { outline-offset: -2px; }
+    .book { padding: 12px 14px; }
     .book + .book { border-top: 1px solid var(--rule); }
-    .book__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; }
+    .book__no { padding-top: 1px; font-size: var(--fs-xs); font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink-3); }
+    .book__spine { border-radius: 2px; background: var(--spine, var(--cobalt)); box-shadow: inset -2px 0 0 rgba(0, 0, 0, 0.18); }
+    .book:nth-child(6n + 2) { --spine: #8a2d3b; }
+    .book:nth-child(6n + 3) { --spine: #2f6b4f; }
+    .book:nth-child(6n + 4) { --spine: #b8862b; }
+    .book:nth-child(6n + 5) { --spine: #1c7a85; }
+    .book:nth-child(6n + 6) { --spine: #5b3f8c; }
+    .book__body { grid-column: 3 / -1; min-width: 0; }
     .book__title { font-weight: 600; font-size: var(--fs-sm); line-height: 1.35; }
-    .book__author { color: var(--ink-3); font-size: var(--fs-xs); }
-    .book__insight { margin: 2px 0 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45; }
+    .book__author { color: var(--ink-3); font-size: var(--fs-xs); line-height: 1.4; }
+    .book__insight { margin: 6px 0 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45; font-style: italic; }
 
     /* ── Résumé viewer dialog (behavior in assets/js/resume-viewer.js) ── */
     .resume-dialog {
@@ -920,6 +935,12 @@
         <section aria-labelledby="interests-title">
           <h2 class="subhead display" id="interests-title">Outside work</h2>
           <ul class="hobbies">
+            {% for trait in about.personality if trait.group == 'family' %}
+            <li>
+              <div class="hobby__name">{{ trait.label }}</div>
+              <p class="hobby__text">{% for item in trait.sub_items %}{{ item.value }}{% if not loop.last %} {% endif %}{% endfor %}</p>
+            </li>
+            {% endfor %}
             {% for hobby in about.hobbies if hobby['items'] or not about.books %}
             <li>
               <div class="hobby__name">{{ hobby.name }}</div>
@@ -928,26 +949,28 @@
               {% endif %}
             </li>
             {% endfor %}
-            {% for trait in about.personality if trait.group == 'family' %}
-            <li>
-              <div class="hobby__name">{{ trait.label }}</div>
-              <p class="hobby__text">{% for item in trait.sub_items %}{{ item.value }}{% if not loop.last %} {% endif %}{% endfor %}</p>
-            </li>
-            {% endfor %}
           </ul>
         </section>
 
         {% if about.books %}
         <section aria-labelledby="books-title">
           <h2 class="subhead display" id="books-title">Reading that shaped my thinking</h2>
-          <ul class="books" tabindex="0" aria-label="Book list (scrollable)">
-            {% for book in about.books %}
-            <li class="book">
-              <div class="book__head"><span class="book__title">{{ book.title }}</span>{% if book.author %}<span class="book__author">{{ book.author }}</span>{% endif %}</div>
-              <p class="book__insight">{{ book.insight }}</p>
-            </li>
-            {% endfor %}
-          </ul>
+          <div class="booklog">
+            <div class="booklog__head" aria-hidden="true"><span>No.</span><span>Title &amp; takeaway</span><span class="booklog__count">{{ about.books | length }} books</span></div>
+            <ol class="books" tabindex="0" aria-label="Book log (scrollable)">
+              {% for book in about.books %}
+              <li class="book">
+                <span class="book__no" aria-hidden="true">{{ '%02d' % loop.index }}</span>
+                <span class="book__spine" aria-hidden="true"></span>
+                <div class="book__body">
+                  <div class="book__title">{{ book.title }}</div>
+                  {% if book.author %}<div class="book__author">{{ book.author }}</div>{% endif %}
+                  <p class="book__insight">{{ book.insight }}</p>
+                </div>
+              </li>
+              {% endfor %}
+            </ol>
+          </div>
         </section>
         {% endif %}
       </div>

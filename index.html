@@ -512,18 +512,33 @@
     .hobby__items li { padding: 3px 10px; border: 1px solid var(--rule-strong); border-radius: 999px; font-size: var(--fs-sm); color: var(--ink-2); background: var(--sheet); }
     .hobby__text { margin-top: 4px; color: var(--ink-2); }
 
+    /* Reading: a book log, numbered entries with a coloured spine */
+    .booklog { background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius-sheet); overflow: hidden; }
+    .booklog__head, .book { display: grid; grid-template-columns: 22px 6px minmax(0, 1fr) auto; column-gap: 12px; }
+    .booklog__head {
+      padding: 8px 14px; background: var(--paper); border-bottom: 1px solid var(--rule-strong);
+      font-size: var(--fs-xs); font-weight: 600; font-stretch: 88%; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3);
+    }
+    .booklog__head > span:nth-child(2) { grid-column: 3; }
+    .booklog__count { grid-column: 4; letter-spacing: 0; text-transform: none; font-weight: 500; }
     .books {
-      list-style: none; max-height: 340px; overflow-y: auto; overscroll-behavior: contain;
-      background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius-sheet);
+      list-style: none; margin: 0; padding: 0; max-height: 360px; overflow-y: auto; overscroll-behavior: contain;
       scrollbar-width: thin; scrollbar-color: var(--rule-strong) transparent;
     }
-    .books:focus-visible { outline-offset: 2px; }
-    .book { padding: 10px 14px; }
+    .books:focus-visible { outline-offset: -2px; }
+    .book { padding: 12px 14px; }
     .book + .book { border-top: 1px solid var(--rule); }
-    .book__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; }
+    .book__no { padding-top: 1px; font-size: var(--fs-xs); font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink-3); }
+    .book__spine { border-radius: 2px; background: var(--spine, var(--cobalt)); box-shadow: inset -2px 0 0 rgba(0, 0, 0, 0.18); }
+    .book:nth-child(6n + 2) { --spine: #8a2d3b; }
+    .book:nth-child(6n + 3) { --spine: #2f6b4f; }
+    .book:nth-child(6n + 4) { --spine: #b8862b; }
+    .book:nth-child(6n + 5) { --spine: #1c7a85; }
+    .book:nth-child(6n + 6) { --spine: #5b3f8c; }
+    .book__body { grid-column: 3 / -1; min-width: 0; }
     .book__title { font-weight: 600; font-size: var(--fs-sm); line-height: 1.35; }
-    .book__author { color: var(--ink-3); font-size: var(--fs-xs); }
-    .book__insight { margin: 2px 0 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45; }
+    .book__author { color: var(--ink-3); font-size: var(--fs-xs); line-height: 1.4; }
+    .book__insight { margin: 6px 0 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45; font-style: italic; }
 
     /* ── Résumé viewer dialog (behavior in assets/js/resume-viewer.js) ── */
     .resume-dialog {
@@ -1162,6 +1177,10 @@
           <h2 class="subhead display" id="interests-title">Outside work</h2>
           <ul class="hobbies">
             <li>
+              <div class="hobby__name">Family</div>
+              <p class="hobby__text">Married to Molly McCullough Robida. Two Cavalier King Charles Spaniels: Nova (7) and Bentley (4).</p>
+            </li>
+            <li>
               <div class="hobby__name">Woodworking</div>
               <ul class="hobby__items"><li>Cutting boards</li><li>Charcuterie boards</li><li>Gift and commissioned pieces</li></ul>
             </li>
@@ -1169,57 +1188,96 @@
               <div class="hobby__name">DIY home projects</div>
               <ul class="hobby__items"><li>Carpentry</li><li>Bathroom renovations</li><li>Painting</li><li>Tiling</li><li>Electrical work</li></ul>
             </li>
-            <li>
-              <div class="hobby__name">Family</div>
-              <p class="hobby__text">Married to Molly McCullough Robida. Two Cavalier King Charles Spaniels: Nova (6) and Bentley (3).</p>
-            </li>
           </ul>
         </section>
 
         <section aria-labelledby="books-title">
           <h2 class="subhead display" id="books-title">Reading that shaped my thinking</h2>
-          <ul class="books" tabindex="0" aria-label="Book list (scrollable)">
-            <li class="book">
-              <div class="book__head"><span class="book__title">The Singularity Is Near / The Singularity Is Nearer</span><span class="book__author">Ray Kurzweil</span></div>
-              <p class="book__insight">Technology compounds. Understanding the trajectory of exponential growth changes how you think about what is coming — and how fast.</p>
-            </li>
-            <li class="book">
-              <div class="book__head"><span class="book__title">Nexus</span><span class="book__author">Yuval Noah Harari</span></div>
-              <p class="book__insight">Information networks have always shaped civilization. AI is the latest — and most powerful — iteration of that pattern.</p>
-            </li>
-            <li class="book">
-              <div class="book__head"><span class="book__title">Sapiens &amp; Homo Deus</span><span class="book__author">Yuval Noah Harari</span></div>
-              <p class="book__insight">Where we came from defines the hidden assumptions we carry into the future. Understanding history is the prerequisite for designing what comes next.</p>
-            </li>
-            <li class="book">
-              <div class="book__head"><span class="book__title">The Master Algorithm</span><span class="book__author">Pedro Domingos</span></div>
-              <p class="book__insight">ML is not magic — it is a search for a unifying learning framework. Demystifying the mechanism makes you a better practitioner.</p>
-            </li>
-            <li class="book">
-              <div class="book__head"><span class="book__title">Scary Smart</span><span class="book__author">Mo Gawdat</span></div>
-              <p class="book__insight">The question is not whether AI becomes capable, but what values we embed in it along the way. Agency matters now, not later.</p>
-            </li>
-            <li class="book">
-              <div class="book__head"><span class="book__title">Smart Brevity</span><span class="book__author">VandeHei, Allen &amp; Schwartz</span></div>
-              <p class="book__insight">Saying more with less is a skill, not a shortcut. Respecting the reader&#39;s time is the foundation of effective communication.</p>
-            </li>
-            <li class="book">
-              <div class="book__head"><span class="book__title">The Five Dysfunctions of a Team</span><span class="book__author">Patrick Lencioni</span></div>
-              <p class="book__insight">Trust is the root. Every team dysfunction traces back to an unwillingness to be vulnerable. Fix the root, not the symptoms.</p>
-            </li>
-            <li class="book">
-              <div class="book__head"><span class="book__title">The First Time Manager</span><span class="book__author">Belker, McCormick &amp; Topchik</span></div>
-              <p class="book__insight">Managing people is a craft, not a promotion. The shift from doing to enabling is the hardest and most important transition in a career.</p>
-            </li>
-            <li class="book">
-              <div class="book__head"><span class="book__title">Freakonomics</span><span class="book__author">Levitt &amp; Dubner</span></div>
-              <p class="book__insight">Incentives explain almost everything. Look at the data, question the conventional narrative, and find the hidden lever.</p>
-            </li>
-            <li class="book">
-              <div class="book__head"><span class="book__title">Conscious</span><span class="book__author">Annaka Harris</span></div>
-              <p class="book__insight">Consciousness may be far more fundamental — and far stranger — than our intuitions suggest. Staying humble about what we don&#39;t know keeps thinking sharp.</p>
-            </li>
-          </ul>
+          <div class="booklog">
+            <div class="booklog__head" aria-hidden="true"><span>No.</span><span>Title &amp; takeaway</span><span class="booklog__count">10 books</span></div>
+            <ol class="books" tabindex="0" aria-label="Book log (scrollable)">
+              <li class="book">
+                <span class="book__no" aria-hidden="true">01</span>
+                <span class="book__spine" aria-hidden="true"></span>
+                <div class="book__body">
+                  <div class="book__title">The Singularity Is Near / The Singularity Is Nearer</div>
+<div class="book__author">Ray Kurzweil</div>                  <p class="book__insight">Technology compounds. Understanding the trajectory of exponential growth changes how you think about what is coming — and how fast.</p>
+                </div>
+              </li>
+              <li class="book">
+                <span class="book__no" aria-hidden="true">02</span>
+                <span class="book__spine" aria-hidden="true"></span>
+                <div class="book__body">
+                  <div class="book__title">Nexus</div>
+<div class="book__author">Yuval Noah Harari</div>                  <p class="book__insight">Information networks have always shaped civilization. AI is the latest — and most powerful — iteration of that pattern.</p>
+                </div>
+              </li>
+              <li class="book">
+                <span class="book__no" aria-hidden="true">03</span>
+                <span class="book__spine" aria-hidden="true"></span>
+                <div class="book__body">
+                  <div class="book__title">Sapiens &amp; Homo Deus</div>
+<div class="book__author">Yuval Noah Harari</div>                  <p class="book__insight">Where we came from defines the hidden assumptions we carry into the future. Understanding history is the prerequisite for designing what comes next.</p>
+                </div>
+              </li>
+              <li class="book">
+                <span class="book__no" aria-hidden="true">04</span>
+                <span class="book__spine" aria-hidden="true"></span>
+                <div class="book__body">
+                  <div class="book__title">The Master Algorithm</div>
+<div class="book__author">Pedro Domingos</div>                  <p class="book__insight">ML is not magic — it is a search for a unifying learning framework. Demystifying the mechanism makes you a better practitioner.</p>
+                </div>
+              </li>
+              <li class="book">
+                <span class="book__no" aria-hidden="true">05</span>
+                <span class="book__spine" aria-hidden="true"></span>
+                <div class="book__body">
+                  <div class="book__title">Scary Smart</div>
+<div class="book__author">Mo Gawdat</div>                  <p class="book__insight">The question is not whether AI becomes capable, but what values we embed in it along the way. Agency matters now, not later.</p>
+                </div>
+              </li>
+              <li class="book">
+                <span class="book__no" aria-hidden="true">06</span>
+                <span class="book__spine" aria-hidden="true"></span>
+                <div class="book__body">
+                  <div class="book__title">Smart Brevity</div>
+<div class="book__author">VandeHei, Allen &amp; Schwartz</div>                  <p class="book__insight">Saying more with less is a skill, not a shortcut. Respecting the reader&#39;s time is the foundation of effective communication.</p>
+                </div>
+              </li>
+              <li class="book">
+                <span class="book__no" aria-hidden="true">07</span>
+                <span class="book__spine" aria-hidden="true"></span>
+                <div class="book__body">
+                  <div class="book__title">The Five Dysfunctions of a Team</div>
+<div class="book__author">Patrick Lencioni</div>                  <p class="book__insight">Trust is the root. Every team dysfunction traces back to an unwillingness to be vulnerable. Fix the root, not the symptoms.</p>
+                </div>
+              </li>
+              <li class="book">
+                <span class="book__no" aria-hidden="true">08</span>
+                <span class="book__spine" aria-hidden="true"></span>
+                <div class="book__body">
+                  <div class="book__title">The First Time Manager</div>
+<div class="book__author">Belker, McCormick &amp; Topchik</div>                  <p class="book__insight">Managing people is a craft, not a promotion. The shift from doing to enabling is the hardest and most important transition in a career.</p>
+                </div>
+              </li>
+              <li class="book">
+                <span class="book__no" aria-hidden="true">09</span>
+                <span class="book__spine" aria-hidden="true"></span>
+                <div class="book__body">
+                  <div class="book__title">Freakonomics</div>
+<div class="book__author">Levitt &amp; Dubner</div>                  <p class="book__insight">Incentives explain almost everything. Look at the data, question the conventional narrative, and find the hidden lever.</p>
+                </div>
+              </li>
+              <li class="book">
+                <span class="book__no" aria-hidden="true">10</span>
+                <span class="book__spine" aria-hidden="true"></span>
+                <div class="book__body">
+                  <div class="book__title">Conscious</div>
+<div class="book__author">Annaka Harris</div>                  <p class="book__insight">Consciousness may be far more fundamental — and far stranger — than our intuitions suggest. Staying humble about what we don&#39;t know keeps thinking sharp.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
         </section>
       </div>
     </section>
