@@ -9,7 +9,7 @@
   <meta property="og:type" content="profile" />
   <meta property="og:title" content="Zach Robida — Design Lead" />
   <meta property="og:description" content="Supply Chain Software &amp; AI-Driven Solutions" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23113c8a'/%3E%3Cpath d='M13 17h38v30H13z' fill='none' stroke='%23fff' stroke-width='3'/%3E%3Cpath d='M13 36h38M31 36v11' stroke='%23fff' stroke-width='3'/%3E%3Crect x='36' y='40' width='10' height='3.5' fill='%23ff6b1a'/%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230f2550'/%3E%3Cpath d='M13 17h38v30H13z' fill='none' stroke='%23fff' stroke-width='3'/%3E%3Cpath d='M13 36h38M31 36v11' stroke='%23fff' stroke-width='3'/%3E%3Crect x='36' y='40' width='10' height='3.5' fill='%238fdcff'/%3E%3C/svg%3E" />
   <link rel="preload" href="assets/fonts/archivo-variable.woff2?v=258a93fe" as="font" type="font/woff2" crossorigin />
   <script>document.documentElement.classList.add("js");</script>
   <style>
@@ -50,8 +50,17 @@
       --cobalt: #1f4fd1;
       --cobalt-ink: #173ea6;
       --cobalt-wash: #e4ecff;
-      --hivis: #ff6b1a;
+      --hivis: #8fdcff;            /* ice cyan, matches the masthead needle */
       --hivis-ink: #0a1a33;
+
+      /* Type scale: every font-size on the page uses one of these */
+      --fs-xs: 0.8125rem;   /* 13px labels, chips, captions */
+      --fs-sm: 0.875rem;    /* 14px secondary text */
+      --fs-base: 1rem;      /* 16px body */
+      --fs-md: 1.125rem;    /* 18px emphasis, card titles */
+      --fs-lg: 1.375rem;    /* 22px lead text, sub-headings */
+      --fs-xl: 1.75rem;     /* 28px headings */
+      --fs-2xl: 2rem;       /* 32px section titles */
 
       --sans: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
       --shadow-sheet: 0 1px 0 rgba(10, 26, 51, 0.04), 0 18px 32px -24px rgba(10, 26, 51, 0.45);
@@ -68,7 +77,7 @@
     body {
       margin: 0;
       font-family: var(--sans);
-      font-size: 1rem;
+      font-size: var(--fs-base);
       line-height: 1.62;
       color: var(--ink);
       background: var(--paper);
@@ -91,7 +100,7 @@
     .skip-link {
       position: absolute; left: 12px; top: -48px; z-index: 50;
       padding: 10px 14px; border-radius: var(--radius-control);
-      background: var(--hivis); color: var(--hivis-ink); font-weight: 650; text-decoration: none;
+      background: var(--hivis); color: var(--hivis-ink); font-weight: 600; text-decoration: none;
     }
     .skip-link:focus { top: 12px; }
 
@@ -103,7 +112,7 @@
     /* Display type: condensed Archivo carries the drawing-set voice */
     .display {
       font-family: var(--sans);
-      font-stretch: 74%;
+      font-stretch: 75%;
       font-weight: 740;
       letter-spacing: -0.005em;
       line-height: 1.04;
@@ -114,13 +123,13 @@
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       min-height: 42px; padding: 9px 16px;
       border: 1.5px solid transparent; border-radius: var(--radius-control);
-      font: inherit; font-weight: 650; font-stretch: 92%; font-size: 0.95rem; line-height: 1.1;
+      font: inherit; font-weight: 600; font-stretch: 88%; font-size: var(--fs-base); line-height: 1.1;
       text-decoration: none; cursor: pointer;
       transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
     }
     .btn svg { width: 16px; height: 16px; flex: none; }
     .btn--hivis { background: var(--hivis); color: var(--hivis-ink); }
-    .btn--hivis:hover { background: #ff843f; color: var(--hivis-ink); }
+    .btn--hivis:hover { background: #c2ecff; color: var(--hivis-ink); }
     .btn--cobalt { background: var(--cobalt); color: #fff; }
     .btn--cobalt:hover { background: var(--cobalt-ink); color: #fff; }
     .btn--line { border-color: var(--rule-strong); color: var(--ink); background: var(--sheet); }
@@ -158,9 +167,8 @@
     .titleblock {
       background: rgba(5, 16, 40, 0.45);
       display: grid;
-      grid-template-columns: 136px minmax(0, 1fr) minmax(260px, 330px);
-      grid-template-rows: 1fr auto;
-      grid-template-areas: "portrait id cells" "portrait actions cells";
+      grid-template-columns: 136px minmax(0, 1fr) 120px minmax(260px, 330px);
+      grid-template-areas: "portrait id resume cells";
       border: 1px solid var(--line-on-blue);
     }
 
@@ -170,17 +178,25 @@
       box-shadow: 0 0 0 3px var(--blueprint), 0 0 0 4px var(--line-on-blue);
     }
 
-    .titleblock__id { grid-area: id; padding: 24px 26px 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; }
+    .titleblock__id { grid-area: id; padding: 24px 26px; display: flex; flex-direction: column; justify-content: center; gap: 6px; }
     .titleblock__name { font-size: clamp(2.6rem, 5.4vw, 4.25rem); color: #fff; }
-    .titleblock__role { margin: 4px 0 0; font-size: 1.35rem; font-weight: 620; font-stretch: 86%; line-height: 1.2; }
-    .titleblock__focus { margin: 0; color: var(--on-blue-soft); font-size: 1rem; }
-    .titleblock__actions { grid-area: actions; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px; padding: 16px 26px 24px; }
+    .titleblock__role { margin: 4px 0 0; font-size: var(--fs-lg); font-weight: 600; font-stretch: 88%; line-height: 1.2; }
+    .titleblock__focus { margin: 0; color: var(--on-blue-soft); font-size: var(--fs-base); }
+    .titleblock__resume { grid-area: resume; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 14px 12px; border-left: 1px solid var(--line-on-blue); }
+    .resume-thumb {
+      display: block; width: 76px; padding: 0; cursor: zoom-in; background: #fff;
+      border: 0; border-radius: 3px; box-shadow: 0 0 0 1px var(--line-on-blue), 0 8px 18px -8px rgba(0, 0, 0, 0.6);
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+    .resume-thumb img { display: block; width: 100%; height: auto; border-radius: 3px; }
+    .resume-thumb:hover { transform: translateY(-2px); box-shadow: 0 0 0 2px var(--hivis), 0 12px 22px -8px rgba(0, 0, 0, 0.6); }
+    .titleblock__resume-label { font-size: var(--fs-xs); color: var(--on-blue-soft); font-stretch: 88%; }
 
     .titleblock__cells { grid-area: cells; margin: 0; display: grid; grid-template-rows: repeat(4, 1fr); border-left: 1px solid var(--line-on-blue); }
     .titleblock__cell { padding: 10px 16px; display: flex; flex-direction: column; justify-content: center; min-width: 0; }
     .titleblock__cell + .titleblock__cell { border-top: 1px solid var(--line-on-blue); }
-    .titleblock__cell dt { font-size: 0.78rem; color: var(--on-blue-soft); font-stretch: 90%; }
-    .titleblock__cell dd { margin: 0; font-size: 0.95rem; font-weight: 560; overflow-wrap: anywhere; }
+    .titleblock__cell dt { font-size: var(--fs-xs); color: var(--on-blue-soft); font-stretch: 88%; }
+    .titleblock__cell dd { margin: 0; font-size: var(--fs-base); font-weight: 600; overflow-wrap: anywhere; }
     .titleblock__cell a { color: #fff; text-decoration: none; }
     .titleblock__cell a:hover { text-decoration: underline; color: #fff; }
 
@@ -198,7 +214,7 @@
       padding: 11px 18px 12px;
       border: 0; border-top: 3px solid transparent; border-radius: 8px 8px 0 0;
       background: transparent; color: #dbe6fb;
-      font: inherit; font-size: 1rem; font-weight: 650; font-stretch: 84%; line-height: 1.2;
+      font: inherit; font-size: var(--fs-base); font-weight: 600; font-stretch: 88%; line-height: 1.2;
       transition: background-color 140ms ease, color 140ms ease;
     }
     .sheet-tab:hover { color: #fff; background: rgba(255, 255, 255, 0.08); }
@@ -220,9 +236,9 @@
 
     .block + .block { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--rule); }
     .block__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 20px; margin-bottom: 20px; }
-    .block__title { font-size: 2rem; }
-    .block__note { margin: 0; color: var(--ink-3); font-size: 0.92rem; }
-    .subhead { font-size: 1.3rem; margin-bottom: 12px; }
+    .block__title { font-size: var(--fs-2xl); }
+    .block__note { margin: 0; color: var(--ink-3); font-size: var(--fs-sm); }
+    .subhead { font-size: var(--fs-lg); margin-bottom: 12px; }
 
     .sheet {
       background: var(--sheet);
@@ -235,7 +251,7 @@
     .tags li {
       padding: 3px 9px; border-radius: 999px;
       background: var(--cobalt-wash); color: var(--cobalt-ink);
-      font-size: 0.8rem; font-weight: 600; font-stretch: 92%; line-height: 1.4;
+      font-size: var(--fs-xs); font-weight: 600; font-stretch: 88%; line-height: 1.4;
     }
 
     /* Accordions: native <details>, styled once */
@@ -267,44 +283,32 @@
     /* ── Tab 1: Profile ──────────────────────────────────────── */
     .profile-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 48px; align-items: start; }
 
-    .lead { font-size: 1.32rem; line-height: 1.55; max-width: 62ch; color: var(--ink); }
+    .lead { font-size: var(--fs-lg); line-height: 1.55; max-width: 62ch; color: var(--ink); }
 
     .letter p, .letter__more { max-width: 68ch; }
     .letter p { color: var(--ink-2); }
-    .letter p:first-of-type { color: var(--ink); font-weight: 560; }
+    .letter p:first-of-type { color: var(--ink); font-weight: 600; }
     .letter__more { margin-top: 0.9em; }
     .letter__more > summary {
       display: inline-flex; align-items: center; gap: 10px;
-      color: var(--cobalt); font-weight: 650; font-stretch: 92%;
+      color: var(--cobalt); font-weight: 600; font-stretch: 88%;
     }
     .letter__more > summary:hover { color: var(--cobalt-ink); }
     .letter__more[open] > summary { margin-bottom: 0.9em; }
     .letter__more .when-open, .letter__more[open] .when-closed { display: none; }
     .letter__more[open] .when-open { display: inline; }
-    .letter__sign { font-weight: 650; color: var(--ink); }
+    .letter__sign { font-weight: 600; color: var(--ink); }
 
     .profile-aside { display: flex; flex-direction: column; gap: 28px; }
     @media (min-width: 861px) and (min-height: 900px) {
       .profile-aside { position: sticky; top: 76px; }
     }
 
-    .resume-card { padding: 20px; }
-    .resume-card__title { font-size: 1.5rem; }
-    .resume-card__meta { margin: 4px 0 16px; color: var(--ink-3); font-size: 0.9rem; }
-    .resume-card__preview {
-      display: block; width: 100%; padding: 0; cursor: zoom-in;
-      border: 1px solid var(--rule); border-radius: 4px; background: #fff;
-      box-shadow: 0 10px 22px -16px rgba(10, 26, 51, 0.55);
-      transition: border-color 140ms ease, box-shadow 140ms ease;
-    }
-    .resume-card__preview:hover { border-color: var(--cobalt); box-shadow: 0 14px 26px -16px rgba(31, 79, 209, 0.55); }
-    .resume-card__preview img { width: 100%; height: auto; border-radius: 3px; }
-    .resume-card__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
 
     .edu { list-style: none; display: grid; gap: 14px; }
-    .edu__degree { font-weight: 650; line-height: 1.3; }
-    .edu__school { color: var(--ink-2); font-size: 0.93rem; }
-    .edu__detail { color: var(--ink-3); font-size: 0.86rem; }
+    .edu__degree { font-weight: 600; line-height: 1.3; }
+    .edu__school { color: var(--ink-2); font-size: var(--fs-sm); }
+    .edu__detail { color: var(--ink-3); font-size: var(--fs-sm); }
 
     /* ── Tab 2: Work & Projects ──────────────────────────────── */
     /* Experience as a dimension chain: segment widths are real durations */
@@ -319,7 +323,7 @@
     .dimchain__seg.is-last { border-right: 1px solid var(--rule-strong); }
     .dimchain__label {
       display: block; padding: 8px 4px 10px;
-      font-size: 0.98rem; font-weight: 650; font-stretch: 84%; line-height: 1.15; white-space: nowrap;
+      font-size: var(--fs-base); font-weight: 600; font-stretch: 88%; line-height: 1.15; white-space: nowrap;
       overflow: hidden; text-overflow: ellipsis;
     }
     /* the dimension line with arrowheads */
@@ -335,14 +339,14 @@
     .dimchain__line::after { right: -2px; border-left: 9px solid currentColor; }
     .dimchain__year {
       position: absolute; bottom: 0; left: 0; transform: translateX(-50%);
-      font-size: 0.8rem; font-weight: 560; color: var(--ink-3); font-variant-numeric: tabular-nums;
+      font-size: var(--fs-xs); font-weight: 600; color: var(--ink-3); font-variant-numeric: tabular-nums;
     }
     .dimchain__year--end { left: auto; right: 0; transform: translateX(50%); }
     .dimchain__seg:hover { color: var(--ink); }
     .dimchain__seg:hover .dimchain__line { color: var(--cobalt); }
     .dimchain__seg[aria-selected="true"] { color: var(--ink); background: linear-gradient(180deg, var(--cobalt-wash), transparent 85%); }
     .dimchain__seg[aria-selected="true"] .dimchain__line { color: var(--cobalt); height: 3px; }
-    .dimchain__seg[aria-selected="true"] .dimchain__label { font-weight: 760; }
+    .dimchain__seg[aria-selected="true"] .dimchain__label { font-weight: 740; }
     .dimchain__gap { flex: 0 0 38px; display: grid; place-items: start center; padding-top: 30px; color: var(--rule-strong); }
     .dimchain__gap svg { width: 30px; height: 16px; }
     .dimchain__years-mobile { display: none; }
@@ -351,9 +355,9 @@
     .role { max-width: 80ch; }
     .role + .role { margin-top: 28px; }
     .js .role + .role { margin-top: 0; }
-    .role__title { font-size: 1.6rem; }
+    .role__title { font-size: var(--fs-xl); }
     .role__meta { margin: 6px 0 14px; color: var(--ink-2); }
-    .role__meta strong { color: var(--ink); font-weight: 620; }
+    .role__meta strong { color: var(--ink); font-weight: 600; }
     .role__bullets { list-style: none; display: grid; gap: 10px; }
     .role__bullets li { position: relative; padding-left: 22px; }
     .role__bullets li::before {
@@ -366,17 +370,17 @@
       padding: 28px 30px; border-top: 4px solid var(--blueprint);
     }
     .feature__aside { display: flex; flex-direction: column; gap: 18px; padding-left: 30px; border-left: 1px solid var(--rule); }
-    .feature__built h4 { font-size: 0.86rem; font-weight: 650; font-stretch: 90%; color: var(--ink-3); margin-bottom: 4px; }
-    .feature__built p { font-size: 0.95rem; color: var(--ink-2); }
+    .feature__built h4 { font-size: var(--fs-sm); font-weight: 600; font-stretch: 88%; color: var(--ink-3); margin-bottom: 4px; }
+    .feature__built p { font-size: var(--fs-base); color: var(--ink-2); }
     .feature__status {
       display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px;
       padding: 5px 10px; border: 1.5px solid var(--cobalt); border-radius: var(--radius-control);
-      color: var(--cobalt-ink); font-size: 0.85rem; font-weight: 650; font-stretch: 92%;
+      color: var(--cobalt-ink); font-size: var(--fs-sm); font-weight: 600; font-stretch: 88%;
     }
     .feature__status svg { width: 15px; height: 15px; }
-    .feature__title { font-size: 2.05rem; margin-bottom: 18px; }
+    .feature__title { font-size: var(--fs-2xl); margin-bottom: 18px; }
     .spec { margin: 0; display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px 20px; }
-    .spec dt { font-size: 0.86rem; font-weight: 650; font-stretch: 90%; color: var(--ink-3); padding-top: 2px; }
+    .spec dt { font-size: var(--fs-sm); font-weight: 600; font-stretch: 88%; color: var(--ink-3); padding-top: 2px; }
     .spec dd { margin: 0; max-width: 72ch; }
     .feature .spec dd { color: var(--ink); }
     /* Dashed outline = planned work, like phantom lines on a drawing */
@@ -384,8 +388,8 @@
       padding: 16px 18px;
       border: 1.5px dashed var(--cobalt); border-radius: 8px; background: #f7f9ff;
     }
-    .feature__next h4 { font-size: 1.15rem; margin-bottom: 6px; color: var(--cobalt-ink); }
-    .feature__next p { color: var(--ink); font-size: 0.97rem; }
+    .feature__next h4 { font-size: var(--fs-md); margin-bottom: 6px; color: var(--cobalt-ink); }
+    .feature__next p { color: var(--ink); font-size: var(--fs-base); }
 
     .projects { margin-top: 28px; border-top: 1px solid var(--rule); }
     .project { border-bottom: 1px solid var(--rule); }
@@ -393,37 +397,37 @@
       display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px 20px;
       padding: 16px 4px;
     }
-    .project__title { font-size: 1.28rem; display: block; }
-    .project__impact { display: block; color: var(--ink-2); font-size: 0.95rem; margin-top: 3px; }
+    .project__title { font-size: var(--fs-lg); display: block; }
+    .project__impact { display: block; color: var(--ink-2); font-size: var(--fs-base); margin-top: 3px; }
     .project > summary:hover .project__title { color: var(--cobalt-ink); }
     .project__body { padding: 2px 4px 22px; }
     .project__body .tags { margin-top: 16px; }
 
     .skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); background: var(--sheet); border-radius: var(--radius-sheet); overflow: hidden; }
     .skills__group { padding: 20px 22px 22px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-    .skills__name { font-size: 1.2rem; margin-bottom: 12px; }
+    .skills__name { font-size: var(--fs-md); margin-bottom: 12px; }
     .skills__list { list-style: none; display: grid; gap: 9px; }
     .skill { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px 12px; }
-    .skill__name { font-size: 0.93rem; line-height: 1.3; }
+    .skill__name { font-size: var(--fs-sm); line-height: 1.3; }
     .meter { display: inline-flex; gap: 3px; }
     .meter i { width: 14px; height: 7px; border-radius: 1.5px; background: var(--rule); }
     .meter i.is-on { background: var(--cobalt); }
-    .legend { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--ink-3); font-size: 0.85rem; }
+    .legend { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--ink-3); font-size: var(--fs-sm); }
     .legend span { display: inline-flex; align-items: center; gap: 8px; }
 
     /* ── Tab 3: Side Ventures ────────────────────────────────── */
-    .ventures-intro { max-width: 62ch; color: var(--ink-2); font-size: 1.08rem; margin-bottom: 28px; }
+    .ventures-intro { max-width: 62ch; color: var(--ink-2); font-size: var(--fs-md); margin-bottom: 28px; }
     .ventures { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; align-items: start; }
 
     .venture { overflow: hidden; display: flex; flex-direction: column; }
     .venture__brand { display: flex; align-items: center; gap: 18px; padding: 26px 26px 24px; }
     .venture__logo { flex: none; width: 76px; height: 76px; object-fit: contain; }
-    .venture__name { font-size: 1.9rem; line-height: 1.05; }
-    .venture__tagline { margin: 6px 0 0; font-size: 1rem; line-height: 1.4; }
+    .venture__name { font-size: var(--fs-xl); line-height: 1.05; }
+    .venture__tagline { margin: 6px 0 0; font-size: var(--fs-base); line-height: 1.4; }
     .venture__body { padding: 22px 26px 26px; display: flex; flex-direction: column; gap: 14px; }
     .venture__role { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; color: var(--ink-2); }
-    .venture__role strong { color: var(--ink); font-weight: 700; font-size: 1.05rem; }
-    .venture__status { padding: 2px 9px; border-radius: 999px; font-size: 0.8rem; font-weight: 650; font-stretch: 92%; }
+    .venture__role strong { color: var(--ink); font-weight: 700; font-size: var(--fs-base); }
+    .venture__status { padding: 2px 9px; border-radius: 999px; font-size: var(--fs-xs); font-weight: 600; font-stretch: 88%; }
     .venture__summary { margin: 0; }
     .venture__highlights { list-style: none; display: grid; gap: 8px; }
     .venture__highlights li { position: relative; padding-left: 20px; color: var(--ink-2); }
@@ -463,17 +467,17 @@
 
     /* ── Tab 4: About Me ─────────────────────────────────────── */
     .awards { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 40px; border-top: 1px solid var(--rule); }
-    .award { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 2px 12px; padding: 14px 2px; border-bottom: 1px solid var(--rule); }
+    .award { display: grid; grid-template-columns: 32px minmax(0, 1fr); align-content: start; gap: 2px 12px; padding: 14px 2px; border-bottom: 1px solid var(--rule); }
     .award__icon { grid-row: span 2; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--cobalt-wash); color: var(--cobalt-ink); }
     .award__icon svg { width: 17px; height: 17px; }
     .award__title { font-weight: 700; line-height: 1.3; }
-    .award__detail { color: var(--ink-2); font-size: 0.92rem; }
+    .award__detail { color: var(--ink-2); font-size: var(--fs-sm); }
 
     .types { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 30px; }
     .type { padding: 16px 18px 18px; background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius-sheet); }
-    .type__result { font-size: 1.45rem; }
-    .type__system { margin: 2px 0 8px; color: var(--cobalt-ink); font-size: 0.86rem; font-weight: 650; font-stretch: 92%; }
-    .type__body { color: var(--ink-2); font-size: 0.93rem; line-height: 1.55; }
+    .type__result { font-size: var(--fs-lg); }
+    .type__system { margin: 2px 0 8px; color: var(--cobalt-ink); font-size: var(--fs-sm); font-weight: 600; font-stretch: 88%; }
+    .type__body { color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.55; }
 
     .traits { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 40px; }
     .traits dt { font-weight: 700; }
@@ -483,23 +487,21 @@
     .hobbies { list-style: none; display: grid; gap: 18px; }
     .hobby__name { font-weight: 700; }
     .hobby__items { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
-    .hobby__items li { padding: 3px 10px; border: 1px solid var(--rule-strong); border-radius: 999px; font-size: 0.85rem; color: var(--ink-2); background: var(--sheet); }
+    .hobby__items li { padding: 3px 10px; border: 1px solid var(--rule-strong); border-radius: 999px; font-size: var(--fs-sm); color: var(--ink-2); background: var(--sheet); }
     .hobby__text { margin-top: 4px; color: var(--ink-2); }
 
-    .books { list-style: none; display: grid; gap: 16px; }
-    .book__title { font-weight: 700; line-height: 1.3; }
-    .book__author { color: var(--ink-3); font-size: 0.88rem; }
-    .book__insight { color: var(--ink-2); font-size: 0.95rem; margin-top: 3px; }
-    .books-more { margin-top: 16px; }
-    .books-more > summary { display: inline-flex; align-items: center; gap: 10px; color: var(--cobalt); font-weight: 650; font-stretch: 92%; }
-    .books-more[open] > summary { margin-bottom: 16px; }
-    .books-more .when-open, .books-more[open] .when-closed { display: none; }
-    .books-more[open] .when-open { display: inline; }
-
-    /* ── Footer ──────────────────────────────────────────────── */
-    .colophon { padding-top: 28px; padding-bottom: 40px; border-top: 1px solid var(--rule); color: var(--ink-3); font-size: 0.86rem; }
-    .colophon p { max-width: 90ch; }
-    .colophon__stamp { margin-top: 10px; color: var(--ink-2); font-weight: 600; }
+    .books {
+      list-style: none; max-height: 340px; overflow-y: auto; overscroll-behavior: contain;
+      background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius-sheet);
+      scrollbar-width: thin; scrollbar-color: var(--rule-strong) transparent;
+    }
+    .books:focus-visible { outline-offset: 2px; }
+    .book { padding: 10px 14px; }
+    .book + .book { border-top: 1px solid var(--rule); }
+    .book__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; }
+    .book__title { font-weight: 600; font-size: var(--fs-sm); line-height: 1.35; }
+    .book__author { color: var(--ink-3); font-size: var(--fs-xs); }
+    .book__insight { margin: 2px 0 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45; }
 
     /* ── Résumé viewer dialog (behavior in assets/js/resume-viewer.js) ── */
     .resume-dialog {
@@ -512,16 +514,16 @@
     body:has(.resume-dialog[open]) { overflow: hidden; }
     .resume-dialog::backdrop { background: rgba(6, 20, 48, 0.62); }
     .resume-dialog__bar { display: flex; align-items: center; gap: 10px; padding: 10px 12px 10px 18px; border-bottom: 1px solid var(--rule); }
-    .resume-dialog__bar h2 { margin-right: auto; font-size: 1.3rem; font-stretch: 74%; font-weight: 740; }
+    .resume-dialog__bar h2 { margin-right: auto; font-size: var(--fs-lg); font-stretch: 75%; font-weight: 740; }
     .resume-dialog__download {
       display: inline-flex; align-items: center; min-height: 38px; padding: 7px 14px;
-      border-radius: var(--radius-control); background: var(--hivis); color: var(--hivis-ink);
-      font-weight: 650; font-stretch: 92%; font-size: 0.92rem; text-decoration: none;
+      border-radius: var(--radius-control); background: var(--cobalt); color: #fff;
+      font-weight: 600; font-stretch: 88%; font-size: var(--fs-sm); text-decoration: none;
     }
-    .resume-dialog__download:hover { background: #ff843f; color: var(--hivis-ink); }
+    .resume-dialog__download:hover { background: var(--cobalt-ink); color: #fff; }
     .resume-dialog__close {
       width: 38px; height: 38px; border: 1.5px solid var(--rule-strong); border-radius: var(--radius-control);
-      background: var(--sheet); color: var(--ink); font-size: 1.4rem; line-height: 1; cursor: pointer;
+      background: var(--sheet); color: var(--ink); font-size: var(--fs-lg); line-height: 1; cursor: pointer;
     }
     .resume-dialog__close:hover { border-color: var(--cobalt); color: var(--cobalt); }
     .resume-dialog__viewer { flex: 1; min-height: 0; position: relative; background: var(--paper); }
@@ -534,7 +536,7 @@
     }
 
     @media (max-width: 860px) {
-      .titleblock { grid-template-columns: 112px minmax(0, 1fr); grid-template-areas: "portrait id" "portrait actions" "cells cells"; }
+      .titleblock { grid-template-columns: 112px minmax(0, 1fr) 108px; grid-template-areas: "portrait id resume" "cells cells cells"; }
       .titleblock__portrait img { width: 84px; height: 84px; }
       .titleblock__cells { grid-template-rows: none; grid-template-columns: repeat(2, minmax(0, 1fr)); border-left: 0; border-top: 1px solid var(--line-on-blue); }
       .titleblock__cell + .titleblock__cell { border-top: 0; }
@@ -551,37 +553,37 @@
     @media (max-width: 640px) {
       :root { --gutter: 16px; }
       .masthead { padding: 16px 0 16px; }
-      .titleblock { grid-template-columns: 84px minmax(0, 1fr); grid-template-areas: "portrait id" "actions actions" "cells cells"; grid-template-rows: auto; }
+      .titleblock { grid-template-columns: 84px minmax(0, 1fr) 70px; grid-template-areas: "portrait id resume" "cells cells cells"; }
       .titleblock__portrait { border-right: 0; place-items: start; padding: 16px 0 0 16px; }
       .titleblock__portrait img { width: 68px; height: 68px; }
-      .titleblock__id { padding: 14px 16px 0 12px; justify-content: flex-start; gap: 2px; }
-      .titleblock__name { font-size: 2.35rem; }
-      .titleblock__role { font-size: 1.15rem; }
-      .titleblock__focus { font-size: 0.92rem; line-height: 1.4; }
-      .titleblock__actions { padding: 14px 16px 16px; }
-      .titleblock__actions .btn { flex: 1 1 0; padding-inline: 10px; }
+      .titleblock__id { padding: 14px 8px 14px 12px; justify-content: flex-start; gap: 2px; }
+      .titleblock__name { font-size: var(--fs-2xl); }
+      .titleblock__role { font-size: var(--fs-md); }
+      .titleblock__focus { font-size: var(--fs-sm); line-height: 1.4; }
+      .titleblock__resume { padding: 14px 14px 12px 0; border-left: 0; justify-content: flex-start; }
+      .resume-thumb { width: 54px; }
       .titleblock__cells { grid-template-columns: 1fr; }
       .titleblock__cell { flex-direction: row; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 16px; }
       .titleblock__cell dd { text-align: right; }
       .titleblock__cell:nth-child(even) { border-left: 0; }
       .titleblock__cell + .titleblock__cell { border-top: 1px solid var(--line-on-blue); }
-      .sheet-tab { padding: 10px 14px 11px; font-size: 0.98rem; }
+      .sheet-tab { padding: 10px 14px 11px; font-size: var(--fs-base); }
       .content { padding-top: 28px; }
-      .block__title { font-size: 1.7rem; }
-      .lead { font-size: 1.16rem; }
+      .block__title { font-size: var(--fs-xl); }
+      .lead { font-size: var(--fs-md); }
       .profile-aside { grid-template-columns: 1fr; }
       .dimchain { flex-direction: column; margin-bottom: 20px; border-left: 2px solid var(--rule-strong); }
       .dimchain__seg { flex: none; min-width: 0; display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; padding: 10px 12px; text-align: left; border-left: 0; }
       .dimchain__seg.is-last { border-right: 0; }
       .dimchain__label { grid-column: 2; grid-row: 1; padding: 0; }
       .dimchain__line { display: none; }
-      .dimchain__year { position: static; transform: none; grid-column: 1; grid-row: 1; font-size: 0.86rem; }
+      .dimchain__year { position: static; transform: none; grid-column: 1; grid-row: 1; font-size: var(--fs-sm); }
       .dimchain__year--end { display: none; }
       .dimchain__years-mobile { display: inline; }
       .dimchain__seg[aria-selected="true"] { background: var(--cobalt-wash); box-shadow: inset 3px 0 0 var(--cobalt); }
       .dimchain__gap { display: none; }
       .feature { padding: 22px 18px; }
-      .feature__title { font-size: 1.7rem; }
+      .feature__title { font-size: var(--fs-xl); }
       .spec { grid-template-columns: 1fr; gap: 2px; }
       .spec dd + dt { margin-top: 12px; }
       .skills { grid-template-columns: 1fr; }
@@ -589,7 +591,7 @@
       .awards { grid-template-columns: 1fr; }
       .venture__brand { padding: 20px; gap: 14px; }
       .venture__logo { width: 60px; height: 60px; }
-      .venture__name { font-size: 1.6rem; }
+      .venture__name { font-size: var(--fs-xl); }
       .venture__body { padding: 18px 20px 22px; }
       .resume-dialog { width: 100vw; height: 100dvh; border-radius: 0; border: 0; }
     }
@@ -599,7 +601,7 @@
     }
 
     @media print {
-      .sheet-tabs, .skip-link, .masthead__canvas, .titleblock__actions, .resume-card, .resume-dialog, .letter__more > summary, .books-more > summary { display: none !important; }
+      .sheet-tabs, .skip-link, .masthead__canvas, .titleblock__resume, .resume-dialog, .letter__more > summary { display: none !important; }
       .js .panel:not(.is-active), .js .role:not(.is-active) { display: block; }
       details > *:not(summary) { display: block; }
       .masthead { background: none; color: var(--ink); padding: 0 0 16px; }
@@ -626,9 +628,11 @@
           <p class="titleblock__role">Design Lead</p>
           <p class="titleblock__focus">Supply Chain Software &amp; AI-Driven Solutions</p>
         </div>
-        <div class="titleblock__actions">
-          <a class="btn btn--hivis" href="assets/resume/Zach-Robida-Resume.pdf?v=f3266958" download="Zach-Robida-Resume.pdf" aria-label="Download résumé (PDF)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5v7.5M4.75 7 8 10.25 11.25 7M3 13.5h10"/></svg><span class="lbl-long">Download résumé</span><span class="lbl-short">Résumé PDF</span></a>
-          <button type="button" class="btn btn--on-blue" data-resume-open aria-label="View résumé"><span class="lbl-long">View résumé</span><span class="lbl-short">View</span></button>
+        <div class="titleblock__resume">
+          <button type="button" class="resume-thumb" data-resume-open aria-label="View résumé">
+            <img src="assets/resume/resume-thumb.png?v=7a0a47dd" alt="" width="152" height="197" />
+          </button>
+          <span class="titleblock__resume-label" aria-hidden="true">Résumé</span>
         </div>
         <dl class="titleblock__cells">
           <div class="titleblock__cell"><dt>Based in</dt><dd>Atlanta, GA</dd></div>
@@ -683,18 +687,6 @@
         </div>
 
         <aside class="profile-aside">
-          <section class="resume-card sheet" aria-labelledby="resume-card-title">
-            <h2 class="resume-card__title display" id="resume-card-title">Résumé</h2>
-            <p class="resume-card__meta">One page, PDF. Updated October 18, 2026.</p>
-            <button type="button" class="resume-card__preview" data-resume-open aria-label="Open the résumé viewer">
-              <img src="assets/resume/resume-preview.png?v=9972f39a" alt="Page 1 of Zach Robida's résumé" width="1200" height="1553" loading="lazy" />
-            </button>
-            <div class="resume-card__actions">
-              <button type="button" class="btn btn--cobalt" data-resume-open>View</button>
-              <a class="btn btn--line" href="assets/resume/Zach-Robida-Resume.pdf?v=f3266958" download="Zach-Robida-Resume.pdf"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5v7.5M4.75 7 8 10.25 11.25 7M3 13.5h10"/></svg>Download</a>
-            </div>
-          </section>
-
           <section aria-labelledby="edu-title">
             <h2 class="subhead display" id="edu-title">Education</h2>
             <ul class="edu">
@@ -720,7 +712,7 @@
       <div class="block">
         <div class="block__head">
           <h2 class="block__title display">Experience</h2>
-          <p class="block__note">Each span is drawn to scale. Select one to read the role.</p>
+          <p class="block__note">Select a role to read more.</p>
         </div>
 
         <div class="dimchain" role="tablist" aria-label="Roles by date">
@@ -1081,7 +1073,7 @@
     <!-- ══ Tab 3 — Side Ventures ═══════════════════════════════ -->
     <section class="panel" id="panel-ventures" role="tabpanel" aria-labelledby="tab-ventures">
       <div class="block__head"><h2 class="block__title display">Side ventures</h2></div>
-      <p class="ventures-intro">Products I build and teams I advise outside the day job. The short version is here; each site tells the rest.</p>
+      <p class="ventures-intro">Products I build and teams I advise outside the day job.</p>
       <div class="ventures">
         <article class="venture venture--holigram sheet" aria-labelledby="venture-1">
           <header class="venture__brand">
@@ -1180,61 +1172,61 @@
 
         <section aria-labelledby="books-title">
           <h2 class="subhead display" id="books-title">Reading that shaped my thinking</h2>
-          <ul class="books">
-<li>
-            <div class="book__title">The Singularity Is Near / The Singularity Is Nearer</div>
-<div class="book__author">Ray Kurzweil</div>            <div class="book__insight">Technology compounds. Understanding the trajectory of exponential growth changes how you think about what is coming — and how fast.</div>
-          </li><li>
-            <div class="book__title">Nexus</div>
-<div class="book__author">Yuval Noah Harari</div>            <div class="book__insight">Information networks have always shaped civilization. AI is the latest — and most powerful — iteration of that pattern.</div>
-          </li><li>
-            <div class="book__title">Sapiens &amp; Homo Deus</div>
-<div class="book__author">Yuval Noah Harari</div>            <div class="book__insight">Where we came from defines the hidden assumptions we carry into the future. Understanding history is the prerequisite for designing what comes next.</div>
-          </li><li>
-            <div class="book__title">The Master Algorithm</div>
-<div class="book__author">Pedro Domingos</div>            <div class="book__insight">ML is not magic — it is a search for a unifying learning framework. Demystifying the mechanism makes you a better practitioner.</div>
-          </li>          </ul>
-          <details class="books-more">
-            <summary><span class="when-closed">Show 6 more</span><span class="when-open">Show fewer</span><span class="chev" aria-hidden="true"></span></summary>
-            <ul class="books">
-<li>
-            <div class="book__title">Scary Smart</div>
-<div class="book__author">Mo Gawdat</div>            <div class="book__insight">The question is not whether AI becomes capable, but what values we embed in it along the way. Agency matters now, not later.</div>
-          </li><li>
-            <div class="book__title">Smart Brevity</div>
-<div class="book__author">VandeHei, Allen &amp; Schwartz</div>            <div class="book__insight">Saying more with less is a skill, not a shortcut. Respecting the reader&#39;s time is the foundation of effective communication.</div>
-          </li><li>
-            <div class="book__title">The Five Dysfunctions of a Team</div>
-<div class="book__author">Patrick Lencioni</div>            <div class="book__insight">Trust is the root. Every team dysfunction traces back to an unwillingness to be vulnerable. Fix the root, not the symptoms.</div>
-          </li><li>
-            <div class="book__title">The First Time Manager</div>
-<div class="book__author">Belker, McCormick &amp; Topchik</div>            <div class="book__insight">Managing people is a craft, not a promotion. The shift from doing to enabling is the hardest and most important transition in a career.</div>
-          </li><li>
-            <div class="book__title">Freakonomics</div>
-<div class="book__author">Levitt &amp; Dubner</div>            <div class="book__insight">Incentives explain almost everything. Look at the data, question the conventional narrative, and find the hidden lever.</div>
-          </li><li>
-            <div class="book__title">Conscious</div>
-<div class="book__author">Annaka Harris</div>            <div class="book__insight">Consciousness may be far more fundamental — and far stranger — than our intuitions suggest. Staying humble about what we don&#39;t know keeps thinking sharp.</div>
-          </li>            </ul>
-          </details>
+          <ul class="books" tabindex="0" aria-label="Book list (scrollable)">
+            <li class="book">
+              <div class="book__head"><span class="book__title">The Singularity Is Near / The Singularity Is Nearer</span><span class="book__author">Ray Kurzweil</span></div>
+              <p class="book__insight">Technology compounds. Understanding the trajectory of exponential growth changes how you think about what is coming — and how fast.</p>
+            </li>
+            <li class="book">
+              <div class="book__head"><span class="book__title">Nexus</span><span class="book__author">Yuval Noah Harari</span></div>
+              <p class="book__insight">Information networks have always shaped civilization. AI is the latest — and most powerful — iteration of that pattern.</p>
+            </li>
+            <li class="book">
+              <div class="book__head"><span class="book__title">Sapiens &amp; Homo Deus</span><span class="book__author">Yuval Noah Harari</span></div>
+              <p class="book__insight">Where we came from defines the hidden assumptions we carry into the future. Understanding history is the prerequisite for designing what comes next.</p>
+            </li>
+            <li class="book">
+              <div class="book__head"><span class="book__title">The Master Algorithm</span><span class="book__author">Pedro Domingos</span></div>
+              <p class="book__insight">ML is not magic — it is a search for a unifying learning framework. Demystifying the mechanism makes you a better practitioner.</p>
+            </li>
+            <li class="book">
+              <div class="book__head"><span class="book__title">Scary Smart</span><span class="book__author">Mo Gawdat</span></div>
+              <p class="book__insight">The question is not whether AI becomes capable, but what values we embed in it along the way. Agency matters now, not later.</p>
+            </li>
+            <li class="book">
+              <div class="book__head"><span class="book__title">Smart Brevity</span><span class="book__author">VandeHei, Allen &amp; Schwartz</span></div>
+              <p class="book__insight">Saying more with less is a skill, not a shortcut. Respecting the reader&#39;s time is the foundation of effective communication.</p>
+            </li>
+            <li class="book">
+              <div class="book__head"><span class="book__title">The Five Dysfunctions of a Team</span><span class="book__author">Patrick Lencioni</span></div>
+              <p class="book__insight">Trust is the root. Every team dysfunction traces back to an unwillingness to be vulnerable. Fix the root, not the symptoms.</p>
+            </li>
+            <li class="book">
+              <div class="book__head"><span class="book__title">The First Time Manager</span><span class="book__author">Belker, McCormick &amp; Topchik</span></div>
+              <p class="book__insight">Managing people is a craft, not a promotion. The shift from doing to enabling is the hardest and most important transition in a career.</p>
+            </li>
+            <li class="book">
+              <div class="book__head"><span class="book__title">Freakonomics</span><span class="book__author">Levitt &amp; Dubner</span></div>
+              <p class="book__insight">Incentives explain almost everything. Look at the data, question the conventional narrative, and find the hidden lever.</p>
+            </li>
+            <li class="book">
+              <div class="book__head"><span class="book__title">Conscious</span><span class="book__author">Annaka Harris</span></div>
+              <p class="book__insight">Consciousness may be far more fundamental — and far stranger — than our intuitions suggest. Staying humble about what we don&#39;t know keeps thinking sharp.</p>
+            </li>
+          </ul>
         </section>
       </div>
     </section>
   </main>
 
-  <footer class="colophon wrap">
-    <p>This website&#39;s content was generated in a local VS Code environment using GitHub Copilot and Claude Code, powered by Anthropic&#39;s Claude models. It draws from materials provided by Zach Robida, including his resume, cover letter, past performance reviews, and other supporting documents. Despite the AI-generated nature of this content, all information on this site has been independently verified for accuracy.</p>
-    <p class="colophon__stamp">Last compiled October 18, 2026</p>
-  </footer>
-
   <dialog id="resume-dialog" class="resume-dialog" aria-labelledby="resume-dialog-title"
-          data-pdf-url="assets/resume/Zach-Robida-Resume.pdf?v=f3266958"
-          data-preview-url="assets/resume/resume-preview.png?v=9972f39a"
+          data-pdf-url="assets/resume/Zach-Robida-Resume.pdf?v=1bb6c178"
+          data-preview-url="assets/resume/resume-preview.png?v=2558d907"
           data-css-url="assets/css/resume-viewer.css?v=586e5ad8"
           data-license-url="syncfusion-license.js">
     <div class="resume-dialog__bar">
       <h2 id="resume-dialog-title">Résumé</h2>
-      <a class="resume-dialog__download" href="assets/resume/Zach-Robida-Resume.pdf?v=f3266958" download="Zach-Robida-Resume.pdf">Download PDF</a>
+      <a class="resume-dialog__download" href="assets/resume/Zach-Robida-Resume.pdf?v=1bb6c178" download="Zach-Robida-Resume.pdf">Download PDF</a>
       <button type="button" class="resume-dialog__close" data-resume-close aria-label="Close résumé viewer">×</button>
     </div>
     <div id="resume-viewer" class="resume-dialog__viewer"></div>

@@ -30,6 +30,7 @@ AVATAR_PATH = WORKSPACE / "documentation" / "additional information" / "profile_
 DATA_PATH = WORKSPACE / "career-data.md"
 RESUME_DIR = WORKSPACE / "assets" / "resume"
 RESUME_PREVIEW_NAME = "resume-preview.png"
+RESUME_THUMB_NAME = "resume-thumb.png"         # small header thumbnail (152px wide = 76px at 2x)
 
 LEVELS = ["Beginner", "Intermediate", "Advanced", "Expert"]
 
@@ -811,13 +812,29 @@ def build_context(avatar_src: str) -> dict:
 # ---------------------------------------------------------------------------
 # Render
 # ---------------------------------------------------------------------------
+def _make_thumb(pdf: pathlib.Path, dest: pathlib.Path) -> None:
+    """Render page one of the résumé as a small PNG for the header (needs pdftoppm)."""
+    import shutil
+    import subprocess
+    if not pdf.is_file() or (dest.is_file() and dest.stat().st_mtime >= pdf.stat().st_mtime):
+        return
+    if not shutil.which("pdftoppm"):
+        print("WARNING: pdftoppm not found; the header uses the full-size preview instead.")
+        return
+    subprocess.run(["pdftoppm", "-png", "-singlefile", "-scale-to-x", "152", "-scale-to-y", "-1",
+                    str(pdf), str(dest.with_suffix(""))], check=True, timeout=30)
+
+
 def _site_assets(resume: dict) -> dict:
     """Cache-busted URLs for the files the page links to (call after the PDF build)."""
     pdf_rel = f"assets/resume/{resume['file_name']}"
     preview_rel = f"assets/resume/{RESUME_PREVIEW_NAME}"
+    thumb_rel = f"assets/resume/{RESUME_THUMB_NAME}"
+    _make_thumb(WORKSPACE / pdf_rel, WORKSPACE / thumb_rel)
     return {
         "resume_pdf":     _asset_url(pdf_rel) if (WORKSPACE / pdf_rel).is_file() else "",
         "resume_preview": _asset_url(preview_rel) if (WORKSPACE / preview_rel).is_file() else "",
+        "resume_thumb":   _asset_url(thumb_rel) if (WORKSPACE / thumb_rel).is_file() else "",
         "viewer_js":      _asset_url("assets/js/resume-viewer.js"),
         "viewer_css":     _asset_url("assets/css/resume-viewer.css"),
         "masthead_js":    _asset_url("assets/js/masthead-arcs.js"),

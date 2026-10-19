@@ -120,7 +120,7 @@ Include:
 - Education (clean, minimal)
 - Contact Info (from JSON)
 - Cover Letter (tailored, confident, not generic)
-- Exportable Résumé: one-page US Letter PDF generated from career-data.md (`## Resume Export` sets the PDF summary and bullets per role), with a download link and an embedded PDF viewer (Syncfusion, loaded only when opened). Keep it to one page, structurally clean, ATS-friendly real text.
+- Exportable Résumé: one-page US Letter PDF generated from career-data.md (`## Resume Export` sets the PDF summary and bullets per role), opened from a small thumbnail in the header title block into a PDF viewer (Syncfusion, loaded only when opened) that has Download. Keep it to one page, structurally clean, ATS-friendly real text.
 
 #### Rules:
 

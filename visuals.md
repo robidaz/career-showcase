@@ -10,7 +10,7 @@
 - education information
 - contact information
 - cover letter information (opening paragraphs visible, the rest collapsible)
-- exportable resume: one-page PDF built from career-data.md, with a download link and an embedded PDF viewer (Syncfusion)
+- exportable resume: one-page PDF built from career-data.md; a small thumbnail in the header title block opens the PDF viewer (Syncfusion), which has Download
 
 ## Tab 2: Work Experience & Projects
 

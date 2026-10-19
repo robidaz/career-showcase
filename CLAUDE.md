@@ -110,7 +110,7 @@ Include:
 
 Exportable Résumé:
 - One-page US Letter PDF generated from `career-data.md` (`## Resume Export` controls the PDF summary and bullets per role)
-- Download link plus an embedded PDF viewer (Syncfusion, loaded only when opened)
+- A small thumbnail in the header title block opens the PDF viewer (Syncfusion, loaded only when opened), which has Download
 - Must stay concise enough for one page and structurally clean (ATS-friendly real text)
 
 Rules:
