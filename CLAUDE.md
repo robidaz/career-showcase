@@ -22,10 +22,12 @@ career-showcase/
 ├── scripts/
 │   ├── generate_career_showcase.py (parses career-data.md → index.html, calls resume_pdf.py)
 │   ├── resume_pdf.py               (one-page résumé PDF + preview image via headless Chrome)
+│   ├── share_card.py               (link-preview image + home-screen icon in assets/share/)
 │   ├── make_resume_fonts.py        (one-time: static Archivo instances for the PDF)
 │   └── templates/
 │       ├── career-showcase.html.j2 (site layout, CSS, tab script)
-│       └── resume.html.j2          (print layout for the PDF)
+│       ├── resume.html.j2          (print layout for the PDF)
+│       └── share-card.html.j2      (link-preview image layout)
 ├── assets/                         (fonts, venture logos, résumé PDF, viewer script)
 ├── index.html                      (generated — never edit by hand)
 ├── server.js                       (Express: serves index.html + assets/)
@@ -34,7 +36,7 @@ career-showcase/
 
 ### Build
 
-Edit `career-data.md`, then run `.venv/bin/python scripts/generate_career_showcase.py` (add `--skip-pdf` to leave the PDF alone). See README.md for setup.
+Edit `career-data.md`, then run `.venv/bin/python scripts/generate_career_showcase.py` (add `--skip-pdf` to leave the PDF and share images alone). See README.md for setup.
 
 ### Data Sources
 

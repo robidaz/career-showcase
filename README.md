@@ -9,8 +9,8 @@ Zach Robida's career site. It is one static page, `index.html`, generated from `
 
    ```bash
    python3 -m venv .venv && .venv/bin/pip install -r requirements.txt   # first time only
-   .venv/bin/python scripts/generate_career_showcase.py                  # site + résumé PDF
-   .venv/bin/python scripts/generate_career_showcase.py --skip-pdf       # site only, keep the current PDF
+   .venv/bin/python scripts/generate_career_showcase.py                  # site + résumé PDF + share images
+   .venv/bin/python scripts/generate_career_showcase.py --skip-pdf       # site only, keep the current PDF and share images
    ```
 
 3. Commit `index.html` and anything that changed under `assets/`.
@@ -46,8 +46,9 @@ When licensed, the first open downloads about 3.8 MB from Syncfusion's CDN (scri
 | `career-data.md` | All content: profile, work history, projects, side ventures, testimonials, résumé settings. |
 | `scripts/generate_career_showcase.py` | Parses `career-data.md`, renders `index.html`, and calls `resume_pdf.py`. |
 | `scripts/resume_pdf.py` | Prints `assets/resume/` (PDF and preview image) with headless Chrome. |
+| `scripts/share_card.py` | Screenshots the link-preview images in `assets/share/` (1200×630 `share-card.png` for texts and social posts, 180×180 `apple-touch-icon.png`). Preview tags need absolute URLs, so they use **Site** in `career-data.md`; change it there if the site moves to a custom domain. |
 | `scripts/make_resume_fonts.py` | One-time tool (needs `pip install fonttools`) that cuts the static Archivo instances in `assets/fonts/resume/`. The PDF uses static fonts so its text layer has real spaces for applicant-tracking parsers. Re-run only if the résumé needs characters outside the subset; the build warns when that happens. |
-| `scripts/templates/` | `career-showcase.html.j2` (site) and `resume.html.j2` (PDF layout). |
+| `scripts/templates/` | `career-showcase.html.j2` (site), `resume.html.j2` (PDF layout), and `share-card.html.j2` (link-preview images). |
 | `assets/` | Self-hosted fonts (Archivo, Roboto; SIL OFL), venture logos, the résumé, and the viewer script. |
 | `server.js` | Express server for `index.html`, `/assets`, and the license script. |
 | `documentation/` | Private source material: reviews, old résumé, personal notes. Gitignored. |

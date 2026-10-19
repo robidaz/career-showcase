@@ -6,9 +6,33 @@
   <title>{{ person.name }} — {{ person.role }}</title>
   <meta name="description" content="{{ person.name }}, {{ person.role }}: {{ person.focus }}. Experience, projects, side ventures, and a downloadable one-page résumé." />
   <meta name="theme-color" content="#0f2550" />
+  {# link previews (texts, Slack, LinkedIn): crawlers need absolute URLs, from Site in career-data.md #}
+  {% set site = person.site_url %}
+  {% set preview_text = person.focus ~ ". Experience, projects, side ventures, and a one-page résumé." %}
+  {% if site %}
+  <link rel="canonical" href="{{ site }}/" />
+  {% endif %}
   <meta property="og:type" content="profile" />
+  <meta property="og:site_name" content="{{ person.name }}" />
   <meta property="og:title" content="{{ person.name }} — {{ person.role }}" />
-  <meta property="og:description" content="{{ person.focus }}" />
+  <meta property="og:description" content="{{ preview_text }}" />
+  <meta property="profile:first_name" content="{{ person.name.split(' ')[0] }}" />
+  <meta property="profile:last_name" content="{{ person.name.split(' ')[-1] }}" />
+  {% if site %}
+  <meta property="og:url" content="{{ site }}/" />
+  <meta property="og:image" content="{{ site }}/{{ assets.share_card }}" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="{{ person.name }}, {{ person.title }}" />
+  {% endif %}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ person.name }} — {{ person.role }}" />
+  <meta name="twitter:description" content="{{ preview_text }}" />
+  {% if site %}
+  <meta name="twitter:image" content="{{ site }}/{{ assets.share_card }}" />
+  {% endif %}
+  <link rel="apple-touch-icon" href="{{ assets.touch_icon }}" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230f2550'/%3E%3Cpath d='M13 17h38v30H13z' fill='none' stroke='%23fff' stroke-width='3'/%3E%3Cpath d='M13 36h38M31 36v11' stroke='%23fff' stroke-width='3'/%3E%3Crect x='36' y='40' width='10' height='3.5' fill='%238fdcff'/%3E%3C/svg%3E" />
   <link rel="preload" href="{{ assets.font_archivo }}" as="font" type="font/woff2" crossorigin />
   <script>document.documentElement.classList.add("js");</script>

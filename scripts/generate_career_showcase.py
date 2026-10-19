@@ -179,6 +179,7 @@ def _parse_person(body: str) -> dict:
         "location": kv.get("Location", ""),
         "linkedin": linkedin,
         "linkedin_display": _display_url(linkedin),
+        "site_url": _strip_angle(kv.get("Site", "")).rstrip("/"),
     }
 
 
@@ -853,13 +854,15 @@ def _site_assets(resume: dict) -> dict:
         "masthead_js":    _asset_url("assets/js/masthead-arcs.js"),
         "font_archivo":   _asset_url("assets/fonts/archivo-variable.woff2"),
         "font_roboto":    _asset_url("assets/fonts/roboto-800.woff2"),
+        "share_card":     _asset_url("assets/share/share-card.png"),
+        "touch_icon":     _asset_url("assets/share/apple-touch-icon.png"),
     }
 
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Render index.html and the résumé PDF from career-data.md.")
     parser.add_argument("--skip-pdf", action="store_true",
-                        help="Render index.html only and keep the existing résumé PDF.")
+                        help="Render index.html only and keep the existing résumé PDF and share images.")
     args = parser.parse_args(argv)
 
     try:
@@ -878,6 +881,8 @@ def main(argv: list[str] | None = None) -> None:
     if not args.skip_pdf:
         from resume_pdf import build_resume
         build_resume(context, WORKSPACE)
+        from share_card import build_share_images
+        build_share_images(context, WORKSPACE)
 
     context["assets"] = _site_assets(context["resume"])
 
