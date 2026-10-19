@@ -27,23 +27,23 @@ This website's content was generated in a local VS Code environment using GitHub
 
 ## Professional Summary
 
-Zach Robida is a Design Lead at Manhattan Associates with eight years of experience delivering supply chain software for federal clients, from FedRAMP cloud environments to modern Angular logistics applications. He bridges functional design and technical implementation, turning complex business requirements into specifications developers can build from directly. An automation-first thinker, he built the AI-driven documentation platform his 25-person functional and development team now designs, builds, and tests from, and he founded Holigram, a private data home with a built-in AI assistant that he designed and shipped end to end. Recognized with a 2025 Spirit Award for Master Mentor, he raises the output of the people around him through structured coaching and delegated ownership.
+Zach Robida is a Design Lead at Manhattan Associates with eight years of experience delivering supply chain software for federal clients, from FedRAMP cloud environments to modern Angular logistics applications. He bridges functional design and technical implementation, turning complex business requirements into specifications developers can build from directly. An automation-first thinker, he built the AI-driven documentation platform his 25-person functional and development team now designs, builds, and tests from. Recognized with a 2025 Spirit Award for Master Mentor, he raises the output of the people around him through structured coaching and delegated ownership.
 
 ## Cover Letter
 
 To whom it may concern,
 
-For the past eight years, I have focused on solving complex problems at the intersection of enterprise software, supply chain operations, and evolving technology — consistently identifying where systems break down and designing better ways to make them work.
+For the past eight years, I have worked where enterprise software, supply chain operations, and evolving technology meet — finding where systems break down and designing better ways to make them work.
 
-Within my first year as a consultant at Manhattan Associates, I identified a critical bottleneck in our release process: a growing testing backlog that constrained delivery. I taught myself Python and built a dynamic Selenium-based automation framework, transforming a manual process into a scalable system and significantly improving release throughput. That experience shaped how I approach problems today — not as isolated tasks, but as systems that can be optimized, automated, and continuously improved.
+In my first year as a consultant at Manhattan Associates, a growing testing backlog was holding back our releases. I taught myself Python and built a Selenium-based automation framework that turned a manual process into a scalable system. That experience still shapes how I work: problems are systems to optimize, automate, and keep improving, not isolated tasks.
 
-Since then, I have expanded into a Design Lead role, responsible for delivering multi-million-dollar implementations and guiding solution design end-to-end. I work directly with clients to understand their business processes, define requirements, and architect solutions that are both technically sound and operationally practical. Across these engagements, I have consistently introduced automation and, more recently, AI-driven approaches to improve efficiency, reduce manual effort, and enhance decision-making.
+Today I am a Design Lead, delivering multi-million-dollar implementations and guiding solution design end to end. I work directly with clients to understand their processes, define requirements, and architect solutions that are both technically sound and operationally practical — and I keep introducing automation and AI to cut manual effort and improve decisions.
 
-My focus today is on applying AI as a practical layer within real systems — not as a standalone capability, but as an integrated component that enhances workflows, accelerates development, and enables smarter operations. The documentation platform I built is a working example: it is now how my 25-person team designs, builds, and tests, and the foundation I am using to generate test flows and training directly from design. I am particularly interested in how AI-driven feedback loops can continuously refine systems over time, creating compounding gains in efficiency and quality.
+I see AI as a practical layer within real systems, not a standalone capability. The documentation platform I built is a working example: it is how my 25-person team designs, builds, and tests, and the foundation for generating test flows and training directly from design.
 
-What differentiates me is not a specific toolset, but a mindset: I question assumptions, identify constraints, make tough decisions, and design solutions that scale. I am comfortable operating across technical implementation, system design, and stakeholder communication.
+What differentiates me is not a toolset but a mindset: I question assumptions, identify constraints, make tough decisions, and design solutions that scale, moving comfortably between technical implementation, system design, and stakeholder communication.
 
-I am seeking an opportunity where I can apply this approach to help organizations design and implement AI-enabled systems that deliver measurable impact. If that aligns with your company's goals, I greatly welcome the opportunity to connect.
+I am seeking a role where I can help an organization design and implement AI-enabled systems that deliver measurable impact. If that aligns with your goals, I would welcome the opportunity to connect.
 
 Zach Robida
 

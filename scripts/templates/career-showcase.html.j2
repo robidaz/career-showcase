@@ -307,20 +307,14 @@
     /* ── Tab 1: Profile ──────────────────────────────────────── */
     .profile-grid { max-width: 46rem; }
 
-    .lead { font-size: var(--fs-lg); line-height: 1.55; color: var(--ink); }
-
-    .letter p { color: var(--ink-2); }
-    .letter p:first-of-type { color: var(--ink); font-weight: 600; }
-    .letter__more { margin-top: 0.9em; }
-    .letter__more > summary {
-      display: inline-flex; align-items: center; gap: 10px;
-      color: var(--cobalt); font-weight: 600; font-stretch: 88%;
+    /* Profile: one text style for the summary and the letter */
+    .profile-text { font-size: var(--fs-base); line-height: 1.7; color: var(--ink); }
+    .letter {
+      max-height: 26rem; overflow-y: auto; overscroll-behavior: contain;
+      padding: 22px 26px; background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius-sheet);
+      scrollbar-width: thin; scrollbar-color: var(--rule-strong) transparent;
     }
-    .letter__more > summary:hover { color: var(--cobalt-ink); }
-    .letter__more[open] > summary { margin-bottom: 0.9em; }
-    .letter__more .when-open, .letter__more[open] .when-closed { display: none; }
-    .letter__more[open] .when-open { display: inline; }
-    .letter__sign { font-weight: 600; color: var(--ink); }
+    .letter:focus-visible { outline-offset: 2px; }
 
 
 
@@ -588,7 +582,6 @@
       .sheet-tab { padding: 10px 14px 11px; font-size: var(--fs-base); }
       .content { padding-top: 28px; }
       .block__title { font-size: var(--fs-xl); }
-      .lead { font-size: var(--fs-md); }
       .dimchain { flex-direction: column; margin-bottom: 20px; border-left: 2px solid var(--rule-strong); }
       .dimchain__seg { flex: none; min-width: 0; display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; padding: 10px 12px; text-align: left; border-left: 0; }
       .dimchain__seg.is-last { border-right: 0; }
@@ -618,7 +611,7 @@
     }
 
     @media print {
-      .sheet-tabs, .skip-link, .masthead__canvas, .titleblock__resume, .resume-dialog, .letter__more > summary { display: none !important; }
+      .sheet-tabs, .skip-link, .masthead__canvas, .titleblock__resume, .resume-dialog { display: none !important; }
       .js .panel:not(.is-active), .js .role:not(.is-active) { display: block; }
       details > *:not(summary) { display: block; }
       .masthead { background: none; color: var(--ink); padding: 0 0 16px; }
@@ -704,23 +697,16 @@
         <div class="profile-main">
           <div class="block">
             <h2 class="visually-hidden">Professional summary</h2>
-            <p class="lead">{{ profile.summary }}</p>
+            <p class="profile-text">{{ profile.summary }}</p>
           </div>
 
-          {% set letter = profile.cover_letter.split('\n\n') %}
-          <div class="block letter">
-            <div class="block__head"><h2 class="block__title display">Cover letter</h2></div>
-            {% for para in letter[:3] %}
-            <p>{{ para }}</p>
-            {% endfor %}
-            {% if letter|length > 3 %}
-            <details class="letter__more">
-              <summary><span class="when-closed">Read the full letter</span><span class="when-open">Show less</span><span class="chev" aria-hidden="true"></span></summary>
-              {% for para in letter[3:] %}
-              <p{% if loop.last %} class="letter__sign"{% endif %}>{{ para }}</p>
+          <div class="block">
+            <div class="block__head"><h2 class="block__title display" id="letter-title">Cover letter</h2></div>
+            <div class="letter" tabindex="0" role="region" aria-labelledby="letter-title">
+              {% for para in profile.cover_letter.split('\n\n') %}
+              <p class="profile-text">{{ para }}</p>
               {% endfor %}
-            </details>
-            {% endif %}
+            </div>
           </div>
         </div>
 

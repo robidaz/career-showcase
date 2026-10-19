@@ -307,20 +307,14 @@
     /* ── Tab 1: Profile ──────────────────────────────────────── */
     .profile-grid { max-width: 46rem; }
 
-    .lead { font-size: var(--fs-lg); line-height: 1.55; color: var(--ink); }
-
-    .letter p { color: var(--ink-2); }
-    .letter p:first-of-type { color: var(--ink); font-weight: 600; }
-    .letter__more { margin-top: 0.9em; }
-    .letter__more > summary {
-      display: inline-flex; align-items: center; gap: 10px;
-      color: var(--cobalt); font-weight: 600; font-stretch: 88%;
+    /* Profile: one text style for the summary and the letter */
+    .profile-text { font-size: var(--fs-base); line-height: 1.7; color: var(--ink); }
+    .letter {
+      max-height: 26rem; overflow-y: auto; overscroll-behavior: contain;
+      padding: 22px 26px; background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius-sheet);
+      scrollbar-width: thin; scrollbar-color: var(--rule-strong) transparent;
     }
-    .letter__more > summary:hover { color: var(--cobalt-ink); }
-    .letter__more[open] > summary { margin-bottom: 0.9em; }
-    .letter__more .when-open, .letter__more[open] .when-closed { display: none; }
-    .letter__more[open] .when-open { display: inline; }
-    .letter__sign { font-weight: 600; color: var(--ink); }
+    .letter:focus-visible { outline-offset: 2px; }
 
 
 
@@ -588,7 +582,6 @@
       .sheet-tab { padding: 10px 14px 11px; font-size: var(--fs-base); }
       .content { padding-top: 28px; }
       .block__title { font-size: var(--fs-xl); }
-      .lead { font-size: var(--fs-md); }
       .dimchain { flex-direction: column; margin-bottom: 20px; border-left: 2px solid var(--rule-strong); }
       .dimchain__seg { flex: none; min-width: 0; display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; padding: 10px 12px; text-align: left; border-left: 0; }
       .dimchain__seg.is-last { border-right: 0; }
@@ -618,7 +611,7 @@
     }
 
     @media print {
-      .sheet-tabs, .skip-link, .masthead__canvas, .titleblock__resume, .resume-dialog, .letter__more > summary { display: none !important; }
+      .sheet-tabs, .skip-link, .masthead__canvas, .titleblock__resume, .resume-dialog { display: none !important; }
       .js .panel:not(.is-active), .js .role:not(.is-active) { display: block; }
       details > *:not(summary) { display: block; }
       .masthead { background: none; color: var(--ink); padding: 0 0 16px; }
@@ -692,22 +685,21 @@
         <div class="profile-main">
           <div class="block">
             <h2 class="visually-hidden">Professional summary</h2>
-            <p class="lead">Zach Robida is a Design Lead at Manhattan Associates with eight years of experience delivering supply chain software for federal clients, from FedRAMP cloud environments to modern Angular logistics applications. He bridges functional design and technical implementation, turning complex business requirements into specifications developers can build from directly. An automation-first thinker, he built the AI-driven documentation platform his 25-person functional and development team now designs, builds, and tests from, and he founded Holigram, a private data home with a built-in AI assistant that he designed and shipped end to end. Recognized with a 2025 Spirit Award for Master Mentor, he raises the output of the people around him through structured coaching and delegated ownership.</p>
+            <p class="profile-text">Zach Robida is a Design Lead at Manhattan Associates with eight years of experience delivering supply chain software for federal clients, from FedRAMP cloud environments to modern Angular logistics applications. He bridges functional design and technical implementation, turning complex business requirements into specifications developers can build from directly. An automation-first thinker, he built the AI-driven documentation platform his 25-person functional and development team now designs, builds, and tests from. Recognized with a 2025 Spirit Award for Master Mentor, he raises the output of the people around him through structured coaching and delegated ownership.</p>
           </div>
 
-          <div class="block letter">
-            <div class="block__head"><h2 class="block__title display">Cover letter</h2></div>
-            <p>To whom it may concern,</p>
-            <p>For the past eight years, I have focused on solving complex problems at the intersection of enterprise software, supply chain operations, and evolving technology — consistently identifying where systems break down and designing better ways to make them work.</p>
-            <p>Within my first year as a consultant at Manhattan Associates, I identified a critical bottleneck in our release process: a growing testing backlog that constrained delivery. I taught myself Python and built a dynamic Selenium-based automation framework, transforming a manual process into a scalable system and significantly improving release throughput. That experience shaped how I approach problems today — not as isolated tasks, but as systems that can be optimized, automated, and continuously improved.</p>
-            <details class="letter__more">
-              <summary><span class="when-closed">Read the full letter</span><span class="when-open">Show less</span><span class="chev" aria-hidden="true"></span></summary>
-              <p>Since then, I have expanded into a Design Lead role, responsible for delivering multi-million-dollar implementations and guiding solution design end-to-end. I work directly with clients to understand their business processes, define requirements, and architect solutions that are both technically sound and operationally practical. Across these engagements, I have consistently introduced automation and, more recently, AI-driven approaches to improve efficiency, reduce manual effort, and enhance decision-making.</p>
-              <p>My focus today is on applying AI as a practical layer within real systems — not as a standalone capability, but as an integrated component that enhances workflows, accelerates development, and enables smarter operations. The documentation platform I built is a working example: it is now how my 25-person team designs, builds, and tests, and the foundation I am using to generate test flows and training directly from design. I am particularly interested in how AI-driven feedback loops can continuously refine systems over time, creating compounding gains in efficiency and quality.</p>
-              <p>What differentiates me is not a specific toolset, but a mindset: I question assumptions, identify constraints, make tough decisions, and design solutions that scale. I am comfortable operating across technical implementation, system design, and stakeholder communication.</p>
-              <p>I am seeking an opportunity where I can apply this approach to help organizations design and implement AI-enabled systems that deliver measurable impact. If that aligns with your company&#39;s goals, I greatly welcome the opportunity to connect.</p>
-              <p class="letter__sign">Zach Robida</p>
-            </details>
+          <div class="block">
+            <div class="block__head"><h2 class="block__title display" id="letter-title">Cover letter</h2></div>
+            <div class="letter" tabindex="0" role="region" aria-labelledby="letter-title">
+              <p class="profile-text">To whom it may concern,</p>
+              <p class="profile-text">For the past eight years, I have worked where enterprise software, supply chain operations, and evolving technology meet — finding where systems break down and designing better ways to make them work.</p>
+              <p class="profile-text">In my first year as a consultant at Manhattan Associates, a growing testing backlog was holding back our releases. I taught myself Python and built a Selenium-based automation framework that turned a manual process into a scalable system. That experience still shapes how I work: problems are systems to optimize, automate, and keep improving, not isolated tasks.</p>
+              <p class="profile-text">Today I am a Design Lead, delivering multi-million-dollar implementations and guiding solution design end to end. I work directly with clients to understand their processes, define requirements, and architect solutions that are both technically sound and operationally practical — and I keep introducing automation and AI to cut manual effort and improve decisions.</p>
+              <p class="profile-text">I see AI as a practical layer within real systems, not a standalone capability. The documentation platform I built is a working example: it is how my 25-person team designs, builds, and tests, and the foundation for generating test flows and training directly from design.</p>
+              <p class="profile-text">What differentiates me is not a toolset but a mindset: I question assumptions, identify constraints, make tough decisions, and design solutions that scale, moving comfortably between technical implementation, system design, and stakeholder communication.</p>
+              <p class="profile-text">I am seeking a role where I can help an organization design and implement AI-enabled systems that deliver measurable impact. If that aligns with your goals, I would welcome the opportunity to connect.</p>
+              <p class="profile-text">Zach Robida</p>
+            </div>
           </div>
         </div>
 
