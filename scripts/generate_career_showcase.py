@@ -471,7 +471,7 @@ def build_context(avatar_src: str) -> dict:
                 "translating complex business requirements into scalable, well-documented solutions "
                 "on platforms ranging from cloud-native FedRAMP environments to modern Angular-based "
                 "logistics applications. Zach is an automation-first thinker who actively embeds AI "
-                "into his workflow, using GitHub Copilot and Claude Sonnet to accelerate design "
+                "into his workflow, using GitHub Copilot and Claude Opus to accelerate design "
                 "documentation, reduce manual overhead, and raise the quality bar for his entire team. "
                 "Recognized with a Spirit Award for Master Mentor in 2025, he consistently elevates "
                 "the consultants around him through structured coaching, delegated ownership, and a "
@@ -492,7 +492,7 @@ def build_context(avatar_src: str) -> dict:
                 "What sets me apart is not a list of tools — it is an automation-first mindset "
                 "combined with genuine curiosity about how systems actually work. I leverage AI daily "
                 "as a force multiplier: from generating complex HTML mockups with GitHub Copilot to "
-                "building a centralized documentation repository where Claude Sonnet drives the "
+                "building a centralized documentation repository where Claude Opus drives the "
                 "entire specification pipeline. I do not just adopt new technology — I introduce it "
                 "to my teams, train them on it, and build repeatable processes around it.\n\n"
                 "I am looking for an organization where technical depth, cross-functional leadership, "
@@ -520,7 +520,7 @@ def build_context(avatar_src: str) -> dict:
             {
                 "category": "AI & Automation",
                 "skills": [
-                    {"name": "GitHub Copilot / Claude Sonnet", "level": "Expert",        "pct": 95},
+                    {"name": "GitHub Copilot / Claude Opus", "level": "Expert",        "pct": 95},
                     {"name": "Python Automation",               "level": "Expert",        "pct": 95},
                     {"name": "Automated Testing (Manhrobo)",    "level": "Expert",        "pct": 95},
                     {"name": "AI Workflow Integration",         "level": "Advanced",      "pct": 85},
@@ -582,7 +582,7 @@ def build_context(avatar_src: str) -> dict:
                 "period":  "2024 – Present",
                 "bullets": [
                     "Lead end-to-end functional design for FEMA's MATM/MASC platform upgrade, authoring the Solution Design Document and orchestrating 120+ slide design overview presentations delivered to FEMA TMD stakeholders.",
-                    "Pioneered the adoption of GitHub Copilot and Claude Sonnet across the team, introducing AI-driven workflows for design documentation, mockup generation, and gap analysis — measurably reducing spec authoring time.",
+                    "Pioneered the adoption of GitHub Copilot and Claude Opus across the team, introducing AI-driven workflows for design documentation, mockup generation, and gap analysis — measurably reducing spec authoring time.",
                     "Built a centralized, version-controlled documentation repository with Jinja2-based automation tooling that scaffolds new functional specs on demand, enforcing consistent standards across the entire implementation pipeline.",
                     "Spearheaded the adoption of the Syncfusion Angular UI framework and Figma for the LogX1 application, reducing developer-functional back-and-forth and delivering a higher-quality product within budget.",
                     "Mentored a rotating cast of consultants through structured design reviews, open-door coaching, and delegated extension spec ownership — earning a Q4 2025 Spirit Award for Master Mentor.",
@@ -651,10 +651,10 @@ def build_context(avatar_src: str) -> dict:
             },
             {
                 "title":   "AI-Driven Documentation Repository (Current)",
-                "tags":    ["GitHub Copilot", "Claude Sonnet", "Python", "Jinja2", "AI"],
+                "tags":    ["GitHub Copilot", "Claude Opus", "Python", "Jinja2", "AI"],
                 "problem": "Functional design documentation was inconsistent, repetitive to scaffold, and disconnected from the development pipeline — creating delays and quality variance across projects.",
-                "solution": "Designed and built a centralized, version-controlled documentation repository with Jinja2-based automation tooling that scaffolds new specs on demand. Custom GitHub Copilot instructions and Claude Sonnet-powered agents are embedded directly in the repo as live context, driving high-quality output at scale.",
-                "tech":    "Python, Jinja2, GitHub Copilot, Claude Sonnet 4.6, Markdown, Git",
+                "solution": "Designed and built a centralized, version-controlled documentation repository with Jinja2-based automation tooling that scaffolds new specs on demand. Custom GitHub Copilot instructions and Claude Opus-powered agents are embedded directly in the repo as live context, driving high-quality output at scale.",
+                "tech":    "Python, Jinja2, GitHub Copilot, Claude Opus, Markdown, Git",
                 "impact":  "Eliminated repetitive document setup, enforced consistent specification standards, and measurably accelerated functional documentation throughput across the implementation team.",
             },
             {
